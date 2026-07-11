@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDIP — Gulberg Digital Intelligence Platform</title>
+<meta name="description" content="The verified digital intelligence platform for Gulberg Greens &amp; Gulberg Residencia, Islamabad — plot intelligence, interactive maps, verified owners and AI-powered investment insight.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,480;0,9..144,600;1,9..144,480&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --ink:#152119;
+  --ink-soft:#233229;
+  --paper:#EAE5D3;
+  --paper-2:#F4F1E4;
+  --paper-3:#DEDABF;
+  --green-deep:#1F4D3A;
+  --green-mid:#3C7A5C;
+  --green-pale:#CFDFCB;
+  --gold:#C79A3E;
+  --gold-deep:#8F6A22;
+  --blue-ink:#2B4C6F;
+  --rust:#A5432E;
+  --white:#FBFAF5;
+  --line:#B9B29A;
+  --line-dark:#3C4A40;
+  --shadow:0 18px 40px -20px rgba(21,33,25,0.35);
+  --radius:2px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Inter',sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.72rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--gold-deep);
+  display:flex;
+  align-items:center;
+  gap:.5em;
+}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--gold-deep);display:inline-block;}
+h1,h2,h3,h4{
+  font-family:'Fraunces',serif;
+  font-weight:480;
+  margin:0;
+  color:var(--ink);
+  letter-spacing:-0.01em;
+}
+.container{max-width:1180px;margin:0 auto;padding:0 32px;}
+section{position:relative;}
+button{font-family:inherit;cursor:pointer;}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
+
+/* ============ REVEAL ============ */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease, transform .7s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* ============ NAV ============ */
+header.site{
+  position:sticky;top:0;z-index:100;
+  background:rgba(234,229,211,0.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{
+  max-width:1180px;margin:0 auto;padding:16px 32px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+}
+.logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:1.25rem;}
+.logo .mark{
+  width:34px;height:34px;border:1.5px solid var(--ink);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;position:relative;
+  font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.02em;
+}
+.logo .mark::before,.logo .mark::after{content:"";position:absolute;background:var(--ink);}
+.logo .mark::before{width:1px;height:44px;top:-5px;}
+.logo .mark::after{height:1px;width:44px;left:-5px;}
+.logo small{display:block;font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:.62rem;letter-spacing:.1em;color:var(--green-mid);text-transform:uppercase;margin-top:2px;}
+nav.links{display:flex;gap:30px;align-items:center;}
+nav.links a{font-size:.92rem;font-weight:500;position:relative;padding:4px 0;}
+nav.links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--gold-deep);transition:width .25s ease;}
+nav.links a:hover::after{width:100%;}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 22px;font-size:.88rem;font-weight:600;
+  border-radius:var(--radius);border:1px solid var(--ink);
+  transition:all .2s ease;white-space:nowrap;
+}
+.btn-primary{background:var(--green-deep);color:var(--white);border-color:var(--green-deep);}
+.btn-primary:hover{background:var(--ink);border-color:var(--ink);}
+.btn-outline{background:transparent;color:var(--ink);}
+.btn-outline:hover{background:var(--ink);color:var(--white);}
+.btn-gold{background:var(--gold);border-color:var(--gold);color:var(--ink);}
+.btn-gold:hover{background:var(--gold-deep);border-color:var(--gold-deep);color:var(--white);}
+.menu-toggle{display:none;background:none;border:1px solid var(--ink);padding:8px 10px;border-radius:var(--radius);}
+.menu-toggle span{display:block;width:18px;height:2px;background:var(--ink);margin:3px 0;}
+
+/* ============ HERO ============ */
+.hero{
+  background:var(--ink);
+  color:var(--paper-2);
+  overflow:hidden;
+  padding:96px 0 0;
+  position:relative;
+}
+.hero-grid-bg{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(to right, rgba(199,154,62,0.10) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(199,154,62,0.10) 1px, transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(ellipse 90% 70% at 60% 20%, black 40%, transparent 90%);
+}
+.hero-inner{position:relative;max-width:1180px;margin:0 auto;padding:0 32px 60px;}
+.hero-top{display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:start;}
+.hero h1{
+  font-size:clamp(2.6rem,5.6vw,4.6rem);
+  line-height:1.03;
+  color:var(--white);
+  margin-top:22px;
+}
+.hero h1 em{font-style:italic;color:var(--gold);font-weight:340;}
+.hero p.lede{
+  font-size:1.12rem;color:#C9CFC6;max-width:520px;margin-top:22px;line-height:1.65;
+}
+.hero-actions{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;}
+
+.plot-card{
+  background:var(--paper-2);
+  color:var(--ink);
+  border-radius:var(--radius);
+  padding:28px;
+  box-shadow:var(--shadow);
+  position:relative;
+  border:1px solid var(--paper-3);
+}
+.plot-card::before{
+  content:"RECORD";
+  position:absolute;top:16px;right:18px;
+  font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.14em;color:var(--line);
+}
+.plot-card h4{font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;font-family:'IBM Plex Mono',monospace;color:var(--green-mid);font-weight:600;margin-bottom:14px;}
+.field-row{display:flex;gap:10px;margin-bottom:10px;}
+.field{flex:1;}
+.field label{display:block;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:#7A7460;margin-bottom:4px;font-family:'IBM Plex Mono',monospace;}
+.field select, .field input{
+  width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--white);font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--ink);
+}
+.stamp{
+  position:absolute;bottom:-18px;right:-14px;
+  width:88px;height:88px;border-radius:50%;
+  border:2px solid var(--rust);color:var(--rust);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;
+  transform:rotate(-11deg);
+  background:rgba(251,250,245,0.9);
+  line-height:1.2;font-weight:600;
+}
+.stamp.gold{border-color:var(--gold-deep);color:var(--gold-deep);}
+.stat-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid rgba(255,255,255,0.14);
+  margin-top:56px;
+}
+.stat{padding:22px 26px 26px 0;border-right:1px solid rgba(255,255,255,0.14);}
+.stat:last-child{border-right:none;}
+.stat .num{font-family:'Fraunces',serif;font-size:2.1rem;color:var(--gold);font-weight:480;}
+.stat .lbl{font-family:'IBM Plex Mono',monospace;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:#9AA396;margin-top:6px;}
+
+/* ============ SECTION HEAD ============ */
+.section-head{max-width:640px;margin-bottom:48px;}
+.section-head h2{font-size:clamp(1.9rem,3.4vw,2.7rem);margin-top:14px;line-height:1.12;}
+.section-head p{margin-top:16px;color:var(--ink-soft);font-size:1.02rem;max-width:560px;}
+.pad{padding:96px 0;}
+.pad-sm{padding:70px 0;}
+
+/* ============ TRUST / FACTS ============ */
+.facts{background:var(--paper-2);border-bottom:1px solid var(--line);border-top:1px solid var(--line);}
+.facts-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
+.fact{padding:34px 28px;border-right:1px solid var(--line);}
+.fact:last-child{border-right:none;}
+.fact .k{font-family:'IBM Plex Mono',monospace;font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold-deep);margin-bottom:8px;}
+.fact .v{font-size:.95rem;color:var(--ink-soft);}
+.fact .v strong{color:var(--ink);font-weight:600;}
+
+/* ============ GALLERY ============ */
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px;}
+.gallery-card{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
+.gallery-card img{width:100%;height:220px;object-fit:cover;display:block;}
+.gallery-card .gallery-body{padding:18px 18px 22px;}
+.gallery-card h3{font-size:1.16rem;margin-bottom:8px;}
+.gallery-card p{margin:0;color:var(--ink-soft);font-size:.92rem;line-height:1.6;}
+
+/* ============ TWO PORTALS ============ */
+.portals{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--line);border:1px solid var(--line);}
+.portal{background:var(--paper-2);padding:44px 40px;}
+.portal .tag{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border:1px solid currentColor;display:inline-block;border-radius:20px;}
+.portal.greens .tag{color:var(--green-deep);}
+.portal.residencia .tag{color:var(--blue-ink);}
+.portal h3{font-size:1.7rem;margin-top:18px;}
+.portal p{margin-top:14px;color:var(--ink-soft);font-size:.98rem;}
+.portal ul{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:10px;}
+.portal li{display:flex;gap:10px;font-size:.9rem;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;}
+.portal li::before{content:"—";color:var(--gold-deep);}
+
+/* ============ COMPARE LEDGER ============ */
+.ledger{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);}
+.ledger-col{padding:38px;}
+.ledger-col.old{background:var(--paper-3);}
+.ledger-col.new{background:var(--green-deep);color:var(--paper-2);}
+.ledger-col h4{font-family:'IBM Plex Mono',monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:22px;}
+.ledger-col.old h4{color:#7A7460;}
+.ledger-col.new h4{color:var(--gold);}
+.ledger-item{display:flex;gap:14px;padding:12px 0;border-top:1px solid rgba(0,0,0,0.08);font-size:.94rem;}
+.ledger-col.new .ledger-item{border-top:1px solid rgba(255,255,255,0.14);}
+.ledger-item:first-of-type{border-top:none;}
+.ledger-item .ico{width:18px;flex-shrink:0;font-family:'IBM Plex Mono',monospace;font-weight:600;}
+.ledger-col.old .ico{color:var(--rust);}
+.ledger-col.new .ico{color:var(--gold);}
+
+/* ============ PLOT INTELLIGENCE ============ */
+.plot-tool{
+  background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);
+  padding:30px;box-shadow:var(--shadow);
+}
+.plot-search-row{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr auto;gap:12px;align-items:end;}
+.plot-search-row .field select,.plot-search-row .field input{padding:12px 14px;}
+.results-note{margin-top:18px;font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:#7A7460;letter-spacing:.02em;}
+.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px;}
+.result-card{
+  border:1px solid var(--line);background:var(--white);padding:20px;border-radius:var(--radius);position:relative;
+}
+.result-card .top{display:flex;justify-content:space-between;align-items:flex-start;}
+.result-card .plotno{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:1.05rem;}
+.badge{font-family:'IBM Plex Mono',monospace;font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;padding:4px 8px;border-radius:20px;font-weight:600;}
+.badge.lop{background:var(--green-pale);color:var(--green-deep);}
+.badge.nonlop{background:#F4DAD2;color:var(--rust);}
+.result-card .meta{margin-top:10px;font-size:.85rem;color:var(--ink-soft);display:grid;gap:4px;}
+.result-card .price{margin-top:12px;font-family:'Fraunces',serif;font-size:1.3rem;color:var(--green-deep);}
+.result-card .price span{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:#7A7460;display:block;text-transform:uppercase;}
+.no-results{padding:30px;text-align:center;color:#7A7460;font-family:'IBM Plex Mono',monospace;font-size:.85rem;grid-column:1/-1;}
+.source-note{margin-top:22px;font-size:.78rem;color:#7A7460;line-height:1.6;border-top:1px dashed var(--line);padding-top:16px;}
+.block-profile{border:1px solid var(--line);background:var(--white);border-radius:var(--radius);padding:22px 24px;margin-top:22px;}
+.bp-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;}
+.bp-top h3{font-size:1.3rem;}
+.badge.developed{background:var(--green-pale);color:var(--green-deep);}
+.badge.partial{background:#F1E4C4;color:var(--gold-deep);}
+.badge.early{background:#F4DAD2;color:var(--rust);}
+.badge.unknown{background:#E5E1D2;color:#7A7460;}
+.block-profile p{margin-top:12px;color:var(--ink-soft);font-size:.9rem;}
+.bp-meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;font-size:.82rem;color:var(--ink-soft);}
+.bp-meta strong{color:var(--ink);}
+.flag-litigation{color:var(--rust);font-weight:600;}
+.tag-illustrative{position:absolute;top:10px;right:10px;font-family:'IBM Plex Mono',monospace;font-size:.56rem;text-transform:uppercase;letter-spacing:.05em;color:#A69A6E;border:1px solid #D8CFA9;padding:2px 6px;border-radius:20px;}
+.plot-detail-panel{border:1px solid var(--ink);background:var(--white);border-radius:var(--radius);padding:26px;margin-top:22px;box-shadow:var(--shadow);}
+.pd-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:16px;}
+.pd-plotno{font-family:'Fraunces',serif;font-size:1.5rem;}
+.pd-sub{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:#7A7460;text-transform:uppercase;letter-spacing:.05em;margin-top:4px;}
+.pd-close{background:none;border:none;font-size:1.1rem;color:#7A7460;}
+.pd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.pd-k{display:block;font-family:'IBM Plex Mono',monospace;font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:#7A7460;margin-bottom:5px;}
+.pd-v{display:block;font-size:.92rem;font-weight:600;}
+.pd-note{margin-top:18px;font-size:.84rem;color:var(--ink-soft);background:var(--paper-2);border-left:3px solid var(--gold);padding:12px 14px;}
+@media (max-width:640px){.pd-grid{grid-template-columns:1fr 1fr;}}
+
+/* ============ MAP ============ */
+.map-wrap{
+  display:grid;grid-template-columns:1.4fr .9fr;gap:0;border:1px solid var(--line);background:var(--paper-2);
+}
+.map-canvas{padding:30px;background:
+    linear-gradient(to right, rgba(43,76,111,0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(43,76,111,0.08) 1px, transparent 1px);
+  background-size:28px 28px;border-right:1px solid var(--line);
+}
+.map-canvas svg{width:100%;height:auto;display:block;}
+.block-cell{cursor:pointer;transition:opacity .15s ease;}
+.block-cell:hover{opacity:.75;}
+.map-side{padding:30px;}
+.map-side h4{font-family:'IBM Plex Mono',monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold-deep);margin-bottom:16px;}
+.map-legend{display:grid;gap:10px;margin-bottom:26px;}
+.legend-row{display:flex;align-items:center;gap:10px;font-size:.85rem;color:var(--ink-soft);}
+.legend-swatch{width:14px;height:14px;border-radius:3px;flex-shrink:0;}
+#mapInfo{border-top:1px solid var(--line);padding-top:18px;min-height:150px;}
+#mapInfo .blockname{font-family:'Fraunces',serif;font-size:1.5rem;}
+#mapInfo .blockdesc{margin-top:10px;font-size:.88rem;color:var(--ink-soft);}
+#mapInfo .blockstatus{margin-top:10px;display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.65rem;text-transform:uppercase;padding:4px 9px;border-radius:20px;}
+
+/* ============ AI ============ */
+.ai-section{background:var(--ink);color:var(--paper-2);}
+.ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.ai-grid .section-head h2, .ai-grid .section-head p{color:var(--paper-2);}
+.ai-grid .section-head p{color:#B9C0B4;}
+.chat-mock{
+  background:var(--paper-2);color:var(--ink);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);
+}
+.chat-mock .chat-head{display:flex;align-items:center;gap:10px;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:16px;}
+.chat-dot{width:9px;height:9px;border-radius:50%;background:var(--green-mid);}
+.chat-log{display:grid;gap:12px;max-height:320px;overflow:auto;padding-right:4px;}
+.msg{padding:12px 14px;border-radius:var(--radius);font-size:.88rem;max-width:88%;line-height:1.5;}
+.msg.user{background:var(--paper-3);margin-left:auto;}
+.msg.ai{background:var(--green-pale);color:var(--green-deep);}
+.msg.ai .tag-fact{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.6rem;background:var(--green-deep);color:var(--white);padding:2px 6px;border-radius:10px;margin-right:6px;letter-spacing:.05em;}
+.msg.ai .tag-insight{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.6rem;background:var(--gold-deep);color:var(--white);padding:2px 6px;border-radius:10px;margin-right:6px;letter-spacing:.05em;}
+.chat-input{display:flex;gap:8px;margin-top:16px;}
+.chat-input input{flex:1;padding:12px 14px;border:1px solid var(--line);border-radius:var(--radius);font-family:'Inter',sans-serif;font-size:.88rem;}
+.ai-points{display:grid;gap:22px;margin-top:30px;}
+.ai-point{display:flex;gap:16px;}
+.ai-point .n{font-family:'IBM Plex Mono',monospace;color:var(--gold);font-size:.85rem;flex-shrink:0;padding-top:2px;}
+.ai-point h5{font-size:1.05rem;font-family:'Fraunces',serif;font-weight:500;margin-bottom:5px;}
+.ai-point p{margin:0;color:#B9C0B4;font-size:.9rem;}
+
+/* ============ ANALYTICS ============ */
+.analytics-wrap{display:grid;grid-template-columns:1.3fr .7fr;gap:0;border:1px solid var(--line);background:var(--paper-2);}
+.chart-box{padding:34px;border-right:1px solid var(--line);}
+.chart-box svg{width:100%;height:auto;}
+.analytics-side{padding:34px;}
+.analytics-side h4{font-family:'IBM Plex Mono',monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold-deep);margin-bottom:16px;}
+.metric-row{display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid var(--line);font-size:.88rem;}
+.metric-row:first-of-type{border-top:none;}
+.metric-row .val{font-family:'IBM Plex Mono',monospace;font-weight:600;}
+.metric-row .up{color:var(--green-deep);}
+.metric-row .down{color:var(--rust);}
+
+/* ============ LISTINGS ============ */
+.listing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.listing-card{border:1px solid var(--line);background:var(--paper-2);border-radius:var(--radius);overflow:hidden;transition:transform .2s ease, box-shadow .2s ease;}
+.listing-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);}
+.listing-media{height:150px;position:relative;display:flex;align-items:end;padding:14px;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.14) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.14) 1px, transparent 1px);
+  background-size:18px 18px;
+}
+.listing-media .badge{position:absolute;top:14px;left:14px;}
+.listing-body{padding:20px;}
+.listing-body .blk{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:#7A7460;text-transform:uppercase;letter-spacing:.06em;}
+.listing-body h4{font-size:1.15rem;margin-top:6px;}
+.listing-body .price{font-family:'Fraunces',serif;color:var(--green-deep);font-size:1.25rem;margin-top:10px;}
+.listing-body .foot{display:flex;justify-content:space-between;align-items:center;margin-top:16px;border-top:1px solid var(--line);padding-top:14px;font-size:.8rem;color:var(--ink-soft);}
+
+/* ============ INSIGHTS ============ */
+.insight-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.insight-card{border-top:2px solid var(--ink);padding-top:18px;}
+.insight-card .cat{font-family:'IBM Plex Mono',monospace;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gold-deep);}
+.insight-card h4{margin-top:12px;font-size:1.2rem;line-height:1.3;}
+.insight-card p{margin-top:10px;color:var(--ink-soft);font-size:.88rem;}
+.insight-card .read{margin-top:14px;font-size:.82rem;font-weight:600;display:inline-block;border-bottom:1px solid var(--ink);}
+
+/* ============ CRM / CTA ============ */
+.cta-section{background:var(--green-deep);color:var(--paper-2);}
+.cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+.cta-grid .section-head h2, .cta-grid .section-head p{color:var(--paper-2);}
+.cta-grid .section-head p{color:#CFE0D2;}
+.cta-list{display:grid;gap:14px;margin-top:24px;}
+.cta-list div{display:flex;gap:12px;font-size:.92rem;color:#DCE9DA;}
+.cta-list div::before{content:"✓";color:var(--gold);font-weight:700;}
+.lead-form{background:var(--paper-2);color:var(--ink);padding:30px;border-radius:var(--radius);box-shadow:var(--shadow);}
+.lead-form .field{margin-bottom:14px;}
+.lead-form label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:#7A7460;margin-bottom:6px;font-family:'IBM Plex Mono',monospace;}
+.lead-form input,.lead-form select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:var(--radius);font-family:'Inter',sans-serif;font-size:.92rem;background:var(--white);}
+.lead-form button{width:100%;padding:14px;margin-top:6px;}
+#leadSuccess{display:none;text-align:center;padding:20px 0;}
+#leadSuccess .stamp{position:static;transform:rotate(-6deg);margin:0 auto 14px;}
+
+/* ============ FOOTER ============ */
+footer{background:var(--ink);color:#9AA396;padding:64px 0 28px;}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;}
+.footer-grid h5{font-family:'IBM Plex Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:16px;}
+.footer-grid ul{list-style:none;padding:0;margin:0;display:grid;gap:10px;}
+.footer-grid a{font-size:.88rem;color:#B9C0B4;}
+.footer-grid a:hover{color:var(--white);}
+.footer-brand p{color:#9AA396;font-size:.88rem;margin-top:14px;max-width:280px;}
+.roadmap-strip{display:flex;gap:0;margin-top:16px;border:1px solid rgba(255,255,255,0.14);}
+.roadmap-strip div{flex:1;padding:10px 12px;border-right:1px solid rgba(255,255,255,0.14);font-family:'IBM Plex Mono',monospace;font-size:.62rem;text-transform:uppercase;letter-spacing:.05em;}
+.roadmap-strip div:last-child{border-right:none;}
+.roadmap-strip .now{background:var(--gold);color:var(--ink);font-weight:600;}
+.footer-bottom{margin-top:50px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.12);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.78rem;}
+.disclaimer{max-width:1180px;margin:0 auto;padding:0 32px 40px;font-size:.76rem;color:#7A8378;line-height:1.6;}
+
+/* ============ FLOATING AI WIDGET ============ */
+.fab{
+  position:fixed;bottom:26px;right:26px;z-index:200;
+  width:58px;height:58px;border-radius:50%;background:var(--gold);
+  display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);border:none;
+  font-family:'Fraunces',serif;font-size:1.3rem;color:var(--ink);
+}
+.fab-panel{
+  position:fixed;bottom:96px;right:26px;z-index:200;width:320px;max-height:420px;
+  background:var(--paper-2);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--line);
+  display:none;flex-direction:column;overflow:hidden;
+}
+.fab-panel.open{display:flex;}
+.fab-panel .fp-head{background:var(--ink);color:var(--paper-2);padding:14px 16px;font-family:'IBM Plex Mono',monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;display:flex;justify-content:space-between;align-items:center;}
+.fab-panel .fp-head button{background:none;border:none;color:#B9C0B4;font-size:1rem;}
+.fp-body{padding:14px;overflow:auto;flex:1;display:grid;gap:10px;}
+.fp-body .msg{max-width:92%;}
+.fp-input{display:flex;border-top:1px solid var(--line);}
+.fp-input input{flex:1;border:none;padding:12px 14px;font-family:'Inter',sans-serif;font-size:.85rem;background:transparent;}
+.fp-input button{border:none;background:var(--green-deep);color:var(--white);padding:0 16px;font-weight:600;}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:960px){
+  nav.links{display:none;}
+  .menu-toggle{display:block;}
+  .hero-top{grid-template-columns:1fr;}
+  .stat-strip{grid-template-columns:repeat(2,1fr);}
+  .stat:nth-child(2){border-right:none;}
+  .facts-grid{grid-template-columns:repeat(2,1fr);}
+  .fact:nth-child(2){border-right:none;}
+  .portals,.ledger,.map-wrap,.analytics-wrap,.ai-grid,.cta-grid{grid-template-columns:1fr;}
+  .map-canvas,.chart-box{border-right:none;border-bottom:1px solid var(--line);}
+  .results-grid,.listing-grid,.insight-grid{grid-template-columns:1fr 1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .plot-search-row{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:640px){
+  .container{padding:0 20px;}
+  .results-grid,.listing-grid,.insight-grid,.facts-grid{grid-template-columns:1fr;}
+  .fact{border-right:none;border-bottom:1px solid var(--line);}
+  .stat-strip{grid-template-columns:1fr 1fr;}
+  .plot-search-row{grid-template-columns:1fr;}
+  .fab-panel{width:88vw;right:6vw;}
+  .footer-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<header class="site">
+  <div class="nav-inner">
+    <a href="home.html" class="logo"><span class="mark">GD</span><span>GDIP<small>Gulberg Intelligence</small></span></a>
+    <nav class="links">
+      <a href="home.html">Home</a>
+      <a href="plot-intelligence.html">Plot Intelligence</a>
+      <a href="map.html">Map</a>
+      <a href="blocks-status.html">Blocks Status</a>
+      <a href="listings.html">Listings</a>
+      <a href="insights.html">Insights</a>
+      <a href="ai-advisor.html">AI Advisor</a>
+    </nav>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <a href="#list-property" class="btn btn-outline" style="display:none" id="desktopListBtn">List Property</a>
+      <a href="#list-property" class="btn btn-primary">List a Property</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="home">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div>
+        <div class="eyebrow">Gulberg Greens · Gulberg Residencia · Islamabad</div>
+        <h1>Every plot in Gulberg,<br><em>verified.</em></h1>
+        <p class="lede">GDIP is the digital intelligence platform built exclusively for Gulberg Islamabad — cross-checking owner records, tracking legal status, mapping every block, and giving buyers and investors one honest source of truth instead of twelve conflicting listings.</p>
+        <div class="hero-actions">
+          <a href="#plot-intel" class="btn btn-gold">Search a Plot →</a>
+          <a href="#map" class="btn btn-outline" style="border-color:#4C5A50;color:var(--paper-2);">Explore the Map</a>
+        </div>
+      </div>
+      <div class="plot-card reveal">
+        <h4>Quick Plot Lookup</h4>
+        <div class="field-row">
+          <div class="field"><label>Block</label>
+            <select id="heroBlock"><option value="">Choose a block</option></select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Plot / Street No.</label><input id="heroPlot" type="text" placeholder="e.g. 214 or Street 6"></div>
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:8px;" onclick="runHeroSearch()">Search Records →</button>
+        <div class="stamp">Verified<br>Records<br>Only</div>
+      </div>
+    </div>
+    <div class="stat-strip">
+      <div class="stat"><div class="num" data-count="27">0</div><div class="lbl">Blocks Tracked</div></div>
+      <div class="stat"><div class="num" data-count="1400">0</div><div class="lbl">Verified Owner Records</div></div>
+      <div class="stat"><div class="num" data-count="2">0</div><div class="lbl">Master Communities</div></div>
+      <div class="stat"><div class="num" data-count="99">0</div><div class="lbl">% Listings Cross-Checked</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FACTS / TRUST ================= -->
+<section class="facts">
+  <div class="container facts-grid">
+    <div class="fact"><div class="k">Location</div><div class="v">Gulberg Greens sits in <strong>Zone IV</strong> and Gulberg Residencia in <strong>Zone V</strong> of Islamabad, minutes from the Islamabad Expressway.</div></div>
+    <div class="fact"><div class="k">Developer</div><div class="v">Both communities were developed by the <strong>Intelligence Bureau Employees Cooperative Housing Society (IBECHS)</strong>, launched in 2005.</div></div>
+    <div class="fact"><div class="k">Approval</div><div class="v">CDA-approved under NOC reference <strong>CDA/PLW-HS(127)/2009/257</strong> — GDIP tracks LOP status at the plot level.</div></div>
+    <div class="fact"><div class="k">Independence</div><div class="v">GDIP is an <strong>independent verification layer</strong> — not the official developer or CDA portal. See disclaimer in footer.</div></div>
+  </div>
+</section>
+
+<!-- ================= AUTHENTIC IMAGES ================= -->
+<section class="pad-sm" style="padding-top:24px; padding-bottom:24px;">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Authentic project views</div>
+      <h2>Real Gulberg atmosphere, not just property cards.</h2>
+      <p>These visuals ground the platform in the real estate environment of Gulberg Greens and Residencia — modern roads, premium homes and the wider Islamabad setting.</p>
+    </div>
+    <div class="gallery-grid">
+      <article class="gallery-card reveal">
+        <img src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=900&q=80" alt="Contemporary luxury residence in an Islamabad-style neighborhood">
+        <div class="gallery-body">
+          <h3>Premium residential setting</h3>
+          <p>High-end houses and landscaped streets give the platform a more realistic feel for the Gulberg lifestyle.</p>
+        </div>
+      </article>
+      <article class="gallery-card reveal">
+        <img src="https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=900&q=80" alt="Modern urban housing development with wide roads and greenery">
+        <div class="gallery-body">
+          <h3>Planned community layout</h3>
+          <p>Wide roads, plotted development and modern neighborhood design mirror the kind of infrastructure buyers expect.</p>
+        </div>
+      </article>
+      <article class="gallery-card reveal">
+        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=900&q=80" alt="City skyline and residential development landscape in Islamabad">
+        <div class="gallery-body">
+          <h3>Islamabad backdrop</h3>
+          <p>These visuals connect the project to the broader urban character of Islamabad and its premium districts.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TWO PORTALS ================= -->
+<section class="pad">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">The two communities</div>
+      <h2>One expressway. Two very different investments.</h2>
+      <p>Gulberg Islamabad is really two projects wearing one name. GDIP treats them separately because buyers, plot sizes and timelines are not the same.</p>
+    </div>
+    <div class="portals">
+      <div class="portal greens reveal">
+        <span class="tag">Gulberg Greens</span>
+        <h3>Farmhouse living, low density</h3>
+        <p>Six primary blocks — A-Executive, A, B, C, D and E — spread across large-format plots built for privacy and long-term appreciation rather than quick turnover.</p>
+        <ul>
+          <li>Plot sizes from 4 to 10 Kanal</li>
+          <li>Block D reserved for commercial use</li>
+          <li>Best suited to long-horizon, high-value holding</li>
+        </ul>
+      </div>
+      <div class="portal residencia reveal">
+        <span class="tag">Gulberg Residencia</span>
+        <h3>Family housing, active resale</h3>
+        <p>Dozens of blocks from AA through V, including multiple Executive enclaves, offer a much wider entry point and a livelier resale market near D-Markaz.</p>
+        <ul>
+          <li>Plot sizes from 5 Marla to 2 Kanal</li>
+          <li>Blocks A–D and E–I are the most developed</li>
+          <li>Blocks Q–T are newer, early-stage launches</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LEDGER COMPARE ================= -->
+<section class="pad-sm">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Why GDIP exists</div>
+      <h2>Every other portal sells you a listing. We verify one.</h2>
+      <p>Generic property sites treat Gulberg as one line item among thousands of societies. GDIP treats it as the entire job.</p>
+    </div>
+    <div class="ledger reveal">
+      <div class="ledger-col old">
+        <h4>Standard Property Portals</h4>
+        <div class="ledger-item"><span class="ico">✕</span> Same plot listed 3–4 times by different agents</div>
+        <div class="ledger-item"><span class="ico">✕</span> No way to confirm who actually owns a plot</div>
+        <div class="ledger-item"><span class="ico">✕</span> LOP / legal status left to phone calls and guesswork</div>
+        <div class="ledger-item"><span class="ico">✕</span> Prices quoted with no historical context</div>
+        <div class="ledger-item"><span class="ico">✕</span> No downloadable, block-level maps</div>
+      </div>
+      <div class="ledger-col new">
+        <h4>GDIP</h4>
+        <div class="ledger-item"><span class="ico">✓</span> Duplicate listings merged into a single verified record</div>
+        <div class="ledger-item"><span class="ico">✓</span> Owner identity checked before a listing goes live</div>
+        <div class="ledger-item"><span class="ico">✓</span> LOP / Non-LOP status flagged clearly on every plot</div>
+        <div class="ledger-item"><span class="ico">✓</span> Price history charted block by block, year by year</div>
+        <div class="ledger-item"><span class="ico">✓</span> Interactive, downloadable master and block maps</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MAP ================= -->
+<section class="pad" id="map">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Interactive Map</div>
+      <h2>Every block, at a glance.</h2>
+      <p>A simplified block layout of Gulberg Residencia. Hover or tap a block to see its development status — pulled from GDIP's field verification, not just the developer brochure.</p>
+    </div>
+    <div class="map-wrap reveal">
+      <div class="map-canvas">
+        <svg id="blockMap" viewBox="0 0 560 380" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+      <div class="map-side">
+        <h4>Legend</h4>
+        <div class="map-legend">
+          <div class="legend-row"><span class="legend-swatch" style="background:#3C7A5C"></span> Fully developed — possession-ready</div>
+          <div class="legend-row"><span class="legend-swatch" style="background:#C79A3E"></span> Emerging — construction underway</div>
+          <div class="legend-row"><span class="legend-swatch" style="background:#A5432E"></span> New launch — early-bird stage</div>
+        </div>
+        <div id="mapInfo">
+          <div class="blockname">Select a block</div>
+          <div class="blockdesc">Hover or click any cell on the map to view its status, typical plot sizes and notes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AI ================= -->
+<section class="pad ai-section" id="ai">
+  <div class="container ai-grid">
+    <div>
+      <div class="section-head" style="margin-bottom:0;">
+        <div class="eyebrow" style="color:var(--gold);">AI Investment Advisor</div>
+        <h2>Ask it anything about a block. It tells you what's fact and what's forecast.</h2>
+        <p>GDIP's assistant separates verified records from generated insight — every answer is labelled, so you always know what's confirmed and what's the model's read on the market.</p>
+      </div>
+      <div class="ai-points">
+        <div class="ai-point"><span class="n">01</span><div><h5>Grounded in verified records</h5><p>Ownership, LOP status and price history come straight from GDIP's database — flagged with a Verified tag.</p></div></div>
+        <div class="ai-point"><span class="n">02</span><div><h5>Transparent about forecasts</h5><p>Investment reads and appreciation estimates are clearly marked as AI-generated insight, never presented as fact.</p></div></div>
+        <div class="ai-point"><span class="n">03</span><div><h5>Available across the platform</h5><p>The same assistant answers questions on plot pages, block maps and the mortgage &amp; construction calculators.</p></div></div>
+      </div>
+    </div>
+    <div class="chat-mock reveal">
+      <div class="chat-head"><span class="chat-dot"></span> GDIP Advisor — demo</div>
+      <div class="chat-log" id="chatLog">
+        <div class="msg user">Is Block E in Residencia a good buy right now?</div>
+        <div class="msg ai"><span class="tag-fact">Verified</span>Block E is a developed, possession-ready sector with active utilities and standing homes.</div>
+        <div class="msg ai"><span class="tag-insight">Insight</span>Based on recent listing activity, blocks with existing possession like E tend to move slower in price but carry lower risk than early-launch blocks. This is a generated read, not a guarantee.</div>
+      </div>
+      <div class="chat-input">
+        <input id="chatInput" type="text" placeholder="Ask about a block, e.g. &quot;Block Q outlook&quot;">
+        <button class="btn btn-gold" onclick="sendChat()">Ask</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ANALYTICS ================= -->
+<section class="pad">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Market Analytics</div>
+      <h2>Price movement, block by block.</h2>
+      <p>Illustrative five-year trend for a 10 Marla residential plot across three representative blocks. A live platform pulls this from verified transaction records.</p>
+    </div>
+    <div class="analytics-wrap reveal">
+      <div class="chart-box">
+        <svg viewBox="0 0 560 260" id="trendChart"></svg>
+      </div>
+      <div class="analytics-side">
+        <h4>Snapshot — 10 Marla Residential</h4>
+        <div class="metric-row"><span>Block A–D (developed)</span><span class="val up">+18%</span></div>
+        <div class="metric-row"><span>Block F–I (emerging)</span><span class="val up">+27%</span></div>
+        <div class="metric-row"><span>Block Q–T (new launch)</span><span class="val down">−4%</span></div>
+        <div class="metric-row"><span>Society-wide average</span><span class="val up">+15%</span></div>
+        <div style="margin-top:20px;font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:#7A7460;">Illustrative sample data — for demonstration only.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LISTINGS ================= -->
+<section class="pad" id="listings" style="background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Featured Records</div>
+      <h2>Verified listings, currently active.</h2>
+      <p>A sample of plots with confirmed ownership and legal status. Every card links to the full record — documents, photos and price history.</p>
+    </div>
+    <div class="listing-grid" id="listingGrid"></div>
+  </div>
+</section>
+
+<!-- ================= INSIGHTS ================= -->
+<section class="pad" id="insights">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Insights &amp; Guides</div>
+      <h2>Understand Gulberg before you sign anything.</h2>
+      <p>Plain-language explainers written for buyers, sellers and overseas Pakistanis navigating Gulberg for the first time.</p>
+    </div>
+    <div class="insight-grid">
+      <div class="insight-card reveal">
+        <div class="cat">Legal Basics</div>
+        <h4>LOP vs Non-LOP: what it actually means for your plot</h4>
+        <p>A walkthrough of what Layout of Plan approval covers, and why a Non-LOP plot isn't automatically a bad investment — just a riskier one.</p>
+        <span class="read">Read the guide</span>
+      </div>
+      <div class="insight-card reveal">
+        <div class="cat">For Overseas Pakistanis</div>
+        <h4>Buying in Gulberg from abroad: a verification checklist</h4>
+        <p>The documents to request, the questions to ask, and the red flags that show up more often in remote transactions.</p>
+        <span class="read">Read the guide</span>
+      </div>
+      <div class="insight-card reveal">
+        <div class="cat">Investment</div>
+        <h4>Greens vs Residencia: matching the block to your timeline</h4>
+        <p>Why farmhouse plots in Greens and family plots in Residencia reward completely different holding periods.</p>
+        <span class="read">Read the guide</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA / LEAD FORM ================= -->
+<section class="pad cta-section" id="list-property">
+  <div class="container cta-grid">
+    <div>
+      <div class="section-head" style="margin-bottom:0;">
+        <div class="eyebrow" style="color:var(--gold);">List with GDIP</div>
+        <h2>Put your plot in front of verified buyers.</h2>
+        <p>Owners go through a short verification step once — after that, your listing carries the trust badge every buyer on GDIP is searching for.</p>
+      </div>
+      <div class="cta-list">
+        <div>Free listing for verified owners</div>
+        <div>Dedicated lead follow-up through GDIP's CRM</div>
+        <div>Your plot appears on the interactive block map</div>
+        <div>WhatsApp &amp; email updates on buyer interest</div>
+      </div>
+    </div>
+    <div class="lead-form reveal" id="leadFormWrap">
+      <form id="leadForm" onsubmit="return submitLead(event)">
+        <div class="field"><label>Full Name</label><input required type="text" placeholder="Your name"></div>
+        <div class="field"><label>Phone / WhatsApp</label><input required type="tel" placeholder="03xx-xxxxxxx"></div>
+        <div class="field"><label>Block &amp; Plot No.</label><input required type="text" placeholder="e.g. Block F, Plot 118"></div>
+        <div class="field"><label>I am a</label>
+          <select><option>Owner</option><option>Agent</option><option>Buyer</option><option>Investor</option></select>
+        </div>
+        <button type="submit" class="btn btn-gold">Submit for Verification →</button>
+      </form>
+      <div id="leadSuccess">
+        <div class="stamp gold">Request<br>Received</div>
+        <h4>Thanks — that's in the queue.</h4>
+        <p style="color:var(--ink-soft);font-size:.9rem;margin-top:8px;">A GDIP verification specialist will reach out within one business day.</p>
+        <button class="btn btn-outline" style="margin-top:16px;" onclick="resetLead()">Submit another</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a href="home.html" class="logo" style="color:var(--white);"><span class="mark" style="border-color:var(--paper-2);">GD</span><span>GDIP</span></a>
+      <p>The digital intelligence platform for Gulberg Greens &amp; Gulberg Residencia, Islamabad. Verified listings, interactive maps and honest market data — nothing else.</p>
+      <h5 style="margin-top:26px;">Roadmap</h5>
+      <div class="roadmap-strip">
+        <div class="now">Phase 1</div><div>Phase 2</div><div>Phase 3</div><div>Phase 4</div>
+      </div>
+    </div>
+    <div>
+      <h5>Platform</h5>
+      <ul>
+        <li><a href="plot-intelligence.html">Plot Intelligence</a></li>
+        <li><a href="map.html">Interactive Map</a></li>
+        <li><a href="ai-advisor.html">AI Advisor</a></li>
+        <li><a href="listings.html">Listings</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Resources</h5>
+      <ul>
+        <li><a href="insights.html">Insights &amp; Guides</a></li>
+        <li><a href="home.html">Download Center</a></li>
+        <li><a href="home.html">Mortgage Calculator</a></li>
+        <li><a href="home.html">Construction Cost Tool</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="home.html">hello@gdip.pk</a></li>
+        <li><a href="home.html">WhatsApp Support</a></li>
+        <li><a href="#list-property">List a Property</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© 2026 Ariesian Tech — Gulberg Digital Intelligence Platform.</span>
+    <span>Prototype build · v1.0</span>
+  </div>
+  <p class="disclaimer">Disclaimer: GDIP is an independent, third-party information and verification platform. It is not affiliated with, and does not represent, IBECHS, the Capital Development Authority (CDA), or any official Gulberg Greens / Gulberg Residencia management office. Block, pricing and status information is a mix of general, publicly available background and illustrative sample data used to demonstrate this platform's design — always confirm ownership, LOP status and pricing with the relevant society office before transacting.</p>
+</footer>
+
+<!-- ================= FLOATING AI ================= -->
+<button class="fab" id="fabBtn" aria-label="Open AI Advisor">✦</button>
+<div class="fab-panel" id="fabPanel">
+  <div class="fp-head"><span>GDIP Advisor</span><button id="fabClose">✕</button></div>
+  <div class="fp-body" id="fabBody">
+    <div class="msg ai" style="background:var(--green-pale);color:var(--green-deep);border-radius:2px;padding:10px 12px;font-size:.85rem;"><span class="tag-fact">Verified</span>Ask me about any block, plot status, or price trend in Gulberg.</div>
+  </div>
+  <div class="fp-input">
+    <input id="fabInput" type="text" placeholder="e.g. Is Block Q LOP approved?">
+    <button onclick="sendFabChat()">Ask</button>
+  </div>
+</div>
+
+<script>
+/* ==========================================================================
+   BLOCK DATA
+   Sourced from publicly available Gulberg Residencia / Gulberg Greens
+   development-update coverage current to early/mid 2026 (IBECHS-developed,
+   CDA-approved under NOC ref CDA/PLW-HS(127)/2009/257), reworded and
+   aggregated by GDIP's research desk. This is background intelligence,
+   not an official CDA/IBECHS land record — pct figures are informed
+   estimates, not audited figures. Always confirm specifics for any single
+   plot before transacting.
+   ========================================================================== */
+const BLOCK_PROFILES = {
+  "Residencia": {
+    "A":  {pct:58,  category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], cx:60,cy:40,  litigation:true,  note:"Gulberg Residencia's oldest and most populated sector, known for early possession and strong demand. Roughly 58% developed; a minority of pockets are reported to carry unresolved legal/title issues, so this block rewards extra diligence."},
+    "B":  {pct:35,  category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], cx:150,cy:40, litigation:false, note:"An executive-style expansion next to Block A. Around 90% of land parcels have been cleared, and levelling / street-cutting work has recently begun — possession has not yet been formally announced across the block."},
+    "C":  {pct:88,  category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], cx:240,cy:40, litigation:false, note:"Infrastructure is nearing completion with construction picking up across several streets. Most plots here carry clear possession and it's considered one of the better value blocks near the commercial core."},
+    "D":  {pct:80,  category:"Commercial",  sizes:["6 Marla","8 Marla","1 Kanal"], cx:330,cy:40, litigation:false, note:"Residencia's central commercial markaz. Several plazas are already operating with national and international brands, while others are still under construction."},
+    "E":  {pct:98,  category:"Residential", sizes:["1 Kanal"], cx:60,cy:130, litigation:false, note:"Close to 100% developed and one of the most sought-after blocks — offers only 1 Kanal plots, with houses already under construction and utilities fully active."},
+    "F":  {pct:90,  category:"Residential", sizes:["10 Marla","1 Kanal","30x60"], cx:150,cy:130, litigation:false, note:"Grouped among Residencia's fully developed blocks. Slightly smaller plot formats (30×60, 35×70) make it accessible to a wider range of buyers."},
+    "G":  {pct:35,  category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], cx:240,cy:130, litigation:false, note:"Roughly 35% developed and under possession, with the rest of the land largely cleared or in final stages. Prices remain among the lowest in Residencia, which is why it's watched closely by early investors."},
+    "H":  {pct:55,  category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], cx:330,cy:130, litigation:false, note:"Partially developed with a well-planned mix of residential plot sizes; construction activity has been increasing."},
+    "I":  {pct:90,  category:"Residential", sizes:["10 Marla","1 Kanal"], cx:420,cy:130, litigation:false, note:"One of the fully developed, possession-ready blocks, with a high proportion of houses already built."},
+    "J":  {pct:80,  category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], cx:60,cy:220, litigation:false, note:"Around 80% complete, with most plots developed and possession-ready; buyer confidence and construction activity have both been rising."},
+    "K":  {pct:55,  category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], cx:150,cy:220, litigation:false, note:"Mixed-size residential block with growing construction activity, slightly behind neighbouring J in overall completion."},
+    "L":  {pct:88,  category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], cx:0,cy:0, litigation:false, note:"Nearly fully developed at close to 90% completion, with only minor pockets awaiting final infrastructure work."},
+    "M":  {pct:45,  category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], cx:0,cy:0, litigation:false, note:"Under rapid development with new possession zones opening up and growing interest in nearby commercial potential."},
+    "N":  {pct:45,  category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], cx:240,cy:220, litigation:false, note:"Under active development; part of the L–P corridor seeing new possession zones released in stages."},
+    "O":  {pct:45,  category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], cx:330,cy:220, litigation:false, note:"Similar development stage to Block N, with steady infrastructure progress."},
+    "P":  {pct:45,  category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], cx:0,cy:0, litigation:false, note:"Part of the newer possession corridor (P-1 to P-4 sub-sectors), with commercial potential growing along its edges."},
+    "Q":  {pct:15,  category:"Residential", sizes:["7 Marla","10 Marla"], cx:60,cy:310, litigation:false, note:"Newly launched with early-bird pricing — on-ground development is still minimal, positioning it as a longer-horizon investment."},
+    "R":  {pct:20,  category:"Residential", sizes:["7 Marla","10 Marla"], cx:150,cy:310, litigation:true,  note:"About 20% of this block is developed with possession already granted; the remaining roughly 80% is reported to be affected by ongoing litigation, which has slowed progress. Prices are lower here to reflect that risk."},
+    "S":  {pct:15,  category:"Residential", sizes:["7 Marla","10 Marla"], cx:240,cy:310, litigation:false, note:"A newly launched sector with limited on-ground development so far — an early-entry, long-term play."},
+    "T":  {pct:85,  category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], cx:330,cy:310, litigation:false, note:"Despite being one of the newer-numbered blocks, it's reported to be close to 90% complete, ahead of several older sectors."},
+    "V":  {pct:55,  category:"Residential", sizes:["10 Marla","1 Kanal"], cx:420,cy:310, litigation:false, note:"Borders the Naval Anchorage area and is developing steadily, with infrastructure work ongoing."},
+    "AA": {pct:null, category:"Residential", sizes:["7 Marla","10 Marla"], cx:0,cy:0, litigation:false, note:"A newer sector for which detailed public development updates are not yet well documented — treat this one as manual-verification-only until GDIP's field team confirms status."},
+    "A-Executive 1": {pct:60, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], cx:0,cy:0, litigation:false, note:"Rapidly developing, particularly for 1 Kanal plots, with 7 and 10 Marla progressing at a steadier pace."},
+    "A-Executive 2 / Premium": {pct:35, category:"Residential", sizes:["5 Marla","7 Marla","1 Kanal"], cx:0,cy:0, litigation:false, note:"Some 1 Kanal and 7 Marla plots are already developed and awaiting utility connections; full build-out is projected within two to three years. Entry-level 5 Marla pricing has been reported from around PKR 70 Lakh."},
+    "E-Executive": {pct:95, category:"Residential", sizes:["1 Kanal"], cx:0,cy:0, litigation:false, note:"One of the most sought-after executive enclaves — fully developed and possession-ready."},
+    "F-Executive I & II": {pct:55, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], cx:0,cy:0, litigation:false, note:"Development is advancing aggressively in these two sub-blocks compared with their neighbours."},
+    "F-Executive III & IV": {pct:20, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], cx:0,cy:0, litigation:false, note:"Earlier-stage sub-blocks, projected to reach full development within two to three years."},
+  },
+  "Greens": {
+    "A-Executive": {pct:88, category:"Farmhouse", sizes:["4 Kanal","5 Kanal","10 Kanal"], cx:0,cy:0, litigation:false, note:"One of Greens' six core blocks, located near the entrance close to the Islamabad Expressway; largely developed with an active resale market."},
+    "A": {pct:88, category:"Farmhouse", sizes:["4 Kanal","5 Kanal","10 Kanal"], cx:0,cy:0, litigation:false, note:"A mature farmhouse block — as of early 2026 Gulberg Greens overall is described as possession-ready, with most transactions happening on the resale market rather than fresh booking."},
+    "B": {pct:82, category:"Farmhouse", sizes:["4 Kanal","5 Kanal","10 Kanal"], cx:0,cy:0, litigation:false, note:"Well-established farmhouse sector with underground utilities and active landscaping."},
+    "C": {pct:82, category:"Farmhouse", sizes:["4 Kanal","5 Kanal","10 Kanal"], cx:0,cy:0, litigation:false, note:"Home to institutions such as a private school; largely built out with a peaceful, low-density character."},
+    "D": {pct:80, category:"Commercial", sizes:["6 Marla","8 Marla","1 Kanal"], cx:0,cy:0, litigation:false, note:"Greens' dedicated commercial block — hosts an educational institution and several commercial developments, with more brands opening as construction progresses."},
+    "E": {pct:85, category:"Farmhouse", sizes:["4 Kanal","5 Kanal","10 Kanal"], cx:0,cy:0, litigation:false, note:"A settled farmhouse block with reliable utilities; new bookings across Greens are now largely limited to specific extensions rather than this core block."},
+  }
+};
+const SOCIETY_LABEL = {Residencia:"Gulberg Residencia", Greens:"Gulberg Greens"};
+
+function statusTier(pct, litigation){
+  if(pct===null || pct===undefined) return "unknown";
+  if(litigation && pct<50) return "early";
+  if(pct>=80) return "developed";
+  if(pct>=40) return "partial";
+  return "early";
+}
+const TIER_COLOR = {developed:"#3C7A5C", partial:"#C79A3E", early:"#A5432E", unknown:"#8A8368"};
+const TIER_LABEL = {developed:"Fully Developed", partial:"Partially Developed", early:"Early / New Launch", unknown:"Data Pending Verification"};
+
+/* Flatten for lookups: key = "Society|Block" */
+const ALL_BLOCKS = [];
+Object.keys(BLOCK_PROFILES).forEach(society=>{
+  Object.keys(BLOCK_PROFILES[society]).forEach(name=>{
+    ALL_BLOCKS.push({society, name, key:society+"|"+name, ...BLOCK_PROFILES[society][name]});
+  });
+});
+
+/* ============ POPULATE BLOCK DROPDOWNS ============ */
+function fillBlockSelect(el, withOptgroups){
+  if(withOptgroups){
+    const resGroup=document.getElementById('optResidencia');
+    const grnGroup=document.getElementById('optGreens');
+    ALL_BLOCKS.forEach(b=>{
+      const o=document.createElement('option'); o.value=b.key; o.textContent="Block "+b.name;
+      (b.society==='Residencia'?resGroup:grnGroup).appendChild(o);
+    });
+  } else {
+    ALL_BLOCKS.forEach(b=>{
+      const o=document.createElement('option'); o.value=b.key; o.textContent=b.name+" ("+SOCIETY_LABEL[b.society].split(' ')[1]+")";
+      el.appendChild(o);
+    });
+  }
+}
+fillBlockSelect(document.getElementById('heroBlock'), false);
+fillBlockSelect(document.getElementById('pBlock'), true);
+
+/* ============ NAV TOGGLE ============ */
+const menuToggle=document.getElementById('menuToggle');
+const navLinks=document.querySelector('nav.links');
+menuToggle.addEventListener('click',()=>{
+  const open=navLinks.style.display==='flex';
+  navLinks.style.display=open?'none':'flex';
+  navLinks.style.flexDirection='column';
+  navLinks.style.position='absolute';
+  navLinks.style.top='72px';
+  navLinks.style.left='0';
+  navLinks.style.right='0';
+  navLinks.style.background='var(--paper-2)';
+  navLinks.style.padding='20px 32px';
+  navLinks.style.borderBottom='1px solid var(--line)';
+  navLinks.style.gap='16px';
+});
+
+/* ============ REVEAL ON SCROLL ============ */
+const revealEls=document.querySelectorAll('.reveal');
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:.15});
+revealEls.forEach(el=>io.observe(el));
+
+/* ============ COUNTERS ============ */
+const counters=document.querySelectorAll('.stat .num');
+const cio=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const el=e.target; const target=+el.dataset.count; let cur=0;
+      const step=Math.max(1,Math.round(target/40));
+      const t=setInterval(()=>{ cur+=step; if(cur>=target){cur=target; clearInterval(t);} el.textContent=cur.toLocaleString(); },30);
+      cio.unobserve(el);
+    }
+  });
+},{threshold:.4});
+counters.forEach(c=>cio.observe(c));
+
+/* ============ PLOT INTELLIGENCE: BLOCK → PLOTS → DETAIL ============ */
+
+/* Seeded PRNG so the same block always generates the same plot list */
+function seedFromString(str){ let s=0; for(let i=0;i<str.length;i++) s=(s*31+str.charCodeAt(i))>>>0; return s; }
+function seededRand(seed){ let x=Math.sin(seed)*10000; return x-Math.floor(x); }
+
+const SIZE_PRICE_PKR = {
+  "5 Marla":[5500000,7500000], "6 Marla":[6200000,8200000], "7 Marla":[7000000,9500000],
+  "8 Marla":[8000000,10500000], "10 Marla":[9000000,13000000], "12 Marla":[11000000,15000000],
+  "1 Kanal":[16000000,22000000], "2 Kanal":[28000000,38000000],
+  "4 Kanal":[45000000,60000000], "5 Kanal":[55000000,75000000], "10 Kanal":[90000000,130000000],
+  "30x60":[7000000,9500000],
+};
+function fmtPKR(v){
+  if(v>=10000000) return "PKR "+(v/10000000).toFixed(2)+" Cr";
+  return "PKR "+(v/100000).toFixed(1)+" Lac";
+}
+
+function generatePlotsForBlock(block, count=9){
+  const plots=[];
+  const pct = block.pct===null || block.pct===undefined ? 30 : block.pct;
+  for(let i=0;i<count;i++){
+    const seed=seedFromString(block.key+"-"+i);
+    const r1=seededRand(seed), r2=seededRand(seed*7+3), r3=seededRand(seed*13+11);
+    const plotNo = String(100 + Math.floor(r1*800));
+    const size = block.sizes[Math.floor(r2*block.sizes.length)];
+    const developed = (r3*100) < pct;
+    const possession = developed ? "Possession Granted" : "Under Development — Possession Pending";
+    let lop, legalNote;
+    if(block.litigation && !developed){
+      lop = "Pending — Reported Litigation";
+      legalNote = "This plot falls in the portion of the block reported to be affected by ongoing litigation. The overall layout carries CDA NOC approval, but this specific plot's title should be independently confirmed before any payment.";
+    } else if(block.pct===null){
+      lop = "Not Yet Verified";
+      legalNote = "Public development data for this block is too limited to classify individual plots — GDIP has not yet field-verified this record.";
+    } else {
+      lop = "NOC Cleared — CDA-Approved Layout";
+      legalNote = "This plot sits within a CDA-approved layout (NOC ref CDA/PLW-HS(127)/2009/257). Ownership and current possession should still be confirmed against the seller's original allotment/transfer documents.";
+    }
+    const [lo,hi]=SIZE_PRICE_PKR[size] || [6000000,9000000];
+    const mult = 0.85 + (pct/100)*0.35;
+    const priceRange = fmtPKR(Math.round(lo*mult)) + " – " + fmtPKR(Math.round(hi*mult));
+    plots.push({
+      plotNo, block:block.name, society:block.society, category:block.category, size,
+      possession, lop, priceRange, legalNote, developed
+    });
+  }
+  return plots;
+}
+
+let currentBlockPlots=[];
+
+function renderBlockProfile(block){
+  const tier=statusTier(block.pct, block.litigation);
+  const wrap=document.getElementById('blockProfile');
+  wrap.style.display='block';
+  wrap.innerHTML=`
+    <div class="block-profile">
+      <div class="bp-top">
+        <h3>Block ${block.name} — ${SOCIETY_LABEL[block.society]}</h3>
+        <span class="badge ${tier}">${TIER_LABEL[tier]}${block.pct!==null?' · ~'+block.pct+'% developed':''}</span>
+      </div>
+      <p>${block.note}</p>
+      <div class="bp-meta">
+        <span><strong>Plot sizes:</strong> ${block.sizes.join(', ')}</span>
+        <span><strong>Category:</strong> ${block.category}</span>
+        ${block.litigation?'<span class="flag-litigation">⚠ Portions of this block are reported under litigation</span>':''}
+      </div>
+    </div>
+  `;
+}
+
+function renderPlotGrid(plots, filterPlot){
+  const grid=document.getElementById('plotResults');
+  grid.innerHTML='';
+  let list=plots;
+  if(filterPlot){
+    const f=filterPlot.trim().toLowerCase();
+    list=plots.filter(p=>p.plotNo.toLowerCase().includes(f));
+  }
+  if(list.length===0){
+    grid.innerHTML='<div class="no-results">No sample plots match that number in this block — try another number, or request verification directly for a specific plot.</div>';
+    return;
+  }
+  list.forEach(p=>{
+    const card=document.createElement('div'); card.className='result-card'; card.style.cursor='pointer'; card.style.position='relative';
+    card.innerHTML=`
+      <span class="tag-illustrative">Illustrative</span>
+      <div class="top">
+        <span class="plotno">Plot ${p.plotNo}</span>
+        <span class="badge ${p.developed?'lop':'nonlop'}">${p.developed?'Possession-Ready':'Pending'}</span>
+      </div>
+      <div class="meta">
+        <span>Block ${p.block} · ${p.category}</span>
+        <span>${p.size}</span>
+      </div>
+      <div class="price">${p.priceRange}<span>Estimated range</span></div>
+    `;
+    card.addEventListener('click', ()=>openPlotDetail(p));
+    grid.appendChild(card);
+  });
+}
+
+function openPlotDetail(p){
+  const wrap=document.getElementById('plotDetail');
+  wrap.innerHTML=`
+    <div class="plot-detail-panel">
+      <div class="pd-head">
+        <div>
+          <div class="pd-plotno">Plot ${p.plotNo}</div>
+          <div class="pd-sub">Block ${p.block} · ${SOCIETY_LABEL[p.society]} · ${p.category}</div>
+        </div>
+        <button class="pd-close" onclick="closeDetail()">✕</button>
+      </div>
+      <div class="pd-grid">
+        <div><span class="pd-k">Plot Size</span><span class="pd-v">${p.size}</span></div>
+        <div><span class="pd-k">Possession Status</span><span class="pd-v">${p.possession}</span></div>
+        <div><span class="pd-k">LOP / NOC Clearance</span><span class="pd-v">${p.lop}</span></div>
+        <div><span class="pd-k">Estimated Price Range</span><span class="pd-v">${p.priceRange}</span></div>
+      </div>
+      <p class="pd-note">${p.legalNote}</p>
+      <button class="btn btn-gold" style="margin-top:16px;" onclick="requestVerification('${p.block}','${p.plotNo}')">Request Official Verification →</button>
+    </div>
+  `;
+  wrap.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+function closeDetail(){ document.getElementById('plotDetail').innerHTML=''; }
+
+function loadBlock(){
+  const key=document.getElementById('pBlock').value;
+  if(!key){ document.getElementById('plotResults').innerHTML='<div class="no-results">Select a block above to pull its plot list.</div>'; document.getElementById('blockProfile').style.display='none'; closeDetail(); return; }
+  const block=ALL_BLOCKS.find(b=>b.key===key);
+  renderBlockProfile(block);
+  currentBlockPlots=generatePlotsForBlock(block);
+  renderPlotGrid(currentBlockPlots, document.getElementById('pQuery').value);
+  closeDetail();
+}
+document.getElementById('pQuery').addEventListener('input', ()=>{ if(currentBlockPlots.length) renderPlotGrid(currentBlockPlots, document.getElementById('pQuery').value); });
+
+function runHeroSearch(){
+  const key=document.getElementById('heroBlock').value;
+  if(key) document.getElementById('pBlock').value=key;
+  document.getElementById('pQuery').value=document.getElementById('heroPlot').value;
+  document.getElementById('plot-intel').scrollIntoView({behavior:'smooth'});
+  if(key) loadBlock();
+}
+
+function requestVerification(block, plotNo){
+  document.getElementById('list-property').scrollIntoView({behavior:'smooth'});
+  const plotField=document.querySelector('#leadForm input[placeholder^="e.g. Block"]');
+  if(plotField) plotField.value=`Block ${block}, Plot ${plotNo}`;
+}
+
+/* ============ MAP ============ */
+const svg=document.getElementById('blockMap');
+const MAP_BLOCKS = ALL_BLOCKS.filter(b=> b.society==='Residencia' && (b.cx||b.cy));
+MAP_BLOCKS.forEach(b=>{
+  const tier=statusTier(b.pct,b.litigation);
+  const g=document.createElementNS("http://www.w3.org/2000/svg","g");
+  g.setAttribute("class","block-cell");
+  g.innerHTML=`
+    <rect x="${b.cx}" y="${b.cy}" width="76" height="56" fill="${TIER_COLOR[tier]}" opacity="0.85" rx="2"></rect>
+    <text x="${b.cx+38}" y="${b.cy+34}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-weight="600" font-size="15" fill="#FBFAF5">${b.name}</text>
+  `;
+  g.addEventListener('click',()=>showBlockOnMap(b.key));
+  g.addEventListener('mouseenter',()=>showBlockOnMap(b.key));
+  svg.appendChild(g);
+});
+function showBlockOnMap(key){
+  const b=ALL_BLOCKS.find(x=>x.key===key);
+  const tier=statusTier(b.pct,b.litigation);
+  document.getElementById('mapInfo').innerHTML=`
+    <div class="blockname">Block ${b.name}</div>
+    <div class="blockdesc">${b.note}</div>
+    <div class="blockstatus" style="background:${TIER_COLOR[tier]}22;color:${TIER_COLOR[tier]};">${TIER_LABEL[tier]}${b.pct!==null?' · ~'+b.pct+'%':''}</div>
+  `;
+}
+
+/* ============ ANALYTICS CHART ============ */
+(function drawChart(){
+  const svg=document.getElementById('trendChart');
+  const years=["2021","2022","2023","2024","2025","2026"];
+  const series=[
+    {label:"Block A-D", color:"#3C7A5C", data:[100,106,112,118,122,118]},
+    {label:"Block F-I", color:"#C79A3E", data:[100,104,113,121,130,127]},
+    {label:"Block Q-T", color:"#A5432E", data:[100,101,99,97,95,96]},
+  ];
+  const w=560,h=260,pad=36;
+  const max=140,min=90;
+  const x=i=> pad + i*((w-pad*2)/(years.length-1));
+  const y=v=> h-pad - ((v-min)/(max-min))*(h-pad*2);
+  let axes='';
+  for(let i=0;i<=4;i++){
+    const val=min+(max-min)*i/4;
+    const yy=y(val);
+    axes+=`<line x1="${pad}" y1="${yy}" x2="${w-pad}" y2="${yy}" stroke="#B9B29A" stroke-width="0.5" opacity="0.5"/>`;
+    axes+=`<text x="${pad-8}" y="${yy+4}" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9" fill="#7A7460">${Math.round(val)}</text>`;
+  }
+  years.forEach((yr,i)=>{
+    axes+=`<text x="${x(i)}" y="${h-10}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#7A7460">${yr}</text>`;
+  });
+  let lines='';
+  series.forEach(s=>{
+    let d='';
+    s.data.forEach((v,i)=>{ d+= (i===0?'M':'L') + x(i) + ' ' + y(v) + ' '; });
+    lines+=`<path d="${d}" fill="none" stroke="${s.color}" stroke-width="2.2"/>`;
+    s.data.forEach((v,i)=>{ lines+=`<circle cx="${x(i)}" cy="${y(v)}" r="3" fill="${s.color}"/>`; });
+  });
+  svg.innerHTML = axes + lines;
+})();
+
+/* ============ LISTINGS ============ */
+(function renderListings(){
+  const grid=document.getElementById('listingGrid');
+  const sample = ["Residencia|E","Residencia|C","Residencia|J","Greens|A","Residencia|R","Residencia|G"];
+  sample.forEach(key=>{
+    const block=ALL_BLOCKS.find(b=>b.key===key);
+    const p=generatePlotsForBlock(block,1)[0];
+    const tier=statusTier(block.pct,block.litigation);
+    const card=document.createElement('div'); card.className='listing-card'; card.style.cursor='pointer';
+    card.innerHTML=`
+      <div class="listing-media" style="background-color:${TIER_COLOR[tier]}22;">
+        <span class="badge ${p.developed?'lop':'nonlop'}">${p.developed?'Possession-Ready':'Pending'}</span>
+      </div>
+      <div class="listing-body">
+        <div class="blk">Block ${p.block} · ${SOCIETY_LABEL[p.society]}</div>
+        <h4>Plot ${p.plotNo}, ${p.size}</h4>
+        <div class="price">${p.priceRange}</div>
+        <div class="foot"><span>${p.category}</span><span>Illustrative record</span></div>
+      </div>
+    `;
+    card.addEventListener('click', ()=>{
+      document.getElementById('pBlock').value=key;
+      document.getElementById('pQuery').value='';
+      document.getElementById('plot-intel').scrollIntoView({behavior:'smooth'});
+      loadBlock();
+      setTimeout(()=>openPlotDetail(p), 400);
+    });
+    grid.appendChild(card);
+  });
+})();
+
+/* ============ AI CHAT (mock logic) ============ */
+function aiRespond(text){
+  const t=text.toLowerCase();
+  const blockMatch = ALL_BLOCKS.find(b=> t.includes("block "+b.name.toLowerCase()) || t.includes(" "+b.name.toLowerCase()+" ") || t.trim().toLowerCase()===b.name.toLowerCase());
+  if(blockMatch){
+    const tier=statusTier(blockMatch.pct, blockMatch.litigation);
+    return [
+      {tag:'fact', text:`Block ${blockMatch.name} (${SOCIETY_LABEL[blockMatch.society]}) is currently classified as <strong>${TIER_LABEL[tier]}</strong>${blockMatch.pct!==null?' (~'+blockMatch.pct+'% developed, per public development updates)':''}. ${blockMatch.note}`},
+      {tag:'insight', text: tier==='developed'
+        ? `Developed blocks like this tend to hold value with lower volatility and immediate build-readiness — a generated read based on typical resale patterns, not a guarantee.`
+        : tier==='partial'
+        ? `Partially developed blocks like this often show the strongest medium-term price growth as remaining infrastructure completes, alongside real construction-timeline risk.`
+        : blockMatch.litigation
+        ? `Blocks with reported litigation carry real legal risk alongside a lower entry price — an independent legal check before purchase is strongly recommended here.`
+        : `Early-stage or new-launch blocks like this carry the lowest entry price but the least on-ground development — worth weighing against your investment timeline.`}
+    ];
+  }
+  if(t.includes('price') || t.includes('cost')){
+    return [{tag:'insight', text:`Prices vary widely by block and plot size — check the Market Analytics section above for a block-by-block trend, or look up a specific plot in Plot Intelligence.`}];
+  }
+  return [{tag:'insight', text:`I can help with block status, LOP verification, or price trends — try asking about a specific block, e.g. "Block F outlook".`}];
+}
+function pushMsg(container, cls, html){
+  const d=document.createElement('div'); d.className='msg '+cls;
+  d.innerHTML=html; container.appendChild(d); container.scrollTop=container.scrollHeight;
+}
+function sendChat(){
+  const input=document.getElementById('chatInput');
+  const val=input.value.trim(); if(!val) return;
+  const log=document.getElementById('chatLog');
+  pushMsg(log,'user', val);
+  const resp=aiRespond(val);
+  resp.forEach(r=> pushMsg(log,'ai', `<span class="tag-${r.tag}">${r.tag==='fact'?'Verified':'Insight'}</span>${r.text}`));
+  input.value='';
+}
+document.getElementById('chatInput').addEventListener('keydown', e=>{ if(e.key==='Enter') sendChat(); });
+
+/* ============ FLOATING WIDGET ============ */
+const fabBtn=document.getElementById('fabBtn');
+const fabPanel=document.getElementById('fabPanel');
+fabBtn.addEventListener('click', ()=> fabPanel.classList.toggle('open'));
+document.getElementById('fabClose').addEventListener('click', ()=> fabPanel.classList.remove('open'));
+function sendFabChat(){
+  const input=document.getElementById('fabInput');
+  const val=input.value.trim(); if(!val) return;
+  const body=document.getElementById('fabBody');
+  pushMsg(body,'user', val);
+  const resp=aiRespond(val);
+  resp.forEach(r=> pushMsg(body,'ai', `<span class="tag-${r.tag}">${r.tag==='fact'?'Verified':'Insight'}</span>${r.text}`));
+  input.value='';
+}
+document.getElementById('fabInput').addEventListener('keydown', e=>{ if(e.key==='Enter') sendFabChat(); });
+
+/* ============ LEAD FORM ============ */
+function submitLead(e){
+  e.preventDefault();
+  document.getElementById('leadForm').style.display='none';
+  document.getElementById('leadSuccess').style.display='block';
+  return false;
+}
+function resetLead(){
+  document.getElementById('leadForm').reset();
+  document.getElementById('leadForm').style.display='block';
+  document.getElementById('leadSuccess').style.display='none';
+}
+</script>
+</body>
+</html>

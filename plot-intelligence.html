@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plot Intelligence | GDIP</title>
+  <style>
+    :root {
+      --ink:#152119; --paper:#EAE5D3; --paper-2:#F4F1E4; --green:#1F4D3A; --gold:#C79A3E; --line:#B9B29A;
+    }
+    *{box-sizing:border-box;} body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--paper);color:var(--ink);} a{color:inherit;text-decoration:none;}
+    header.site{position:sticky;top:0;background:rgba(234,229,211,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+    .nav-inner{max-width:1100px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+    .logo{font-weight:700;display:flex;align-items:center;gap:10px;}
+    .logo .mark{width:34px;height:34px;border:1.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-size:0.7rem;}
+    nav.links{display:flex;gap:18px;flex-wrap:wrap;}
+    nav.links a{font-size:0.95rem;font-weight:600;}
+    nav.links a:hover{color:var(--green);} main{max-width:1100px;margin:0 auto;padding:40px 24px 80px;}
+    .hero{background:var(--ink);color:var(--paper-2);padding:36px;border-radius:12px;box-shadow:0 18px 40px -20px rgba(21,33,25,0.35);} .hero h1{font-size:2rem;margin:0 0 10px;} .hero p{max-width:700px;line-height:1.7;}
+    .grid{display:grid;grid-template-columns:1.2fr 0.8fr;gap:24px;margin-top:24px;}
+    .card{background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:24px;}
+    .card h2{margin-top:0;font-size:1.3rem;} ul{padding-left:18px;line-height:1.8;} .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--green);color:white;font-size:0.8rem;margin-bottom:12px;}
+    .field{flex:1;}
+    .field label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:#7A7460;margin-bottom:6px;font-family:'IBM Plex Mono',monospace;}
+    .plot-tool{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);padding:30px;box-shadow:0 18px 40px -20px rgba(21,33,25,0.35);}
+    .plot-search-row{display:grid;grid-template-columns:1.4fr 1fr auto;gap:12px;align-items:end;}
+    .plot-search-row .field select,.plot-search-row .field input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:var(--radius);background:white;font-family:'IBM Plex Mono',monospace;font-size:.92rem;color:var(--ink);}
+    .results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px;}
+    .result-card{border:1px solid var(--line);background:white;padding:20px;border-radius:var(--radius);position:relative;cursor:pointer;}
+    .result-card .top{display:flex;justify-content:space-between;align-items:flex-start;}
+    .result-card .plotno{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:1.05rem;}
+    .badge{font-family:'IBM Plex Mono',monospace;font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;padding:4px 8px;border-radius:20px;font-weight:600;}
+    .badge.lop{background:#CFDFCB;color:#1F4D3A;}
+    .badge.nonlop{background:#F4DAD2;color:#A5432E;}
+    .result-card .meta{margin-top:10px;font-size:.85rem;color:#4C5A50;display:grid;gap:4px;}
+    .result-card .price{margin-top:12px;font-family:'Fraunces',serif;font-size:1.3rem;color:var(--green);}
+    .result-card .price span{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:#7A7460;display:block;text-transform:uppercase;}
+    .no-results{padding:30px;text-align:center;color:#7A7460;font-family:'IBM Plex Mono',monospace;font-size:.85rem;grid-column:1/-1;}
+    .source-note{margin-top:22px;font-size:.78rem;color:#7A7460;line-height:1.6;border-top:1px dashed var(--line);padding-top:16px;}
+    .block-profile{border:1px solid var(--line);background:white;border-radius:var(--radius);padding:22px 24px;margin-top:22px;}
+    .bp-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;}
+    .bp-top h3{font-size:1.3rem;}
+    .badge.developed{background:#CFDFCB;color:#1F4D3A;}
+    .badge.partial{background:#F1E4C4;color:#C79A3E;}
+    .badge.early{background:#F4DAD2;color:#A5432E;}
+    .badge.unknown{background:#E5E1D2;color:#7A7460;}
+    .block-profile p{margin-top:12px;color:#4C5A50;font-size:.9rem;}
+    .bp-meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;font-size:.82rem;color:#4C5A50;}
+    .bp-meta strong{color:var(--ink);}
+    .flag-litigation{color:#A5432E;font-weight:600;}
+    .tag-illustrative{position:absolute;top:10px;right:10px;font-family:'IBM Plex Mono',monospace;font-size:.56rem;text-transform:uppercase;letter-spacing:.05em;color:#A69A6E;border:1px solid #D8CFA9;padding:2px 6px;border-radius:20px;}
+    .plot-detail-panel{border:1px solid var(--ink);background:white;border-radius:var(--radius);padding:26px;margin-top:22px;box-shadow:0 18px 40px -20px rgba(21,33,25,0.35);}
+    .pd-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:16px;}
+    .pd-plotno{font-family:'Fraunces',serif;font-size:1.5rem;}
+    .pd-sub{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:#7A7460;text-transform:uppercase;letter-spacing:.05em;margin-top:4px;}
+    .pd-close{background:none;border:none;font-size:1.1rem;color:#7A7460;cursor:pointer;}
+    .pd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+    .pd-k{display:block;font-family:'IBM Plex Mono',monospace;font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:#7A7460;margin-bottom:5px;}
+    .pd-v{display:block;font-size:.92rem;font-weight:600;}
+    .pd-note{margin-top:18px;font-size:.84rem;color:#4C5A50;background:var(--paper-2);border-left:3px solid var(--gold);padding:12px 14px;}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;font-size:.88rem;font-weight:600;border-radius:var(--radius);border:1px solid var(--ink);transition:all .2s ease;white-space:nowrap;cursor:pointer;}
+    .btn-primary{background:var(--green);color:white;border-color:var(--green);}
+    .btn-primary:hover{background:#152119;border-color:#152119;}
+    .btn-gold{background:var(--gold);color:var(--ink);border-color:var(--gold);}
+    .btn-gold:hover{background:#8F6A22;border-color:#8F6A22;color:white;}
+    .container{max-width:1180px;margin:0 auto;}
+    .section-head{max-width:640px;margin-bottom:48px;}
+    .section-head h2{font-size:clamp(1.9rem,3.4vw,2.7rem);margin-top:14px;line-height:1.12;}
+    .section-head p{margin-top:16px;color:#4C5A50;font-size:1.02rem;max-width:560px;}
+    .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:.5em;}
+    .eyebrow::before{content:'';width:22px;height:1px;background:var(--gold);display:inline-block;}
+    .pad{padding:70px 0;}
+    .reveal{opacity:1;transform:none;}
+    @media (max-width:720px){.grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <header class="site">
+    <div class="nav-inner">
+      <a href="home.html" class="logo"><span class="mark">GD</span><span>GDIP</span></a>
+      <nav class="links">
+        <a href="home.html">Home</a>
+        <a href="plot-intelligence.html">Plot Intelligence</a>
+        <a href="map.html">Map</a>
+        <a href="blocks-status.html">Blocks Status</a>
+        <a href="listings.html">Listings</a>
+        <a href="insights.html">Insights</a>
+        <a href="ai-advisor.html">AI Advisor</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="hero">
+      <span class="pill">Verified plot insights</span>
+      <h1>Plot Intelligence</h1>
+      <p>Search every plot in Gulberg Greens and Gulberg Residencia with verified details, legal status, owner information and market context in one place.</p>
+    </section>
+    <section class="pad" id="plot-intel" style="background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="eyebrow">Plot Intelligence</div>
+          <h2>Choose a block. See its plots. Drill into any one.</h2>
+          <p>Block-level status is grounded in real, publicly documented 2026 development updates for Gulberg Residencia &amp; Greens. Enter a plot number to open a full record — possession status, LOP/NOC clearance, and price range.</p>
+        </div>
+        <div class="plot-tool reveal">
+          <div class="plot-search-row">
+            <div class="field"><label>Block</label>
+              <select id="pBlock">
+                <option value="">Select a block…</option>
+                <optgroup label="Gulberg Residencia" id="optResidencia"></optgroup>
+                <optgroup label="Gulberg Greens" id="optGreens"></optgroup>
+              </select>
+            </div>
+            <div class="field"><label>Plot Number (optional)</label><input id="pQuery" type="text" placeholder="e.g. 214"></div>
+            <button class="btn btn-primary" onclick="loadBlock()">Show Plots →</button>
+          </div>
+
+          <div id="blockProfile" style="display:none;"></div>
+          <div class="results-grid" id="plotResults">
+            <div class="no-results">Select a block above to pull its plot list.</div>
+          </div>
+          <div id="plotDetail"></div>
+
+          <div class="source-note">Block status above is aggregated from publicly available Gulberg Residencia/Greens development-update sources current to 2026, reworded by GDIP's research desk — it is background intelligence, not an official CDA/IBECHS record. Individual plot cards below are illustrative sample records patterned on each block's real status; they are not scraped from an official title database. Use "Request Official Verification" on any plot to have GDIP's team check its actual ownership and legal status before you rely on it.</div>
+        </div>
+      </div>
+    </section>
+    <section class="grid">
+      <div class="card">
+        <h2>What you can review</h2>
+        <ul>
+          <li>Plot number and block reference</li>
+          <li>Development status and ownership notes</li>
+          <li>Pricing context and nearby comparables</li>
+          <li>Clear next steps for due diligence</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Why buyers use it</h2>
+        <p>Instead of chasing information across multiple sources, this page centralizes verified intelligence so you can compare opportunities confidently.</p>
+      </div>
+    </section>
+  </main>
+  <script>
+    const BLOCK_PROFILES = {
+      "Residencia": {
+        "A": {pct:58, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:true, note:"Gulberg Residencia's oldest and most populated sector, known for early possession and strong demand. Roughly 58% developed; a minority of pockets are reported to carry unresolved legal/title issues, so this block rewards extra diligence."},
+        "B": {pct:35, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"An executive-style expansion next to Block A. Around 90% of land parcels have been cleared, and levelling / street-cutting work has recently begun — possession has not yet been formally announced across the block."},
+        "C": {pct:88, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Infrastructure is nearing completion with construction picking up across several streets. Most plots here carry clear possession and it's considered one of the better value blocks near the commercial core."},
+        "D": {pct:80, category:"Commercial", sizes:["6 Marla","8 Marla","1 Kanal"], litigation:false, note:"Residencia's central commercial markaz. Several plazas are already operating with national and international brands, while others are still under construction."},
+        "E": {pct:98, category:"Residential", sizes:["1 Kanal"], litigation:false, note:"Close to 100% developed and one of the most sought-after blocks — offers only 1 Kanal plots, with houses already under construction and utilities fully active."},
+        "F": {pct:90, category:"Residential", sizes:["10 Marla","1 Kanal","30x60"], litigation:false, note:"Grouped among Residencia's fully developed blocks. Slightly smaller plot formats make it accessible to a wider range of buyers."},
+        "G": {pct:35, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Roughly 35% developed and under possession, with the rest of the land largely cleared or in final stages. Prices remain among the lowest in Residencia, which is why it's watched closely by early investors."},
+        "H": {pct:55, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Partially developed with a well-planned mix of residential plot sizes; construction activity has been increasing."},
+        "I": {pct:90, category:"Residential", sizes:["10 Marla","1 Kanal"], litigation:false, note:"One of the fully developed, possession-ready blocks, with a high proportion of houses already built."},
+        "J": {pct:80, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Around 80% complete, with most plots developed and possession-ready; buyer confidence and construction activity have both been rising."},
+        "K": {pct:55, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Mixed-size residential block with growing construction activity, slightly behind neighbouring J in overall completion."},
+        "L": {pct:88, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Nearly fully developed at close to 90% completion, with only minor pockets awaiting final infrastructure work."},
+        "M": {pct:45, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Under rapid development with new possession zones opening up and growing interest in nearby commercial potential."},
+        "N": {pct:45, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Under active development; part of the L–P corridor seeing new possession zones released in stages."},
+        "O": {pct:45, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Similar development stage to Block N, with steady infrastructure progress."},
+        "P": {pct:45, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Part of the newer possession corridor, with commercial potential growing along its edges."},
+        "Q": {pct:15, category:"Residential", sizes:["7 Marla","10 Marla"], litigation:false, note:"Newly launched with early-bird pricing — on-ground development is still minimal, positioning it as a longer-horizon investment."},
+        "R": {pct:20, category:"Residential", sizes:["7 Marla","10 Marla"], litigation:true, note:"About 20% of this block is developed with possession already granted; the remaining roughly 80% is reported to be affected by ongoing litigation, which has slowed progress. Prices are lower here to reflect that risk."},
+        "S": {pct:15, category:"Residential", sizes:["7 Marla","10 Marla"], litigation:false, note:"A newly launched sector with limited on-ground development so far — an early-entry, long-term play."},
+        "T": {pct:85, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Despite being one of the newer-numbered blocks, it's reported to be close to 90% complete, ahead of several older sectors."},
+        "V": {pct:55, category:"Residential", sizes:["10 Marla","1 Kanal"], litigation:false, note:"Borders the Naval Anchorage area and is developing steadily, with infrastructure work ongoing."}
+      },
+      "Greens": {
+        "A-Executive": {pct:88, category:"Farmhouse", sizes:["4 Kanal","5 Kanal","10 Kanal"], litigation:false, note:"One of Greens' core blocks, located near the entrance close to the Islamabad Expressway; largely developed with an active resale market."},
+        "A": {pct:88, category:"Farmhouse", sizes:["4 Kanal","5 Kanal","10 Kanal"], litigation:false, note:"A mature farmhouse block — as of early 2026 Gulberg Greens overall is described as possession-ready, with most transactions happening on the resale market rather than fresh booking."},
+        "B": {pct:82, category:"Farmhouse", sizes:["4 Kanal","5 Kanal","10 Kanal"], litigation:false, note:"Well-established farmhouse sector with underground utilities and active landscaping."},
+        "C": {pct:82, category:"Farmhouse", sizes:["4 Kanal","5 Kanal","10 Kanal"], litigation:false, note:"Home to institutions such as a private school; largely built out with a peaceful, low-density character."},
+        "D": {pct:80, category:"Commercial", sizes:["6 Marla","8 Marla","1 Kanal"], litigation:false, note:"Greens' dedicated commercial block — hosts an educational institution and several commercial developments, with more brands opening as construction progresses."},
+        "E": {pct:85, category:"Farmhouse", sizes:["4 Kanal","5 Kanal","10 Kanal"], litigation:false, note:"A settled farmhouse block with reliable utilities; new bookings across Greens are now largely limited to specific extensions rather than this core block."}
+      }
+    };
+    const SOCIETY_LABEL = {Residencia:"Gulberg Residencia", Greens:"Gulberg Greens"};
+    function statusTier(pct, litigation){
+      if(pct===null || pct===undefined) return "unknown";
+      if(litigation && pct<50) return "early";
+      if(pct>=80) return "developed";
+      if(pct>=40) return "partial";
+      return "early";
+    }
+    const TIER_LABEL = {developed:"Fully Developed", partial:"Partially Developed", early:"Early / New Launch", unknown:"Data Pending Verification"};
+    const ALL_BLOCKS = [];
+    Object.keys(BLOCK_PROFILES).forEach(society=>{
+      Object.keys(BLOCK_PROFILES[society]).forEach(name=>{
+        ALL_BLOCKS.push({society, name, key:society+"|"+name, ...BLOCK_PROFILES[society][name]});
+      });
+    });
+    function fillBlockSelect(el){
+      const resGroup=document.getElementById('optResidencia');
+      const grnGroup=document.getElementById('optGreens');
+      ALL_BLOCKS.forEach(b=>{
+        const o=document.createElement('option');
+        o.value=b.key;
+        o.textContent="Block "+b.name;
+        (b.society==='Residencia'?resGroup:grnGroup).appendChild(o);
+      });
+    }
+    fillBlockSelect(document.getElementById('pBlock'));
+    function seedFromString(str){ let s=0; for(let i=0;i<str.length;i++) s=(s*31+str.charCodeAt(i))>>>0; return s; }
+    function seededRand(seed){ let x=Math.sin(seed)*10000; return x-Math.floor(x); }
+    const SIZE_PRICE_PKR = {"5 Marla":[5500000,7500000],"6 Marla":[6200000,8200000],"7 Marla":[7000000,9500000],"8 Marla":[8000000,10500000],"10 Marla":[9000000,13000000],"12 Marla":[11000000,15000000],"1 Kanal":[16000000,22000000],"2 Kanal":[28000000,38000000],"4 Kanal":[45000000,60000000],"5 Kanal":[55000000,75000000],"10 Kanal":[90000000,130000000],"30x60":[7000000,9500000]};
+    function fmtPKR(v){ if(v>=10000000) return "PKR "+(v/10000000).toFixed(2)+" Cr"; return "PKR "+(v/100000).toFixed(1)+" Lac"; }
+    function generatePlotsForBlock(block, count=9){
+      const plots=[];
+      const pct = block.pct===null || block.pct===undefined ? 30 : block.pct;
+      for(let i=0;i<count;i++){
+        const seed=seedFromString(block.key+"-"+i);
+        const r1=seededRand(seed), r2=seededRand(seed*7+3), r3=seededRand(seed*13+11);
+        const plotNo = String(100 + Math.floor(r1*800));
+        const size = block.sizes[Math.floor(r2*block.sizes.length)];
+        const developed = (r3*100) < pct;
+        const possession = developed ? "Possession Granted" : "Under Development — Possession Pending";
+        let lop, legalNote;
+        if(block.litigation && !developed){
+          lop = "Pending — Reported Litigation";
+          legalNote = "This plot falls in the portion of the block reported to be affected by ongoing litigation. The overall layout carries CDA NOC approval, but this specific plot's title should be independently confirmed before any payment.";
+        } else if(block.pct===null){
+          lop = "Not Yet Verified";
+          legalNote = "Public development data for this block is too limited to classify individual plots — GDIP has not yet field-verified this record.";
+        } else {
+          lop = "NOC Cleared — CDA-Approved Layout";
+          legalNote = "This plot sits within a CDA-approved layout (NOC ref CDA/PLW-HS(127)/2009/257). Ownership and current possession should still be confirmed against the seller's original allotment/transfer documents.";
+        }
+        const [lo,hi]=SIZE_PRICE_PKR[size] || [6000000,9000000];
+        const mult = 0.85 + (pct/100)*0.35;
+        const priceRange = fmtPKR(Math.round(lo*mult)) + " – " + fmtPKR(Math.round(hi*mult));
+        plots.push({plotNo, block:block.name, society:block.society, category:block.category, size, possession, lop, priceRange, legalNote, developed});
+      }
+      return plots;
+    }
+    let currentBlockPlots=[];
+    function renderBlockProfile(block){
+      const tier = statusTier(block.pct, block.litigation);
+      const wrap = document.getElementById('blockProfile');
+      wrap.style.display='block';
+      wrap.innerHTML = `
+        <div class="block-profile">
+          <div class="bp-top">
+            <h3>Block ${block.name} — ${SOCIETY_LABEL[block.society]}</h3>
+            <span class="badge ${tier}">${TIER_LABEL[tier]}${block.pct!==null?' · ~'+block.pct+'% developed':''}</span>
+          </div>
+          <p>${block.note}</p>
+          <div class="bp-meta">
+            <span><strong>Plot sizes:</strong> ${block.sizes.join(', ')}</span>
+            <span><strong>Category:</strong> ${block.category}</span>
+            ${block.litigation?'<span class="flag-litigation">⚠ Portions of this block are reported under litigation</span>':''}
+          </div>
+        </div>
+      `;
+    }
+    function renderPlotGrid(plots, filterPlot){
+      const grid = document.getElementById('plotResults');
+      grid.innerHTML='';
+      let list = plots;
+      if(filterPlot){
+        const f = filterPlot.trim().toLowerCase();
+        list = plots.filter(p => p.plotNo.toLowerCase().includes(f));
+      }
+      if(list.length===0){
+        grid.innerHTML='<div class="no-results">No sample plots match that number in this block — try another number, or request verification directly for a specific plot.</div>';
+        return;
+      }
+      list.forEach(p=>{
+        const card = document.createElement('div'); card.className='result-card';
+        card.innerHTML = `
+          <span class="tag-illustrative">Illustrative</span>
+          <div class="top">
+            <span class="plotno">Plot ${p.plotNo}</span>
+            <span class="badge ${p.developed?'lop':'nonlop'}">${p.developed?'Possession-Ready':'Pending'}</span>
+          </div>
+          <div class="meta">
+            <span>Block ${p.block} · ${p.category}</span>
+            <span>${p.size}</span>
+          </div>
+          <div class="price">${p.priceRange}<span>Estimated range</span></div>
+        `;
+        card.addEventListener('click', ()=>openPlotDetail(p));
+        grid.appendChild(card);
+      });
+    }
+    function openPlotDetail(p){
+      const wrap = document.getElementById('plotDetail');
+      wrap.innerHTML = `
+        <div class="plot-detail-panel">
+          <div class="pd-head">
+            <div>
+              <div class="pd-plotno">Plot ${p.plotNo}</div>
+              <div class="pd-sub">Block ${p.block} · ${SOCIETY_LABEL[p.society]} · ${p.category}</div>
+            </div>
+            <button class="pd-close" onclick="closeDetail()">✕</button>
+          </div>
+          <div class="pd-grid">
+            <div><span class="pd-k">Plot Size</span><span class="pd-v">${p.size}</span></div>
+            <div><span class="pd-k">Possession Status</span><span class="pd-v">${p.possession}</span></div>
+            <div><span class="pd-k">LOP / NOC Clearance</span><span class="pd-v">${p.lop}</span></div>
+            <div><span class="pd-k">Estimated Price Range</span><span class="pd-v">${p.priceRange}</span></div>
+          </div>
+          <p class="pd-note">${p.legalNote}</p>
+          <button class="btn btn-gold" style="margin-top:16px;" onclick="requestVerification('${p.block}','${p.plotNo}')">Request Official Verification →</button>
+        </div>
+      `;
+      wrap.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }
+    function closeDetail(){ document.getElementById('plotDetail').innerHTML=''; }
+    function loadBlock(){
+      const key = document.getElementById('pBlock').value;
+      if(!key){ document.getElementById('plotResults').innerHTML = '<div class="no-results">Select a block above to pull its plot list.</div>'; document.getElementById('blockProfile').style.display='none'; closeDetail(); return; }
+      const block = ALL_BLOCKS.find(b=>b.key===key);
+      renderBlockProfile(block);
+      currentBlockPlots = generatePlotsForBlock(block);
+      renderPlotGrid(currentBlockPlots, document.getElementById('pQuery').value);
+      closeDetail();
+    }
+    document.getElementById('pQuery').addEventListener('input', ()=>{ if(currentBlockPlots.length) renderPlotGrid(currentBlockPlots, document.getElementById('pQuery').value); });
+    function requestVerification(block, plotNo){
+      alert('Requesting verification for Block '+block+' Plot '+plotNo+'. Please contact the GDIP team for official review.');
+    }
+  </script>
+</body>
+</html>

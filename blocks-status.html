@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blocks Status | GDIP</title>
+  <style>
+    :root { --ink:#152119; --paper:#EAE5D3; --paper-2:#F4F1E4; --green:#1F4D3A; --gold:#C79A3E; --line:#B9B29A; }
+    *{box-sizing:border-box;} body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--paper);color:var(--ink);} a{color:inherit;text-decoration:none;}
+    header.site{position:sticky;top:0;background:rgba(234,229,211,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);} .nav-inner{max-width:1100px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;} .logo{font-weight:700;display:flex;align-items:center;gap:10px;} .logo .mark{width:34px;height:34px;border:1.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-size:0.7rem;} nav.links{display:flex;gap:18px;flex-wrap:wrap;} nav.links a{font-size:0.95rem;font-weight:600;} nav.links a:hover{color:var(--green);} main{max-width:1100px;margin:0 auto;padding:40px 24px 80px;} .hero{background:var(--ink);color:white;padding:36px;border-radius:12px;} .hero h1{font-size:2rem;margin:0 0 10px;} .hero p{max-width:700px;line-height:1.7;} .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px;} .card{background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:24px;} .card h2{margin-top:0;font-size:1.3rem;} .legend{display:grid;gap:10px;margin-top:12px;} .row{display:flex;align-items:center;gap:10px;} .swatch{width:18px;height:18px;border-radius:4px;flex-shrink:0;} .note{margin-top:18px;color:#4C5A50;line-height:1.7;} .status-section{margin-top:40px;} .status-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;} .status-table{width:100%;border-collapse:collapse;background:white;border:1px solid var(--line);border-radius:12px;overflow:hidden;} .status-table th,.status-table td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);} .status-table th{background:var(--paper-2);font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:#4C5A50;} .status-pct{font-weight:700;} .status-tier{font-size:.85rem;padding:4px 8px;border-radius:999px;display:inline-block;} .tier-developed{background:#CFDFCB;color:#1F4D3A;} .tier-partial{background:#F1E4C4;color:#C79A3E;} .tier-early{background:#F4DAD2;color:#A5432E;} @media (max-width:720px){.cards{grid-template-columns:1fr;} .status-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <header class="site">
+    <div class="nav-inner">
+      <a href="home.html" class="logo"><span class="mark">GD</span><span>GDIP</span></a>
+      <nav class="links">
+        <a href="home.html">Home</a>
+        <a href="plot-intelligence.html">Plot Intelligence</a>
+        <a href="map.html">Map</a>
+        <a href="blocks-status.html">Blocks Status</a>
+        <a href="listings.html">Listings</a>
+        <a href="insights.html">Insights</a>
+        <a href="ai-advisor.html">AI Advisor</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="hero">
+      <h1>Blocks Status</h1>
+      <p>Understand the development tier of every block at a glance, with color-coded guidance for fully developed, partially developed, and early-stage sectors.</p>
+    </section>
+    <section class="cards">
+      <div class="card">
+        <h2>Fully Developed</h2>
+        <div class="legend">
+          <div class="row"><span class="swatch" style="background:#1F4D3A"></span>Developed / active</div>
+        </div>
+        <p class="note">Blocks in this tier are open for possession, with infrastructure mostly completed and resale activity already underway.</p>
+      </div>
+      <div class="card">
+        <h2>Partial Progress</h2>
+        <div class="legend">
+          <div class="row"><span class="swatch" style="background:#C79A3E"></span>Partial progress</div>
+        </div>
+        <p class="note">These blocks are under active construction, with some completed plots and others still in development.</p>
+      </div>
+      <div class="card">
+        <h2>Early / New Launch</h2>
+        <div class="legend">
+          <div class="row"><span class="swatch" style="background:#A5432E"></span>New launch / early stage</div>
+        </div>
+        <p class="note">Early-stage blocks are still being laid out and serviced. They can offer entry pricing but usually carry higher timing risk.</p>
+      </div>
+    </section>
+    <section class="status-section">
+      <div class="status-grid">
+        <div>
+          <h2>Gulberg Residencia</h2>
+          <table class="status-table">
+            <thead><tr><th>Block</th><th>Development</th><th>Tier</th></tr></thead>
+            <tbody>
+              <tr><td>A</td><td class="status-pct">58%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
+              <tr><td>B</td><td class="status-pct">35%</td><td><span class="status-tier tier-early">Early</span></td></tr>
+              <tr><td>C</td><td class="status-pct">88%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
+              <tr><td>D</td><td class="status-pct">80%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
+              <tr><td>E</td><td class="status-pct">98%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
+              <tr><td>F</td><td class="status-pct">90%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
+              <tr><td>G</td><td class="status-pct">35%</td><td><span class="status-tier tier-early">Early</span></td></tr>
+              <tr><td>H</td><td class="status-pct">55%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
+              <tr><td>I</td><td class="status-pct">90%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
+              <tr><td>J</td><td class="status-pct">80%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
+              <tr><td>K</td><td class="status-pct">55%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
+              <tr><td>L</td><td class="status-pct">88%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
+              <tr><td>M</td><td class="status-pct">45%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
+              <tr><td>N</td><td class="status-pct">45%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
+              <tr><td>O</td><td class="status-pct">45%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
+              <tr><td>P</td><td class="status-pct">45%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
+              <tr><td>Q</td><td class="status-pct">15%</td><td><span class="status-tier tier-early">Early</span></td></tr>
+              <tr><td>R</td><td class="status-pct">20%</td><td><span class="status-tier tier-early">Early</span></td></tr>
+              <tr><td>S</td><td class="status-pct">15%</td><td><span class="status-tier tier-early">Early</span></td></tr>
+              <tr><td>T</td><td class="status-pct">85%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
+              <tr><td>V</td><td class="status-pct">55%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
+              <tr><td>AA</td><td class="status-pct">TBD</td><td><span class="status-tier tier-early">Data Pending</span></td></tr>
+              <tr><td>A-Executive 1</td><td class="status-pct">60%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
+              <tr><td>A-Executive 2 / Premium</td><td class="status-pct">35%</td><td><span class="status-tier tier-early">Early</span></td></tr>
+              <tr><td>E-Executive</td><td class="status-pct">95%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
+              <tr><td>F-Executive I & II</td><td class="status-pct">55%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
+              <tr><td>F-Executive III & IV</td><td class="status-pct">20%</td><td><span class="status-tier tier-early">Early</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h2>Gulberg Greens</h2>
+          <table class="status-table">
+            <thead><tr><th>Block</th><th>Development</th><th>Tier</th></tr></thead>
+            <tbody>
+              <tr><td>A-Executive</td><td class="status-pct">88%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
+              <tr><td>A</td><td class="status-pct">88%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
+              <tr><td>B</td><td class="status-pct">82%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
+              <tr><td>C</td><td class="status-pct">82%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
+              <tr><td>D</td><td class="status-pct">80%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
+              <tr><td>E</td><td class="status-pct">85%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

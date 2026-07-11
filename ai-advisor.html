@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Advisor | GDIP</title>
+  <style>
+    :root { --ink:#152119; --paper:#EAE5D3; --paper-2:#F4F1E4; --green:#1F4D3A; --gold:#C79A3E; --line:#B9B29A; }
+    *{box-sizing:border-box;} body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--paper);color:var(--ink);} a{color:inherit;text-decoration:none;}
+    header.site{position:sticky;top:0;background:rgba(234,229,211,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);} .nav-inner{max-width:1100px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;} .logo{font-weight:700;display:flex;align-items:center;gap:10px;} .logo .mark{width:34px;height:34px;border:1.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-size:0.7rem;} nav.links{display:flex;gap:18px;flex-wrap:wrap;} nav.links a{font-size:0.95rem;font-weight:600;} nav.links a:hover{color:var(--green);} main{max-width:1100px;margin:0 auto;padding:40px 24px 80px;} .hero{background:var(--green);color:white;padding:36px;border-radius:12px;} .hero h1{font-size:2rem;margin:0 0 10px;} .hero p{max-width:700px;line-height:1.7;} .chat{background:white;border:1px solid var(--line);border-radius:12px;padding:24px;margin-top:24px;} .bubble{padding:12px 14px;border-radius:10px;margin-bottom:12px;max-width:80%;} .bubble.user{background:var(--paper-2);margin-left:auto;} .bubble.ai{background:#e8f1eb;} @media (max-width:720px){.bubble{max-width:100%;}}
+  </style>
+</head>
+<body>
+  <header class="site">
+    <div class="nav-inner">
+      <a href="home.html" class="logo"><span class="mark">GD</span><span>GDIP</span></a>
+      <nav class="links">
+        <a href="home.html">Home</a>
+        <a href="plot-intelligence.html">Plot Intelligence</a>
+        <a href="map.html">Map</a>
+        <a href="blocks-status.html">Blocks Status</a>
+        <a href="listings.html">Listings</a>
+        <a href="insights.html">Insights</a>
+        <a href="ai-advisor.html">AI Advisor</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="hero">
+      <h1>AI Advisor</h1>
+      <p>Ask for quick summaries, property comparisons and investment context before you commit to a plot or listing.</p>
+    </section>
+    <section class="chat">
+      <div class="bubble ai">What is the best next step if I want to compare two plots?</div>
+      <div class="bubble user">Compare legal status, development stage and recent pricing trend.</div>
+      <div class="bubble ai">That is the right approach. Start with verified ownership, then compare access, development progress and comparable pricing.</div>
+    </section>
+  </main>
+</body>
+</html>
