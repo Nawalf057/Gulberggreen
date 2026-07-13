@@ -54,58 +54,51 @@
       </div>
     </section>
     <section class="status-section">
+      <div id="statusFreshness" style="font-size:.82rem;color:#4C5A50;margin-bottom:14px;"></div>
       <div class="status-grid">
         <div>
           <h2>Gulberg Residencia</h2>
           <table class="status-table">
             <thead><tr><th>Block</th><th>Development</th><th>Tier</th></tr></thead>
-            <tbody>
-              <tr><td>A</td><td class="status-pct">58%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
-              <tr><td>B</td><td class="status-pct">35%</td><td><span class="status-tier tier-early">Early</span></td></tr>
-              <tr><td>C</td><td class="status-pct">88%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
-              <tr><td>D</td><td class="status-pct">80%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
-              <tr><td>E</td><td class="status-pct">98%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
-              <tr><td>F</td><td class="status-pct">90%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
-              <tr><td>G</td><td class="status-pct">35%</td><td><span class="status-tier tier-early">Early</span></td></tr>
-              <tr><td>H</td><td class="status-pct">55%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
-              <tr><td>I</td><td class="status-pct">90%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
-              <tr><td>J</td><td class="status-pct">80%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
-              <tr><td>K</td><td class="status-pct">55%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
-              <tr><td>L</td><td class="status-pct">88%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
-              <tr><td>M</td><td class="status-pct">45%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
-              <tr><td>N</td><td class="status-pct">45%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
-              <tr><td>O</td><td class="status-pct">45%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
-              <tr><td>P</td><td class="status-pct">45%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
-              <tr><td>Q</td><td class="status-pct">15%</td><td><span class="status-tier tier-early">Early</span></td></tr>
-              <tr><td>R</td><td class="status-pct">20%</td><td><span class="status-tier tier-early">Early</span></td></tr>
-              <tr><td>S</td><td class="status-pct">15%</td><td><span class="status-tier tier-early">Early</span></td></tr>
-              <tr><td>T</td><td class="status-pct">85%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
-              <tr><td>V</td><td class="status-pct">55%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
-              <tr><td>AA</td><td class="status-pct">TBD</td><td><span class="status-tier tier-early">Data Pending</span></td></tr>
-              <tr><td>A-Executive 1</td><td class="status-pct">60%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
-              <tr><td>A-Executive 2 / Premium</td><td class="status-pct">35%</td><td><span class="status-tier tier-early">Early</span></td></tr>
-              <tr><td>E-Executive</td><td class="status-pct">95%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
-              <tr><td>F-Executive I & II</td><td class="status-pct">55%</td><td><span class="status-tier tier-partial">Partially Developed</span></td></tr>
-              <tr><td>F-Executive III & IV</td><td class="status-pct">20%</td><td><span class="status-tier tier-early">Early</span></td></tr>
-            </tbody>
+            <tbody id="residenciaBody"><tr><td colspan="3">Loading latest data…</td></tr></tbody>
           </table>
         </div>
         <div>
           <h2>Gulberg Greens</h2>
           <table class="status-table">
             <thead><tr><th>Block</th><th>Development</th><th>Tier</th></tr></thead>
-            <tbody>
-              <tr><td>A-Executive</td><td class="status-pct">88%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
-              <tr><td>A</td><td class="status-pct">88%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
-              <tr><td>B</td><td class="status-pct">82%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
-              <tr><td>C</td><td class="status-pct">82%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
-              <tr><td>D</td><td class="status-pct">80%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
-              <tr><td>E</td><td class="status-pct">85%</td><td><span class="status-tier tier-developed">Developed</span></td></tr>
-            </tbody>
+            <tbody id="greensBody"><tr><td colspan="3">Loading latest data…</td></tr></tbody>
           </table>
         </div>
       </div>
     </section>
   </main>
+  <script src="data-source.js"></script>
+  <script>
+    const TIER_CLASS = { developed: "tier-developed", partial: "tier-partial", early: "tier-early", unknown: "tier-early" };
+    const TIER_TEXT = { developed: "Developed", partial: "Partially Developed", early: "Early", unknown: "Data Pending" };
+
+    function rowHtml(b) {
+      const pctText = (b.pct === null || b.pct === undefined) ? "TBD" : b.pct + "%";
+      return `<tr><td>${b.block}</td><td class="status-pct">${pctText}</td><td><span class="status-tier ${TIER_CLASS[b.tier]}">${TIER_TEXT[b.tier]}</span></td></tr>`;
+    }
+
+    function renderFreshness(generatedAt, source) {
+      const el = document.getElementById('statusFreshness');
+      const label = { live: "Live data — just fetched", cache: "Recently cached data", fallback: "Offline fallback data (live sheet not reachable / not yet configured)" }[source];
+      const stamp = generatedAt ? generatedAt.toLocaleString() : "unknown";
+      el.textContent = `${label} · Last refreshed: ${stamp}`;
+    }
+
+    async function loadStatusTables() {
+      const { blocks, generatedAt, source } = await GDIP.getBlocks();
+      const residencia = blocks.filter(b => b.society === 'Residencia');
+      const greens = blocks.filter(b => b.society === 'Greens');
+      document.getElementById('residenciaBody').innerHTML = residencia.map(rowHtml).join('') || '<tr><td colspan="3">No data</td></tr>';
+      document.getElementById('greensBody').innerHTML = greens.map(rowHtml).join('') || '<tr><td colspan="3">No data</td></tr>';
+      renderFreshness(generatedAt, source);
+    }
+    loadStatusTables();
+  </script>
 </body>
 </html>

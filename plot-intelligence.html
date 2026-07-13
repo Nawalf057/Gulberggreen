@@ -100,24 +100,25 @@
         <div class="section-head reveal">
           <div class="eyebrow">Plot Intelligence</div>
           <h2>Choose a block. See its plots. Drill into any one.</h2>
-          <p>Block-level status is grounded in real, publicly documented 2026 development updates for Gulberg Residencia &amp; Greens. Enter a plot number to open a full record — possession status, LOP/NOC clearance, and price range.</p>
+          <p>Block-level status is grounded in real, publicly documented 2026 development updates for Gulberg Residencia &amp; Greens. Search a plot number on its own to check any plot across every block, or pick a block first to browse its full list — every result shows its development status, possession status, LOP/NOC clearance, and price range.</p>
         </div>
         <div class="plot-tool reveal">
           <div class="plot-search-row">
-            <div class="field"><label>Block</label>
+            <div class="field"><label>Block (optional if searching by plot number)</label>
               <select id="pBlock">
-                <option value="">Select a block…</option>
+                <option value="">All blocks…</option>
                 <optgroup label="Gulberg Residencia" id="optResidencia"></optgroup>
                 <optgroup label="Gulberg Greens" id="optGreens"></optgroup>
               </select>
             </div>
-            <div class="field"><label>Plot Number (optional)</label><input id="pQuery" type="text" placeholder="e.g. 214"></div>
-            <button class="btn btn-primary" onclick="loadBlock()">Show Plots →</button>
+            <div class="field"><label>Plot Number</label><input id="pQuery" type="text" placeholder="e.g. 214"></div>
+            <button class="btn btn-primary" onclick="runSearch()">Search →</button>
           </div>
 
           <div id="blockProfile" style="display:none;"></div>
+          <div id="plotDataNote" style="font-size:.8rem;color:#7A7460;margin-top:14px;"></div>
           <div class="results-grid" id="plotResults">
-            <div class="no-results">Select a block above to pull its plot list.</div>
+            <div class="no-results">Select a block, or enter a plot number to search across all blocks.</div>
           </div>
           <div id="plotDetail"></div>
 
@@ -141,58 +142,17 @@
       </div>
     </section>
   </main>
+  <script src="data-source.js"></script>
   <script>
-    const BLOCK_PROFILES = {
-      "Residencia": {
-        "A": {pct:58, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:true, note:"Gulberg Residencia's oldest and most populated sector, known for early possession and strong demand. Roughly 58% developed; a minority of pockets are reported to carry unresolved legal/title issues, so this block rewards extra diligence."},
-        "B": {pct:35, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"An executive-style expansion next to Block A. Around 90% of land parcels have been cleared, and levelling / street-cutting work has recently begun — possession has not yet been formally announced across the block."},
-        "C": {pct:88, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Infrastructure is nearing completion with construction picking up across several streets. Most plots here carry clear possession and it's considered one of the better value blocks near the commercial core."},
-        "D": {pct:80, category:"Commercial", sizes:["6 Marla","8 Marla","1 Kanal"], litigation:false, note:"Residencia's central commercial markaz. Several plazas are already operating with national and international brands, while others are still under construction."},
-        "E": {pct:98, category:"Residential", sizes:["1 Kanal"], litigation:false, note:"Close to 100% developed and one of the most sought-after blocks — offers only 1 Kanal plots, with houses already under construction and utilities fully active."},
-        "F": {pct:90, category:"Residential", sizes:["10 Marla","1 Kanal","30x60"], litigation:false, note:"Grouped among Residencia's fully developed blocks. Slightly smaller plot formats make it accessible to a wider range of buyers."},
-        "G": {pct:35, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Roughly 35% developed and under possession, with the rest of the land largely cleared or in final stages. Prices remain among the lowest in Residencia, which is why it's watched closely by early investors."},
-        "H": {pct:55, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Partially developed with a well-planned mix of residential plot sizes; construction activity has been increasing."},
-        "I": {pct:90, category:"Residential", sizes:["10 Marla","1 Kanal"], litigation:false, note:"One of the fully developed, possession-ready blocks, with a high proportion of houses already built."},
-        "J": {pct:80, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Around 80% complete, with most plots developed and possession-ready; buyer confidence and construction activity have both been rising."},
-        "K": {pct:55, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Mixed-size residential block with growing construction activity, slightly behind neighbouring J in overall completion."},
-        "L": {pct:88, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Nearly fully developed at close to 90% completion, with only minor pockets awaiting final infrastructure work."},
-        "M": {pct:45, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Under rapid development with new possession zones opening up and growing interest in nearby commercial potential."},
-        "N": {pct:45, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Under active development; part of the L–P corridor seeing new possession zones released in stages."},
-        "O": {pct:45, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Similar development stage to Block N, with steady infrastructure progress."},
-        "P": {pct:45, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Part of the newer possession corridor, with commercial potential growing along its edges."},
-        "Q": {pct:15, category:"Residential", sizes:["7 Marla","10 Marla"], litigation:false, note:"Newly launched with early-bird pricing — on-ground development is still minimal, positioning it as a longer-horizon investment."},
-        "R": {pct:20, category:"Residential", sizes:["7 Marla","10 Marla"], litigation:true, note:"About 20% of this block is developed with possession already granted; the remaining roughly 80% is reported to be affected by ongoing litigation, which has slowed progress. Prices are lower here to reflect that risk."},
-        "S": {pct:15, category:"Residential", sizes:["7 Marla","10 Marla"], litigation:false, note:"A newly launched sector with limited on-ground development so far — an early-entry, long-term play."},
-        "T": {pct:85, category:"Residential", sizes:["7 Marla","10 Marla","1 Kanal"], litigation:false, note:"Despite being one of the newer-numbered blocks, it's reported to be close to 90% complete, ahead of several older sectors."},
-        "V": {pct:55, category:"Residential", sizes:["10 Marla","1 Kanal"], litigation:false, note:"Borders the Naval Anchorage area and is developing steadily, with infrastructure work ongoing."}
-      },
-      "Greens": {
-        "A-Executive": {pct:88, category:"Farmhouse", sizes:["4 Kanal","5 Kanal","10 Kanal"], litigation:false, note:"One of Greens' core blocks, located near the entrance close to the Islamabad Expressway; largely developed with an active resale market."},
-        "A": {pct:88, category:"Farmhouse", sizes:["4 Kanal","5 Kanal","10 Kanal"], litigation:false, note:"A mature farmhouse block — as of early 2026 Gulberg Greens overall is described as possession-ready, with most transactions happening on the resale market rather than fresh booking."},
-        "B": {pct:82, category:"Farmhouse", sizes:["4 Kanal","5 Kanal","10 Kanal"], litigation:false, note:"Well-established farmhouse sector with underground utilities and active landscaping."},
-        "C": {pct:82, category:"Farmhouse", sizes:["4 Kanal","5 Kanal","10 Kanal"], litigation:false, note:"Home to institutions such as a private school; largely built out with a peaceful, low-density character."},
-        "D": {pct:80, category:"Commercial", sizes:["6 Marla","8 Marla","1 Kanal"], litigation:false, note:"Greens' dedicated commercial block — hosts an educational institution and several commercial developments, with more brands opening as construction progresses."},
-        "E": {pct:85, category:"Farmhouse", sizes:["4 Kanal","5 Kanal","10 Kanal"], litigation:false, note:"A settled farmhouse block with reliable utilities; new bookings across Greens are now largely limited to specific extensions rather than this core block."}
-      }
-    };
-    const SOCIETY_LABEL = {Residencia:"Gulberg Residencia", Greens:"Gulberg Greens"};
-    function statusTier(pct, litigation){
-      if(pct===null || pct===undefined) return "unknown";
-      if(litigation && pct<50) return "early";
-      if(pct>=80) return "developed";
-      if(pct>=40) return "partial";
-      return "early";
-    }
-    const TIER_LABEL = {developed:"Fully Developed", partial:"Partially Developed", early:"Early / New Launch", unknown:"Data Pending Verification"};
-    const ALL_BLOCKS = [];
-    Object.keys(BLOCK_PROFILES).forEach(society=>{
-      Object.keys(BLOCK_PROFILES[society]).forEach(name=>{
-        ALL_BLOCKS.push({society, name, key:society+"|"+name, ...BLOCK_PROFILES[society][name]});
-      });
-    });
-    function fillBlockSelect(el){
+    const SOCIETY_LABEL = GDIP.SOCIETY_LABEL;
+    const TIER_LABEL = { developed:"Fully Developed", partial:"Partially Developed", early:"Early / New Launch", unknown:"Data Pending Verification" };
+    const statusTier = GDIP.statusTier;
+    let ALL_BLOCKS = [];
+
+    function fillBlockSelect(){
       const resGroup=document.getElementById('optResidencia');
       const grnGroup=document.getElementById('optGreens');
+      resGroup.innerHTML = ''; grnGroup.innerHTML = '';
       ALL_BLOCKS.forEach(b=>{
         const o=document.createElement('option');
         o.value=b.key;
@@ -200,7 +160,26 @@
         (b.society==='Residencia'?resGroup:grnGroup).appendChild(o);
       });
     }
-    fillBlockSelect(document.getElementById('pBlock'));
+
+    async function initBlockData(){
+      const [{ blocks, generatedAt, source }, plotsResult] = await Promise.all([
+        GDIP.getBlocks(),
+        GDIP.getPlots(),
+      ]);
+      ALL_BLOCKS = blocks.map(b => ({ society:b.society, name:b.block, key:b.society+"|"+b.block, pct:b.pct, category:b.category, sizes:b.sizes, litigation:b.litigation, note:b.note }));
+      ALL_PLOTS = plotsResult.plots;
+      fillBlockSelect();
+      const noteEl = document.querySelector('.source-note');
+      if (noteEl) {
+        const freshLabel = { live:"Live data, just fetched", cache:"Recently cached data", fallback:"Offline fallback data — connect the live sheet in data-source.js for real-time updates" }[source];
+        const stamp = generatedAt ? generatedAt.toLocaleString() : 'unknown';
+        const plotsLabel = plotsResult.configured
+          ? `Plot-level records: ${plotsResult.plots.length} loaded (${plotsResult.source}).`
+          : `Plot-level sheet not connected yet — showing illustrative sample plots until PLOTS_SHEET_CSV_URL is set in data-source.js.`;
+        noteEl.innerHTML = `<strong>${freshLabel} · Last refreshed: ${stamp}.</strong> ${plotsLabel}<br>` + noteEl.innerHTML;
+      }
+    }
+    initBlockData();
     function seedFromString(str){ let s=0; for(let i=0;i<str.length;i++) s=(s*31+str.charCodeAt(i))>>>0; return s; }
     function seededRand(seed){ let x=Math.sin(seed)*10000; return x-Math.floor(x); }
     const SIZE_PRICE_PKR = {"5 Marla":[5500000,7500000],"6 Marla":[6200000,8200000],"7 Marla":[7000000,9500000],"8 Marla":[8000000,10500000],"10 Marla":[9000000,13000000],"12 Marla":[11000000,15000000],"1 Kanal":[16000000,22000000],"2 Kanal":[28000000,38000000],"4 Kanal":[45000000,60000000],"5 Kanal":[55000000,75000000],"10 Kanal":[90000000,130000000],"30x60":[7000000,9500000]};
@@ -234,6 +213,22 @@
       return plots;
     }
     let currentBlockPlots=[];
+    let ALL_PLOTS=[];
+
+    function realPlotToCard(p, block){
+      const priceRange = (p.priceLow && p.priceHigh) ? fmtPKR(p.priceLow)+" – "+fmtPKR(p.priceHigh) : "Contact for pricing";
+      const possession = p.possession || (p.status==='Developed' ? 'Possession Granted' : p.status==='Non-Developed' ? 'Under Development — Possession Pending' : 'Status Not Yet Verified');
+      const lop = p.lop || (p.status==='NA' ? 'Not Yet Verified' : 'See block-level NOC status');
+      const legalNote = p.note || "Individual title/ownership should still be confirmed against the seller's original allotment/transfer documents before any payment.";
+      return {plotNo:p.plotNo, block:block.name, society:block.society, category:block.category, size:p.size||block.sizes[0], possession, lop, priceRange, legalNote, status:p.status, developed:p.status==='Developed', isReal:true};
+    }
+
+    function badgeFor(p){
+      if(p.status === 'Developed') return {cls:'lop', text:'Developed'};
+      if(p.status === 'Non-Developed') return {cls:'nonlop', text:'Non-Developed'};
+      if(p.status === 'NA') return {cls:'unknown', text:'NA'};
+      return {cls: p.developed?'lop':'nonlop', text: p.developed?'Possession-Ready':'Pending'};
+    }
     function renderBlockProfile(block){
       const tier = statusTier(block.pct, block.litigation);
       const wrap = document.getElementById('blockProfile');
@@ -253,6 +248,7 @@
         </div>
       `;
     }
+    const MAX_UNFILTERED_CARDS = 60;
     function renderPlotGrid(plots, filterPlot){
       const grid = document.getElementById('plotResults');
       grid.innerHTML='';
@@ -262,29 +258,43 @@
         list = plots.filter(p => p.plotNo.toLowerCase().includes(f));
       }
       if(list.length===0){
-        grid.innerHTML='<div class="no-results">No sample plots match that number in this block — try another number, or request verification directly for a specific plot.</div>';
+        grid.innerHTML='<div class="no-results">No plots match that number in this block — try another number, or request verification directly for a specific plot.</div>';
         return;
       }
+      let capped = false;
+      if(!filterPlot && list.length > MAX_UNFILTERED_CARDS){
+        capped = true;
+        list = list.slice(0, MAX_UNFILTERED_CARDS);
+      }
       list.forEach(p=>{
+        const badge = badgeFor(p);
         const card = document.createElement('div'); card.className='result-card';
         card.innerHTML = `
-          <span class="tag-illustrative">Illustrative</span>
+          ${p.isReal ? '' : '<span class="tag-illustrative">Illustrative</span>'}
           <div class="top">
             <span class="plotno">Plot ${p.plotNo}</span>
-            <span class="badge ${p.developed?'lop':'nonlop'}">${p.developed?'Possession-Ready':'Pending'}</span>
+            <span class="badge ${badge.cls}">${badge.text}</span>
           </div>
           <div class="meta">
             <span>Block ${p.block} · ${p.category}</span>
             <span>${p.size}</span>
           </div>
-          <div class="price">${p.priceRange}<span>Estimated range</span></div>
+          <div class="price">${p.priceRange}<span>${p.isReal?'Listed range':'Estimated range'}</span></div>
         `;
         card.addEventListener('click', ()=>openPlotDetail(p));
         grid.appendChild(card);
       });
+      if(capped){
+        const note = document.createElement('div');
+        note.className='no-results';
+        note.style.gridColumn='1/-1';
+        note.textContent = `Showing first ${MAX_UNFILTERED_CARDS} of ${plots.length} plots in this block — type a plot number above to find a specific one.`;
+        grid.appendChild(note);
+      }
     }
     function openPlotDetail(p){
       const wrap = document.getElementById('plotDetail');
+      const badge = badgeFor(p);
       wrap.innerHTML = `
         <div class="plot-detail-panel">
           <div class="pd-head">
@@ -295,6 +305,7 @@
             <button class="pd-close" onclick="closeDetail()">✕</button>
           </div>
           <div class="pd-grid">
+            <div><span class="pd-k">Development Status</span><span class="pd-v"><span class="badge ${badge.cls}">${badge.text}</span></span></div>
             <div><span class="pd-k">Plot Size</span><span class="pd-v">${p.size}</span></div>
             <div><span class="pd-k">Possession Status</span><span class="pd-v">${p.possession}</span></div>
             <div><span class="pd-k">LOP / NOC Clearance</span><span class="pd-v">${p.lop}</span></div>
@@ -307,16 +318,57 @@
       wrap.scrollIntoView({behavior:'smooth', block:'nearest'});
     }
     function closeDetail(){ document.getElementById('plotDetail').innerHTML=''; }
-    function loadBlock(){
+
+    function findBlockObj(society, blockName){
+      return ALL_BLOCKS.find(b=>b.society===society && b.name===blockName) || {name:blockName, society, category:'', sizes:[], pct:null, litigation:false, note:''};
+    }
+
+    function runSearch(){
       const key = document.getElementById('pBlock').value;
-      if(!key){ document.getElementById('plotResults').innerHTML = '<div class="no-results">Select a block above to pull its plot list.</div>'; document.getElementById('blockProfile').style.display='none'; closeDetail(); return; }
+      const query = document.getElementById('pQuery').value.trim();
+      const noteEl = document.getElementById('plotDataNote');
+
+      if(!key){
+        // No block chosen — search plot number across every block's real records.
+        document.getElementById('blockProfile').style.display='none';
+        if(!query){
+          document.getElementById('plotResults').innerHTML = '<div class="no-results">Select a block, or enter a plot number to search across all blocks.</div>';
+          noteEl.textContent=''; closeDetail(); currentBlockPlots=[]; return;
+        }
+        const matches = ALL_PLOTS.filter(p=>p.plotNo.toLowerCase().includes(query.toLowerCase()));
+        if(!matches.length){
+          document.getElementById('plotResults').innerHTML = '<div class="no-results">No individually entered plot matches that number yet. Try selecting a block above to browse it directly.</div>';
+          noteEl.textContent=''; closeDetail(); currentBlockPlots=[]; return;
+        }
+        currentBlockPlots = matches.map(p => realPlotToCard(p, findBlockObj(p.society, p.block)));
+        noteEl.textContent = `Found ${matches.length} matching plot record(s) across all blocks — development status shown on each.`;
+        renderPlotGrid(currentBlockPlots, '');
+        closeDetail();
+        return;
+      }
+
       const block = ALL_BLOCKS.find(b=>b.key===key);
       renderBlockProfile(block);
-      currentBlockPlots = generatePlotsForBlock(block);
-      renderPlotGrid(currentBlockPlots, document.getElementById('pQuery').value);
+      const realPlots = GDIP.getPlotsForBlock(ALL_PLOTS, block.society, block.name);
+      if(realPlots.length){
+        currentBlockPlots = realPlots.map(p => realPlotToCard(p, block));
+        noteEl.textContent = `Showing ${realPlots.length} individually entered plot record(s) for Block ${block.name}.`;
+      } else {
+        currentBlockPlots = generatePlotsForBlock(block);
+        noteEl.textContent = `No individually entered plot records yet for Block ${block.name} — showing illustrative sample plots based on the block's overall development percentage.`;
+      }
+      renderPlotGrid(currentBlockPlots, query);
       closeDetail();
     }
-    document.getElementById('pQuery').addEventListener('input', ()=>{ if(currentBlockPlots.length) renderPlotGrid(currentBlockPlots, document.getElementById('pQuery').value); });
+
+    document.getElementById('pQuery').addEventListener('input', ()=>{
+      const key = document.getElementById('pBlock').value;
+      if(!key){ runSearch(); }
+      else if(currentBlockPlots.length){ renderPlotGrid(currentBlockPlots, document.getElementById('pQuery').value); }
+    });
+    document.getElementById('pQuery').addEventListener('keydown', (e)=>{ if(e.key==='Enter') runSearch(); });
+    document.getElementById('pBlock').addEventListener('change', runSearch);
+
     function requestVerification(block, plotNo){
       alert('Requesting verification for Block '+block+' Plot '+plotNo+'. Please contact the GDIP team for official review.');
     }
