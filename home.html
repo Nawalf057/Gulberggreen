@@ -94,7 +94,7 @@ header.site{
 .logo small{display:block;font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:.62rem;letter-spacing:.1em;color:var(--green-mid);text-transform:uppercase;margin-top:2px;}
 nav.links{display:flex;gap:30px;align-items:center;}
 nav.links a{font-size:.92rem;font-weight:500;position:relative;padding:4px 0;}
-nav.links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--gold-deep);transition:width .25s ease;}
+nav.links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:white;transition:width .25s ease;}
 nav.links a:hover::after{width:100%;}
 .btn{
   display:inline-flex;align-items:center;gap:8px;
@@ -409,26 +409,7 @@ footer{background:var(--ink);color:#9AA396;padding:64px 0 28px;}
 .footer-bottom{margin-top:50px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.12);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.78rem;}
 .disclaimer{max-width:1180px;margin:0 auto;padding:0 32px 40px;font-size:.76rem;color:#7A8378;line-height:1.6;}
 
-/* ============ FLOATING AI WIDGET ============ */
-.fab{
-  position:fixed;bottom:26px;right:26px;z-index:200;
-  width:58px;height:58px;border-radius:50%;background:var(--gold);
-  display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);border:none;
-  font-family:'Fraunces',serif;font-size:1.3rem;color:var(--ink);
-}
-.fab-panel{
-  position:fixed;bottom:96px;right:26px;z-index:200;width:320px;max-height:420px;
-  background:var(--paper-2);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--line);
-  display:none;flex-direction:column;overflow:hidden;
-}
-.fab-panel.open{display:flex;}
-.fab-panel .fp-head{background:var(--ink);color:var(--paper-2);padding:14px 16px;font-family:'IBM Plex Mono',monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;display:flex;justify-content:space-between;align-items:center;}
-.fab-panel .fp-head button{background:none;border:none;color:#B9C0B4;font-size:1rem;}
-.fp-body{padding:14px;overflow:auto;flex:1;display:grid;gap:10px;}
-.fp-body .msg{max-width:92%;}
-.fp-input{display:flex;border-top:1px solid var(--line);}
-.fp-input input{flex:1;border:none;padding:12px 14px;font-family:'Inter',sans-serif;font-size:.85rem;background:transparent;}
-.fp-input button{border:none;background:var(--green-deep);color:var(--white);padding:0 16px;font-weight:600;}
+
 
 /* ============ RESPONSIVE ============ */
 @media (max-width:960px){
@@ -459,60 +440,188 @@ footer{background:var(--ink);color:#9AA396;padding:64px 0 28px;}
 <body>
 
 <!-- ================= NAV ================= -->
-<header class="site">
-  <div class="nav-inner">
-    <a href="home.html" class="logo"><span class="mark">GD</span><span>GDIP<small>Gulberg Intelligence</small></span></a>
-    <nav class="links">
-      <a href="home.html">Home</a>
-      <a href="plot-intelligence.html">Plot Intelligence</a>
-      <a href="map.html">Map</a>
-      <a href="blocks-status.html">Blocks Status</a>
-      <a href="listings.html">Listings</a>
-      <a href="insights.html">Insights</a>
-      <a href="ai-advisor.html">AI Advisor</a>
+<header class="site" style="background:var(--green-deep);">
+  <div class="nav-inner" style="background:var(--green-deep);border-bottom:2px solid var(--green-deep);">
+    <nav class="links" style="gap:28px;flex:1;margin:0;display:flex;">
+      <a href="home.html" style="color:white;font-weight:600;font-size:0.95rem;">Home</a>
+      <a href="plot-intelligence.html" style="color:white;font-weight:600;font-size:0.95rem;">Plot Intelligence</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Residential Plots</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Farm House Plots</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Farm Houses For Sale</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Houses</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Apartments</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Rent</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Instalment</a>
+      <a href="map.html" style="color:white;font-weight:600;font-size:0.95rem;">Map</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">More ▼</a>
     </nav>
-    <div style="display:flex;gap:10px;align-items:center;">
-      <a href="#list-property" class="btn btn-outline" style="display:none" id="desktopListBtn">List Property</a>
-      <a href="#list-property" class="btn btn-primary">List a Property</a>
-      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-    </div>
   </div>
 </header>
 
+<!-- ================= HERO HEADER ================= -->
+<section style="background:white;padding:30px 40px;border-bottom:2px solid #e0e0e0;">
+  <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:30px;">
+    <div style="display:flex;align-items:center;gap:12px;min-width:200px;">
+      <img src="gulberg_logo_final_2.png" alt="Gulberg Logo" style="height:60px;width:auto;">
+    </div>
+    <h1 style="font-size:1.6rem;font-family:'Fraunces',serif;color:var(--ink);flex:1;text-align:center;margin:0;font-weight:700;white-space:nowrap;">WELCOME TO THE GULBERG ISLAMABAD</h1>
+    <div style="display:flex;gap:8px;min-width:320px;justify-content:flex-end;">
+      <input type="text" placeholder="Property ID" style="padding:10px 14px;border:2px solid var(--green-deep);border-radius:2px;font-size:0.9rem;flex:1;">
+      <button style="padding:10px 16px;background:var(--green-deep);color:white;border:none;border-radius:2px;font-size:1rem;cursor:pointer;font-weight:600;">🔍</button>
+    </div>
+  </div>
+</section>
+
 <!-- ================= HERO ================= -->
-<section class="hero" id="home">
-  <div class="hero-grid-bg"></div>
-  <div class="hero-inner">
-    <div class="hero-top">
-      <div>
-        <div class="eyebrow">Gulberg Greens · Gulberg Residencia · Islamabad</div>
-        <h1>Every plot in Gulberg,<br><em>verified.</em></h1>
-        <p class="lede">GDIP is the digital intelligence platform built exclusively for Gulberg Islamabad — cross-checking owner records, tracking legal status, mapping every block, and giving buyers and investors one honest source of truth instead of twelve conflicting listings.</p>
-        <div class="hero-actions">
-          <a href="#plot-intel" class="btn btn-gold">Search a Plot →</a>
-          <a href="#map" class="btn btn-outline" style="border-color:#4C5A50;color:var(--paper-2);">Explore the Map</a>
-        </div>
-      </div>
-      <div class="plot-card reveal">
-        <h4>Quick Plot Lookup</h4>
-        <div class="field-row">
-          <div class="field"><label>Block</label>
-            <select id="heroBlock"><option value="">Choose a block</option></select>
+<section class="hero" id="home" style="padding:0;min-height:550px;display:flex;align-items:center;justify-content:center;position:relative;background:var(--ink);overflow:hidden;">
+  <div class="carousel-container" style="position:relative;width:100%;height:550px;">
+    <div class="carousel-wrapper" style="position:relative;width:100%;height:100%;overflow:hidden;">
+      <div class="carousel-slide" style="position:absolute;width:100%;height:100%;opacity:1;transition:opacity 0.8s ease;background:url('i1.jpg') center/cover no-repeat;"></div>
+      <div class="carousel-slide" style="position:absolute;width:100%;height:100%;opacity:0;transition:opacity 0.8s ease;background:url('i2.png') center/cover no-repeat;"></div>
+      <div class="carousel-slide" style="position:absolute;width:100%;height:100%;opacity:0;transition:opacity 0.8s ease;background:url('i3.jpg') center/cover no-repeat;"></div>
+      <div style="position:absolute;inset:0;background:rgba(21,33,25,0.3);z-index:1;"></div>
+    </div>
+    
+    <!-- Left Arrow -->
+    <button class="carousel-prev" onclick="changeSlide(-1)" style="position:absolute;left:20px;top:50%;transform:translateY(-50%);z-index:10;background:rgba(255,255,255,0.3);border:none;color:white;font-size:2rem;padding:10px 15px;cursor:pointer;border-radius:3px;transition:all 0.3s ease;">❮</button>
+    
+    <!-- Right Arrow -->
+    <button class="carousel-next" onclick="changeSlide(1)" style="position:absolute;right:20px;top:50%;transform:translateY(-50%);z-index:10;background:rgba(255,255,255,0.3);border:none;color:white;font-size:2rem;padding:10px 15px;cursor:pointer;border-radius:3px;transition:all 0.3s ease;">❯</button>
+    
+    <!-- Navigation Dots -->
+    <div style="position:absolute;bottom:60px;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:12px;">
+      <span class="carousel-dot" onclick="currentSlide(0)" style="width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.6);cursor:pointer;transition:all 0.3s ease;"></span>
+      <span class="carousel-dot" onclick="currentSlide(1)" style="width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;transition:all 0.3s ease;"></span>
+      <span class="carousel-dot" onclick="currentSlide(2)" style="width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;transition:all 0.3s ease;"></span>
+    </div>
+  </div>
+  
+  <!-- CTA Section Below Slider -->
+  <div style="position:absolute;bottom:0;left:0;right:0;background:var(--green-deep);padding:20px 30px;z-index:2;width:100%;">
+    <div style="max-width:1200px;margin:0 auto;">
+      <h2 style="color:white;font-size:1.5rem;font-family:'Fraunces',serif;margin:0 0 5px;font-weight:700;text-align:center;">🔍 Find Your Dream Property</h2>
+      <p style="color:#DCE9DA;font-size:0.85rem;margin:0 0 15px;text-align:center;">Search premium properties in Gulberg Islamabad</p>
+      
+      <div style="background:white;padding:15px 20px;border-radius:8px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:12px;align-items:center;">
+          <div>
+            <select style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:5px;font-size:0.85rem;color:var(--ink-soft);background:white;cursor:pointer;">
+              <option>Select Property Type</option>
+              <option>Residential Plot</option>
+              <option>Farm House</option>
+              <option>Apartment</option>
+              <option>House</option>
+            </select>
           </div>
+          <div>
+            <select style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:5px;font-size:0.85rem;color:var(--ink-soft);background:white;cursor:pointer;">
+              <option>Select Property Type Filter</option>
+              <option>LOP Approved</option>
+              <option>Non-LOP</option>
+              <option>All</option>
+            </select>
+          </div>
+          <div>
+            <input type="text" placeholder="Minimum Price (Rs)" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:5px;font-size:0.85rem;color:var(--ink-soft);">
+          </div>
+          <div>
+            <input type="text" placeholder="Maximum Price (Rs)" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:5px;font-size:0.85rem;color:var(--ink-soft);">
+          </div>
+          <button style="padding:10px 20px;background:var(--green-deep);color:white;border:none;border-radius:5px;font-size:0.8rem;cursor:pointer;font-weight:700;white-space:nowrap;">🔍 SEARCH</button>
         </div>
-        <div class="field-row">
-          <div class="field"><label>Plot / Street No.</label><input id="heroPlot" type="text" placeholder="e.g. 214 or Street 6"></div>
-        </div>
-        <button class="btn btn-primary" style="width:100%;margin-top:8px;" onclick="runHeroSearch()">Search Records →</button>
-        <div class="stamp">Verified<br>Records<br>Only</div>
       </div>
     </div>
-    <div class="stat-strip">
-      <div class="stat"><div class="num" data-count="27">0</div><div class="lbl">Blocks Tracked</div></div>
-      <div class="stat"><div class="num" data-count="1400">0</div><div class="lbl">Verified Owner Records</div></div>
-      <div class="stat"><div class="num" data-count="2">0</div><div class="lbl">Master Communities</div></div>
-      <div class="stat"><div class="num" data-count="99">0</div><div class="lbl">% Listings Cross-Checked</div></div>
+  </div>
+</section>
+
+<script>
+let currentSlideIndex = 0;
+const slides = document.querySelectorAll('.carousel-slide');
+const dots = document.querySelectorAll('.carousel-dot');
+
+function showSlide(n) {
+  if (n >= slides.length) currentSlideIndex = 0;
+  if (n < 0) currentSlideIndex = slides.length - 1;
+  
+  slides.forEach(slide => slide.style.opacity = '0');
+  dots.forEach(dot => dot.style.background = 'rgba(255,255,255,0.4)');
+  
+  slides[currentSlideIndex].style.opacity = '1';
+  dots[currentSlideIndex].style.background = 'rgba(255,255,255,0.8)';
+}
+
+function changeSlide(n) {
+  currentSlideIndex += n;
+  showSlide(currentSlideIndex);
+}
+
+function currentSlide(n) {
+  currentSlideIndex = n;
+  showSlide(currentSlideIndex);
+}
+
+// Auto-slide every 5 seconds
+setInterval(() => changeSlide(1), 5000);
+
+// Initialize
+showSlide(0);
+</script>
+
+<!-- ================= DISCLAIMER ================= -->
+<section style="background:white;padding:20px 40px;border-bottom:2px solid #e0e0e0;">
+  <div style="max-width:1200px;margin:0 auto;text-align:center;">
+    <p style="color:var(--ink);font-size:0.9rem;line-height:1.6;margin:0;">Arkan Real Estate & Marketing brings for you property in Gulberg Islamabad and many other well known socities of Pakistan. we are not connected with any private society and perform services only on our own behalf.</p>
+  </div>
+</section>
+
+<!-- ================= ABOUT GULBERG ================= -->
+<section style="background:white;padding:50px 40px;border-bottom:1px solid #e0e0e0;">
+  <div style="max-width:900px;margin:0 auto;">
+    <h2 style="text-align:center;font-size:1.8rem;font-family:'Fraunces',serif;color:var(--green-deep);margin:0 0 30px;font-weight:700;">گلبرگ اسلام آباد</h2>
+    
+    <div style="color:var(--ink);font-size:0.95rem;line-height:1.8;text-align:justify;">
+      <p><strong>Gulberg Islamabad</strong> is a project of Intelligence Bureau Employee's Cooperative Housing Society (IBECHS). There are many housing societies in Rawalpindi and Islamabad, but the beautiful location of Gulberg Islamabad is as beautiful as Islamabad. It is just <strong>15 minutes' drive</strong> from Gulberg to other parts of Islamabad, <strong>10 minutes' drive</strong> towards the airport, and <strong>5 minutes' drive</strong> to G.T. Road.</p>
+      
+      <p>Gulberg Green and Gulberg Residential were beautiful dreams that have now become a reality. In Gulberg Knowledge Village, there are many schools, colleges, and universities which are under construction. <strong>5-star hotels</strong> and <strong>shopping malls</strong> are also under construction.</p>
+      
+      <p>Gulberg Islamabad is a place where your dreams become true. The project was launched in <strong>2005</strong>, and in <strong>2009</strong> its <strong>NOC from CDA</strong> was approved with <strong>Ref# "CDA/PLW-HS(127)/2009/257"</strong>. The <strong>MOU with IESCO and SNGPL</strong> were also duly signed. Development work on the project started in <strong>2009</strong>.</p>
+      
+      <p style="margin-top:25px;font-size:1rem;color:var(--green-deep);font-weight:600;">اسلام آباد میں سب سے اچھی اور سستی جگہ شاید یہی ہے</p>
     </div>
+  </div>
+</section>
+
+<!-- ================= GULBERG PROJECTS ================= -->
+<section style="background:white;padding:40px;border-bottom:1px solid #e0e0e0;">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;">
+    
+    <!-- Gulberg Residencia Card -->
+    <div style="border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+      <img src="gr.jpeg" alt="Gulberg Residencia" style="width:100%;height:280px;object-fit:cover;display:block;">
+      <div style="padding:20px;background:white;">
+        <h3 style="font-size:1.2rem;font-family:'Fraunces',serif;color:var(--ink);margin:0 0 12px;font-weight:700;">Gulberg Residencia</h3>
+        <p style="color:var(--ink-soft);font-size:0.9rem;line-height:1.6;margin:0;">Gulberg Islamabad is envisioned in a way where nature's boundless beauty meets every luxury you'd expect. It is everything you have always dream of. Gulberg Islamabad is pleasantly located amidst the lush greenery.</p>
+      </div>
+    </div>
+    
+    <!-- Gulberg Greens Card -->
+    <div style="border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+      <img src="gg.jpeg" alt="Gulberg Greens Farmhouse" style="width:100%;height:280px;object-fit:cover;display:block;">
+      <div style="padding:20px;background:white;">
+        <h3 style="font-size:1.2rem;font-family:'Fraunces',serif;color:var(--ink);margin:0 0 12px;font-weight:700;">Gulberg Greens Farmhouse</h3>
+        <p style="color:var(--ink-soft);font-size:0.9rem;line-height:1.6;margin:0;">Gulberg Greens offers unique world class amenities which includes wide roads, lit by Solar Energy, Knowledge Village, Lakes, Mosques, Transport Terminal, Petrol Pumps, CNG Stations, Fire Station, Hospital, Pharmacies.</p>
+      </div>
+    </div>
+    
+    <!-- Gulberg Commercial Card -->
+    <div style="border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+      <img src="gc.jpeg" alt="Gulberg Commercial" style="width:100%;height:280px;object-fit:cover;display:block;">
+      <div style="padding:20px;background:white;">
+        <h3 style="font-size:1.2rem;font-family:'Fraunces',serif;color:var(--ink);margin:0 0 12px;font-weight:700;">Gulberg Commercial</h3>
+        <p style="color:var(--ink-soft);font-size:0.9rem;line-height:1.6;margin:0;">Gulberg Greens ensures comfort at all levels. The available sizes of the plots are 178, 228 and 278 square yards.</p>
+      </div>
+    </div>
+    
   </div>
 </section>
 
@@ -791,62 +900,66 @@ footer{background:var(--ink);color:#9AA396;padding:64px 0 28px;}
 </section>
 
 <!-- ================= FOOTER ================= -->
-<footer>
-  <div class="container footer-grid">
-    <div class="footer-brand">
-      <a href="home.html" class="logo" style="color:var(--white);"><span class="mark" style="border-color:var(--paper-2);">GD</span><span>GDIP</span></a>
-      <p>The digital intelligence platform for Gulberg Greens &amp; Gulberg Residencia, Islamabad. Verified listings, interactive maps and honest market data — nothing else.</p>
-      <h5 style="margin-top:26px;">Roadmap</h5>
-      <div class="roadmap-strip">
-        <div class="now">Phase 1</div><div>Phase 2</div><div>Phase 3</div><div>Phase 4</div>
-      </div>
-    </div>
+<footer style="background:var(--green-deep);color:white;padding:60px 40px 40px;">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:50px;margin-bottom:50px;">
+    
+    <!-- Residential Plots For Sale -->
     <div>
-      <h5>Platform</h5>
-      <ul>
-        <li><a href="plot-intelligence.html">Plot Intelligence</a></li>
-        <li><a href="map.html">Interactive Map</a></li>
-        <li><a href="ai-advisor.html">AI Advisor</a></li>
-        <li><a href="listings.html">Listings</a></li>
+      <h3 style="font-size:1.1rem;font-family:'Inter',sans-serif;font-weight:700;margin:0 0 20px;color:white;">Residential Plots For Sale</h3>
+      <ul style="list-style:none;padding:0;margin:0;display:grid;gap:12px;">
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Residencia Islamabad 10 marla plot for sale.</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Residencia Islamabad 7 marla plot for sale.</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Residencia Islamabad 10 marla plot for sale.</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg islamabad 7 marla plot for sale</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Residencia Islamabad 20 marla plot for sale.</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Residencia Islamabad 7 marla plot for sale .</a></li>
       </ul>
     </div>
+
+    <!-- Farmhouse Plots For Sale -->
     <div>
-      <h5>Resources</h5>
-      <ul>
-        <li><a href="insights.html">Insights &amp; Guides</a></li>
-        <li><a href="home.html">Download Center</a></li>
-        <li><a href="home.html">Mortgage Calculator</a></li>
-        <li><a href="home.html">Construction Cost Tool</a></li>
+      <h3 style="font-size:1.1rem;font-family:'Inter',sans-serif;font-weight:700;margin:0 0 20px;color:white;">Farmhouse Plots For Sale</h3>
+      <ul style="list-style:none;padding:0;margin:0;display:grid;gap:12px;">
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Green Islamabad 10 kanal farmhouse plot for sale.</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Green Islamabad 5 kanal farmhouse plot for sale.</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Green Islamabad 5 kanal farmhouse plot for sale.</a></li>
+      </ul>
+      
+      <h3 style="font-size:1.1rem;font-family:'Inter',sans-serif;font-weight:700;margin:30px 0 20px;color:white;">Apartments For Sale</h3>
+      <ul style="list-style:none;padding:0;margin:0;display:grid;gap:12px;">
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Green Islamabad 1 bed apartment for sale.</a></li>
       </ul>
     </div>
+
+    <!-- Houses For Sale -->
     <div>
-      <h5>Contact</h5>
-      <ul>
-        <li><a href="home.html">hello@gdip.pk</a></li>
-        <li><a href="home.html">WhatsApp Support</a></li>
-        <li><a href="#list-property">List a Property</a></li>
+      <h3 style="font-size:1.1rem;font-family:'Inter',sans-serif;font-weight:700;margin:0 0 20px;color:white;">Houses For Sale</h3>
+      <ul style="list-style:none;padding:0;margin:0;display:grid;gap:12px;">
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Residencia Islamabad 5 marla house for sale.</a></li>
+      </ul>
+    </div>
+
+    <!-- Quick Links -->
+    <div>
+      <h3 style="font-size:1.1rem;font-family:'Inter',sans-serif;font-weight:700;margin:0 0 20px;color:white;">Quick Links</h3>
+      <ul style="list-style:none;padding:0;margin:0;display:grid;gap:12px;">
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">Gulberg Green Islamabad</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">Gulberg Residencia Islamabad</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">Properties For sale in Gulberg Islamabad</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">Updated Maps (PDF)</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">Gulberg Islamabad development Current Status</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">Plot Finder (Locate Your Plot on Map)</a></li>
       </ul>
     </div>
   </div>
-  <div class="container footer-bottom">
-    <span>© 2026 Ariesian Tech — Gulberg Digital Intelligence Platform.</span>
-    <span>Prototype build · v1.0</span>
+
+  <!-- Footer Bottom -->
+  <div style="max-width:1200px;margin:0 auto;padding-top:30px;border-top:1px solid rgba(255,255,255,0.2);text-align:center;">
+    <p style="margin:0;color:white;font-size:0.95rem;">Copyright 2023 Advice Associates. All rights reserved.</p>
   </div>
-  <p class="disclaimer">Disclaimer: GDIP is an independent, third-party information and verification platform. It is not affiliated with, and does not represent, IBECHS, the Capital Development Authority (CDA), or any official Gulberg Greens / Gulberg Residencia management office. Block, pricing and status information is a mix of general, publicly available background and illustrative sample data used to demonstrate this platform's design — always confirm ownership, LOP status and pricing with the relevant society office before transacting.</p>
 </footer>
 
-<!-- ================= FLOATING AI ================= -->
-<button class="fab" id="fabBtn" aria-label="Open AI Advisor">✦</button>
-<div class="fab-panel" id="fabPanel">
-  <div class="fp-head"><span>GDIP Advisor</span><button id="fabClose">✕</button></div>
-  <div class="fp-body" id="fabBody">
-    <div class="msg ai" style="background:var(--green-pale);color:var(--green-deep);border-radius:2px;padding:10px 12px;font-size:.85rem;"><span class="tag-fact">Verified</span>Ask me about any block, plot status, or price trend in Gulberg.</div>
-  </div>
-  <div class="fp-input">
-    <input id="fabInput" type="text" placeholder="e.g. Is Block Q LOP approved?">
-    <button onclick="sendFabChat()">Ask</button>
-  </div>
-</div>
+
 
 <script>
 /* ==========================================================================
@@ -1254,21 +1367,7 @@ function sendChat(){
 }
 document.getElementById('chatInput').addEventListener('keydown', e=>{ if(e.key==='Enter') sendChat(); });
 
-/* ============ FLOATING WIDGET ============ */
-const fabBtn=document.getElementById('fabBtn');
-const fabPanel=document.getElementById('fabPanel');
-fabBtn.addEventListener('click', ()=> fabPanel.classList.toggle('open'));
-document.getElementById('fabClose').addEventListener('click', ()=> fabPanel.classList.remove('open'));
-function sendFabChat(){
-  const input=document.getElementById('fabInput');
-  const val=input.value.trim(); if(!val) return;
-  const body=document.getElementById('fabBody');
-  pushMsg(body,'user', val);
-  const resp=aiRespond(val);
-  resp.forEach(r=> pushMsg(body,'ai', `<span class="tag-${r.tag}">${r.tag==='fact'?'Verified':'Insight'}</span>${r.text}`));
-  input.value='';
-}
-document.getElementById('fabInput').addEventListener('keydown', e=>{ if(e.key==='Enter') sendFabChat(); });
+
 
 /* ============ LEAD FORM ============ */
 function submitLead(e){
@@ -1283,5 +1382,14 @@ function resetLead(){
   document.getElementById('leadSuccess').style.display='none';
 }
 </script>
+
+<!-- ================= WHATSAPP BUTTON ================= -->
+<a href="https://wa.me/923325610666" target="_blank" rel="noopener noreferrer" style="position:fixed;bottom:40px;right:40px;width:70px;height:70px;background:linear-gradient(135deg, #25D366 0%, #128C7E 100%);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(37, 211, 102, 0.5);z-index:999;transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);text-decoration:none;" onmouseover="this.style.transform='scale(1.12)';this.style.boxShadow='0 10px 32px rgba(37, 211, 102, 0.7)';" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 6px 24px rgba(37, 211, 102, 0.5)';">
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.6915026 9.60191293L17.6915026 9.60191293C17.6915026 5.95799119 14.8231325 3 11.3244444 3 7.81887218 3 4.95751165 5.95799119 4.95751165 9.60191293 4.95751165 13.2458347 7.81887218 16.2038059 11.3244444 16.2038059L11.3244444 16.2038059C14.8231325 16.2038059 17.6915026 13.2458347 17.6915026 9.60191293Z" fill="white" stroke="white" stroke-width="0.5"/>
+    <path d="M12 2C6.48 2 2 6.48 2 12C2 13.54 2.4 15 3.1 16.29L2 22L8 19.62C9.28 20.48 10.82 21 12 21C17.52 21 22 16.52 22 11C22 5.48 17.52 2 12 2M12 19.5C10.67 19.5 9.38 19.05 8.35 18.25L8.07 18.07L5.56 18.73L6.25 16.35L6.04 16.05C5.15 15 4.65 13.65 4.65 12.15C4.65 7.85 8.07 4.5 12 4.5C15.93 4.5 19.35 7.85 19.35 12C19.35 16.15 15.93 19.5 12 19.5M16.89 13.59C16.64 13.44 15.26 12.75 15.04 12.67C14.82 12.59 14.68 12.54 14.54 12.79C14.4 13.04 14 13.54 13.88 13.68C13.76 13.82 13.64 13.84 13.39 13.69C13.14 13.54 12.38 13.31 11.5 12.52C10.82 11.92 10.35 11.17 10.23 10.92C10.11 10.67 10.22 10.56 10.34 10.42C10.45 10.29 10.59 10.08 10.72 9.97C10.85 9.86 10.93 9.78 11.01 9.64C11.09 9.5 11.04 9.38 10.96 9.23C10.88 9.08 10.42 7.72 10.22 7.26C10.04 6.83 9.85 6.88 9.71 6.88C9.59 6.88 9.45 6.88 9.31 6.88C9.17 6.88 8.93 6.94 8.71 7.19C8.49 7.44 7.97 8.13 7.97 9.49C7.97 10.85 8.74 12.17 8.87 12.32C9 12.47 10.35 14.58 12.31 15.41C12.78 15.64 13.14 15.77 13.41 15.86C13.88 16.01 14.3 15.99 14.64 15.93C15.01 15.86 15.78 15.47 15.98 15.01C16.18 14.55 16.18 14.16 16.1 14.07C16.02 13.98 15.88 13.93 15.7 13.84C15.52 13.75 15.52 13.75 15.34 13.74C15.16 13.73 15.02 13.68 14.88 13.6C14.74 13.52 14.6 13.44 14.46 13.35Z" fill="white"/>
+  </svg>
+</a>
+
 </body>
 </html>

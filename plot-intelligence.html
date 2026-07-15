@@ -6,7 +6,7 @@
   <title>Plot Intelligence | GDIP</title>
   <style>
     :root {
-      --ink:#152119; --paper:#EAE5D3; --paper-2:#F4F1E4; --green:#1F4D3A; --gold:#C79A3E; --line:#B9B29A;
+      --ink:#152119; --paper:#FFFFFF; --paper-2:#F9F9F9; --green-deep:#1F4D3A; --gold:#C79A3E; --line:#B9B29A;
     }
     *{box-sizing:border-box;} body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--paper);color:var(--ink);} a{color:inherit;text-decoration:none;}
     header.site{position:sticky;top:0;background:rgba(234,229,211,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
@@ -15,11 +15,11 @@
     .logo .mark{width:34px;height:34px;border:1.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-size:0.7rem;}
     nav.links{display:flex;gap:18px;flex-wrap:wrap;}
     nav.links a{font-size:0.95rem;font-weight:600;}
-    nav.links a:hover{color:var(--green);} main{max-width:1100px;margin:0 auto;padding:40px 24px 80px;}
+    nav.links a:hover{color:var(--green-deep);} main{max-width:1100px;margin:0 auto;padding:40px 24px 80px;}
     .hero{background:var(--ink);color:var(--paper-2);padding:36px;border-radius:12px;box-shadow:0 18px 40px -20px rgba(21,33,25,0.35);} .hero h1{font-size:2rem;margin:0 0 10px;} .hero p{max-width:700px;line-height:1.7;}
     .grid{display:grid;grid-template-columns:1.2fr 0.8fr;gap:24px;margin-top:24px;}
     .card{background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:24px;}
-    .card h2{margin-top:0;font-size:1.3rem;} ul{padding-left:18px;line-height:1.8;} .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--green);color:white;font-size:0.8rem;margin-bottom:12px;}
+    .card h2{margin-top:0;font-size:1.3rem;} ul{padding-left:18px;line-height:1.8;} .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--green-deep);color:white;font-size:0.8rem;margin-bottom:12px;}
     .field{flex:1;}
     .field label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:#7A7460;margin-bottom:6px;font-family:'IBM Plex Mono',monospace;}
     .plot-tool{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);padding:30px;box-shadow:0 18px 40px -20px rgba(21,33,25,0.35);}
@@ -33,7 +33,7 @@
     .badge.lop{background:#CFDFCB;color:#1F4D3A;}
     .badge.nonlop{background:#F4DAD2;color:#A5432E;}
     .result-card .meta{margin-top:10px;font-size:.85rem;color:#4C5A50;display:grid;gap:4px;}
-    .result-card .price{margin-top:12px;font-family:'Fraunces',serif;font-size:1.3rem;color:var(--green);}
+    .result-card .price{margin-top:12px;font-family:'Fraunces',serif;font-size:1.3rem;color:var(--green-deep);}
     .result-card .price span{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:#7A7460;display:block;text-transform:uppercase;}
     .no-results{padding:30px;text-align:center;color:#7A7460;font-family:'IBM Plex Mono',monospace;font-size:.85rem;grid-column:1/-1;}
     .source-note{margin-top:22px;font-size:.78rem;color:#7A7460;line-height:1.6;border-top:1px dashed var(--line);padding-top:16px;}
@@ -59,7 +59,7 @@
     .pd-v{display:block;font-size:.92rem;font-weight:600;}
     .pd-note{margin-top:18px;font-size:.84rem;color:#4C5A50;background:var(--paper-2);border-left:3px solid var(--gold);padding:12px 14px;}
     .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;font-size:.88rem;font-weight:600;border-radius:var(--radius);border:1px solid var(--ink);transition:all .2s ease;white-space:nowrap;cursor:pointer;}
-    .btn-primary{background:var(--green);color:white;border-color:var(--green);}
+    .btn-primary{background:var(--green-deep);color:white;border-color:var(--green-deep);}
     .btn-primary:hover{background:#152119;border-color:#152119;}
     .btn-gold{background:var(--gold);color:var(--ink);border-color:var(--gold);}
     .btn-gold:hover{background:#8F6A22;border-color:#8F6A22;color:white;}
@@ -75,20 +75,38 @@
   </style>
 </head>
 <body>
-  <header class="site">
-    <div class="nav-inner">
-      <a href="home.html" class="logo"><span class="mark">GD</span><span>GDIP</span></a>
-      <nav class="links">
-        <a href="home.html">Home</a>
-        <a href="plot-intelligence.html">Plot Intelligence</a>
-        <a href="map.html">Map</a>
-        <a href="blocks-status.html">Blocks Status</a>
-        <a href="listings.html">Listings</a>
-        <a href="insights.html">Insights</a>
-        <a href="ai-advisor.html">AI Advisor</a>
-      </nav>
+  <!-- ================= NAV ================= -->
+<header class="site" style="background:var(--green-deep);">
+  <div class="nav-inner" style="background:var(--green-deep);border-bottom:2px solid var(--green-deep);">
+    <nav class="links" style="gap:28px;flex:1;margin:0;display:flex;">
+      <a href="home.html" style="color:white;font-weight:600;font-size:0.95rem;">Home</a>
+      <a href="plot-intelligence.html" style="color:white;font-weight:600;font-size:0.95rem;">Plot Intelligence</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Residential Plots</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Farm House Plots</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Farm Houses For Sale</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Houses</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Apartments</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Rent</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Instalment</a>
+      <a href="map.html" style="color:white;font-weight:600;font-size:0.95rem;">Map</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">More ▼</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= HERO HEADER ================= -->
+<section style="background:white;padding:30px 40px;border-bottom:2px solid #e0e0e0;">
+  <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:30px;">
+    <div style="display:flex;align-items:center;gap:12px;min-width:200px;">
+      <img src="gulberg_logo_final_2.png" alt="Gulberg Logo" style="height:60px;width:auto;">
     </div>
-  </header>
+    <h1 style="font-size:1.6rem;font-family:'Fraunces',serif;color:var(--ink);flex:1;text-align:center;margin:0;font-weight:700;white-space:nowrap;">WELCOME TO THE GULBERG ISLAMABAD</h1>
+    <div style="display:flex;gap:8px;min-width:320px;justify-content:flex-end;">
+      <input type="text" placeholder="Property ID" style="padding:10px 14px;border:2px solid var(--green-deep);border-radius:2px;font-size:0.9rem;flex:1;">
+      <button style="padding:10px 16px;background:var(--green-deep);color:white;border:none;border-radius:2px;font-size:1rem;cursor:pointer;font-weight:600;">🔍</button>
+    </div>
+  </div>
+</section>
   <main>
     <section class="hero">
       <span class="pill">Verified plot insights</span>
@@ -142,6 +160,67 @@
       </div>
     </section>
   </main>
+
+  <!-- ================= FOOTER ================= -->
+<footer style="background:var(--green-deep);color:white;padding:60px 40px 40px;">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:50px;margin-bottom:50px;">
+    
+    <!-- Residential Plots For Sale -->
+    <div>
+      <h3 style="font-size:1.1rem;font-family:'Inter',sans-serif;font-weight:700;margin:0 0 20px;color:white;">Residential Plots For Sale</h3>
+      <ul style="list-style:none;padding:0;margin:0;display:grid;gap:12px;">
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Residencia Islamabad 10 marla plot for sale.</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Residencia Islamabad 7 marla plot for sale.</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Residencia Islamabad 10 marla plot for sale.</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg islamabad 7 marla plot for sale</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Residencia Islamabad 20 marla plot for sale.</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Residencia Islamabad 7 marla plot for sale .</a></li>
+      </ul>
+    </div>
+
+    <!-- Farmhouse Plots For Sale -->
+    <div>
+      <h3 style="font-size:1.1rem;font-family:'Inter',sans-serif;font-weight:700;margin:0 0 20px;color:white;">Farmhouse Plots For Sale</h3>
+      <ul style="list-style:none;padding:0;margin:0;display:grid;gap:12px;">
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Green Islamabad 10 kanal farmhouse plot for sale.</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Green Islamabad 5 kanal farmhouse plot for sale.</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Green Islamabad 5 kanal farmhouse plot for sale.</a></li>
+      </ul>
+      
+      <h3 style="font-size:1.1rem;font-family:'Inter',sans-serif;font-weight:700;margin:30px 0 20px;color:white;">Apartments For Sale</h3>
+      <ul style="list-style:none;padding:0;margin:0;display:grid;gap:12px;">
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Green Islamabad 1 bed apartment for sale.</a></li>
+      </ul>
+    </div>
+
+    <!-- Houses For Sale -->
+    <div>
+      <h3 style="font-size:1.1rem;font-family:'Inter',sans-serif;font-weight:700;margin:0 0 20px;color:white;">Houses For Sale</h3>
+      <ul style="list-style:none;padding:0;margin:0;display:grid;gap:12px;">
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">> Gulberg Residencia Islamabad 5 marla house for sale.</a></li>
+      </ul>
+    </div>
+
+    <!-- Quick Links -->
+    <div>
+      <h3 style="font-size:1.1rem;font-family:'Inter',sans-serif;font-weight:700;margin:0 0 20px;color:white;">Quick Links</h3>
+      <ul style="list-style:none;padding:0;margin:0;display:grid;gap:12px;">
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">Gulberg Green Islamabad</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">Gulberg Residencia Islamabad</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">Properties For sale in Gulberg Islamabad</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">Updated Maps (PDF)</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">Gulberg Islamabad development Current Status</a></li>
+        <li><a href="#" style="color:white;text-decoration:none;font-size:0.95rem;">Plot Finder (Locate Your Plot on Map)</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Footer Bottom -->
+  <div style="max-width:1200px;margin:0 auto;padding-top:30px;border-top:1px solid rgba(255,255,255,0.2);text-align:center;">
+    <p style="margin:0;color:white;font-size:0.95rem;">Copyright 2023 Advice Associates. All rights reserved.</p>
+  </div>
+</footer>
+
   <script src="data-source.js"></script>
   <script>
     const SOCIETY_LABEL = GDIP.SOCIETY_LABEL;
