@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Your Plot - Claim</title>
+  <style>
+    :root{--green:#1F4D3A;--ink:#152119;--muted:#4C5A50;--paper:#ffffff}
+    body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--paper);color:var(--ink);}
+    .header{background:var(--green);color:#fff;padding:18px 20px}
+    .container{max-width:920px;margin:28px auto;padding:24px}
+    .hero{background:#0f3b2d;color:#dff3e6;padding:20px;border-radius:10px;margin-bottom:18px}
+    .hero h1{margin:0 0 6px;font-size:1.4rem}
+    .hero p{margin:0;font-weight:700}
+    .greedy{background:#f6e8d6;border-left:6px solid #c79a3e;padding:16px;border-radius:8px;margin-bottom:18px;font-weight:700;color:#6b3f21}
+    form{background:#fff;border:1px solid #e6e4df;padding:18px;border-radius:8px}
+    .field{display:flex;flex-direction:column;margin-bottom:12px}
+    label{font-size:0.9rem;margin-bottom:6px;color:var(--muted)}
+    input{padding:10px 12px;border:1px solid #d6d6d6;border-radius:6px;font-size:1rem}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .actions{display:flex;gap:12px;align-items:center;margin-top:8px}
+    .btn{background:var(--green);color:#fff;padding:10px 14px;border-radius:6px;border:none;cursor:pointer;font-weight:700}
+    .btn[disabled]{opacity:0.5;cursor:not-allowed}
+    .note{font-size:0.9rem;color:var(--muted);margin-top:8px}
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;place-items:center;z-index:100}
+    .overlay .card{background:#fff;padding:24px;border-radius:8px;text-align:center;max-width:420px}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;">
+      <img src="gulberg_logo_final_2.png" alt="Gulberg" style="height:44px;">
+      <nav style="margin-left:12px;display:flex;gap:14px;align-items:center;">
+        <a href="home.html" style="color:white;font-weight:700;text-decoration:none">Home</a>
+        <a href="your-plot.html" style="color:white;font-weight:700;text-decoration:none">Your Plot</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="hero">
+      <h1>Claim Your Plot Listing</h1>
+      <p>Fill the form below to get priority exposure and an instant valuation.</p>
+    </div>
+
+    <div class="greedy">Limited Offer — Submit now to get PRIORITY listing and a FREE valuation within 24 hours. Spots are limited!</div>
+
+    <form id="plotForm" novalidate>
+      <div class="row">
+        <div class="field">
+          <label for="plotNo">Plot Number <span style="color:red">*</span></label>
+          <input id="plotNo" name="plotNo" type="text" placeholder="e.g. 23-A" required maxlength="30" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="block">Block <span style="color:red">*</span></label>
+          <input id="block" name="block" type="text" placeholder="e.g. A" required maxlength="20" autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="fullName">Full Name <span style="color:red">*</span></label>
+        <input id="fullName" name="fullName" type="text" placeholder="Your full name" required maxlength="80" autocomplete="name" />
+      </div>
+
+      <div class="field">
+        <label for="whatsapp">WhatsApp Number <span style="color:red">*</span></label>
+        <input id="whatsapp" name="whatsapp" type="tel" placeholder="923XXXXXXXXX" required pattern="[0-9]{7,15}" maxlength="15" autocomplete="tel" />
+        <div class="note">Enter numbers only, include country code (e.g. 923XXXXXXXXX).</div>
+      </div>
+
+      <div class="actions">
+        <button id="submitBtn" class="btn" type="submit" disabled>Claim Priority</button>
+        <button id="clearBtn" type="button" style="background:#eee;border-radius:6px;padding:10px 12px;border:none;cursor:pointer">Clear</button>
+      </div>
+
+      <div class="note">By submitting you agree to be contacted about your listing. We take your privacy seriously.</div>
+    </form>
+  </main>
+
+  <div class="overlay" id="overlay">
+    <div class="card">
+      <h3>Thanks — You're in!</h3>
+      <p style="margin-top:8px">We've received your details. Our team will contact you on WhatsApp within 24 hours.</p>
+      <div style="margin-top:12px"><button class="btn" id="closeOverlay">Close</button></div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('plotForm');
+    const inputs = Array.from(form.querySelectorAll('input[required]'));
+    const submitBtn = document.getElementById('submitBtn');
+    const overlay = document.getElementById('overlay');
+    const closeOverlay = document.getElementById('closeOverlay');
+    const clearBtn = document.getElementById('clearBtn');
+
+    function validateAll(){
+      let ok = true;
+      for(const el of inputs){
+        if(!el.checkValidity()) { ok = false; break; }
+      }
+      submitBtn.disabled = !ok;
+    }
+
+    inputs.forEach(i => i.addEventListener('input', validateAll));
+    validateAll();
+
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      if(!form.checkValidity()) return validateAll();
+      const data = { plotNo: form.plotNo.value.trim(), block: form.block.value.trim(), fullName: form.fullName.value.trim(), whatsapp: form.whatsapp.value.trim(), ts: new Date().toISOString() };
+      const store = JSON.parse(localStorage.getItem('yourPlotClaims') || '[]');
+      store.push(data);
+      localStorage.setItem('yourPlotClaims', JSON.stringify(store));
+
+      // Open WhatsApp with prefilled message to admin number
+      try {
+        const adminRaw = '03325610666';
+        const admin = adminRaw.replace(/^0/, '92').replace(/\D/g, '');
+        const msg = `Claiming plot:\nPlot No: ${data.plotNo}\nBlock: ${data.block}\nName: ${data.fullName}\nContact: ${data.whatsapp}`;
+        const waUrl = 'https://wa.me/' + admin + '?text=' + encodeURIComponent(msg);
+        window.open(waUrl, '_blank');
+      } catch (err) {
+        console.warn('WhatsApp open failed', err);
+      }
+
+      overlay.style.display = 'grid';
+      form.reset();
+      submitBtn.disabled = true;
+    });
+
+    closeOverlay.addEventListener('click', ()=>{ overlay.style.display = 'none'; });
+    clearBtn.addEventListener('click', ()=>{ form.reset(); validateAll(); });
+    document.getElementById('whatsapp').addEventListener('input', (ev)=>{ ev.target.value = ev.target.value.replace(/[^0-9]/g,''); validateAll(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') overlay.style.display='none'; });
+  </script>
+</body>
+</html>
