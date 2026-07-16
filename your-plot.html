@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Your Plot - Claim Priority Listing</title>
+  <title>Your Plot - Free Valuation & Plot Report</title>
   <style>
     :root{--green:#1F4D3A;--green-deep:#1F4D3A;--ink:#152119;--muted:#4C5A50;--paper:#ffffff;--line:#B9B29A;--gold:#C79A3E;--gold-deep:#8F6A22;--rust:#A5432E;}
     *{box-sizing:border-box;}
@@ -133,9 +133,9 @@
 
   <main class="container">
     <div class="hero">
-      <h1>Claim Your Plot — Get Priority Exposure</h1>
-      <p>Owners who register today get a FREE valuation + front-page listing within 24 hours.</p>
-      <p class="sub">Don't miss buyers searching for plots in your block right now.</p>
+      <h1>Claim Your Plot — Get a Complete Plot Report</h1>
+      <p>Owners who register today get a FREE valuation, current block status, and plot condition report within 24 hours.</p>
+      <p class="sub">Stay informed about your plot — no listing, no selling, just trusted insights.</p>
     </div>
 
     <div class="stats-row">
@@ -149,13 +149,13 @@
       </div>
       <div class="stat-box">
         <div class="num">FREE</div>
-        <div class="lbl">Priority listing</div>
+        <div class="lbl">Plot valuation</div>
       </div>
     </div>
 
     <div class="greedy">
       <strong>⚠ Limited Offer:</strong> Only a handful of priority slots open per day.
-      Submit your details now to lock in FREE valuation + verified listing before spots fill up.
+      Submit your details now to lock in your FREE valuation and plot report before spots fill up.
     </div>
 
     <div class="greedy-timer">
@@ -165,13 +165,13 @@
 
     <div class="benefits">
       <div class="benefit"><span class="tick">✓</span> FREE plot valuation within 24 hours</div>
-      <div class="benefit"><span class="tick">✓</span> Priority placement on Gulberg listings</div>
-      <div class="benefit"><span class="tick">✓</span> Verified owner badge on your plot</div>
-      <div class="benefit"><span class="tick">✓</span> Direct buyer inquiries to your WhatsApp</div>
+      <div class="benefit"><span class="tick">✓</span> Current block status &amp; development updates</div>
+      <div class="benefit"><span class="tick">✓</span> Detailed plot condition report</div>
+      <div class="benefit"><span class="tick">✓</span> Personal WhatsApp consultation with our team</div>
     </div>
 
     <div class="social-proof">
-      <strong id="liveActivity">Ahmad from Block F just claimed priority listing</strong> — join other Gulberg owners getting serious buyer leads.
+      <strong id="liveActivity">Ahmad from Block F just requested a plot valuation</strong> — join other Gulberg owners staying informed about their plots.
     </div>
 
     <div class="progress-wrap">
@@ -210,7 +210,7 @@
         <button id="clearBtn" class="btn-clear" type="button">Clear form</button>
       </div>
 
-      <div class="note">By submitting you agree to be contacted about your listing. Your data is stored securely and never shared with third parties.</div>
+      <div class="note">By submitting you agree to be contacted about your plot report. Your data is stored securely and never shared with third parties.</div>
       <div class="trust-row">
         <span>🔒 Secure submission</span>
         <span>✓ No spam calls</span>
@@ -228,7 +228,8 @@
     <div class="card">
       <div class="icon">✅</div>
       <h3>Thank You — You're In!</h3>
-      <p>Your details have been saved. Our team will contact you on WhatsApp within 24 hours with your FREE valuation.</p>
+      <p>Your details have been saved.</p>
+      <p style="margin-top:10px;font-weight:700;color:var(--green-deep);">Our team will contact you on WhatsApp within 24 hours for valuation.</p>
       <div class="detail" id="thanksDetail"></div>
       <div style="margin-top:18px"><button class="btn" id="closeOverlay">Done</button></div>
     </div>
@@ -237,7 +238,7 @@
   <div class="exit-modal" id="exitModal">
     <div class="card">
       <h3>Wait — Don't lose your priority slot!</h3>
-      <p>You're one step away from a FREE valuation and priority listing. Spots are limited today and won't be held.</p>
+      <p>You're one step away from a FREE valuation and complete plot report. Spots are limited today and won't be held.</p>
       <div class="btns">
         <button class="btn" type="button" id="exitStay">Complete My Form</button>
         <button class="btn-clear" type="button" id="exitLeave" style="padding:12px 16px;">Leave anyway</button>
@@ -264,13 +265,57 @@
     let exitAllowed = false;
     let exitShown = false;
 
+    /* ================================================================
+       SOCIAL PROOF — hardcoded lines + LIVE lines from Google Sheet
+       ================================================================
+       LIVE_FEED_URL points at the same Apps Script deployment used by
+       plot-claims.js (SUBMIT_URL) — one deployment handles both
+       doPost (saving) and doGet (reading recent submissions).
+    ================================================================ */
+    const LIVE_FEED_URL = "https://script.google.com/macros/s/AKfycby8AvCwFRfrGLpgp6LfiQYEJIVNR8n84Iy9k5hAydj8bANgEZfk2fAtUCJdwSlTXyMF/exec";
+
     const ACTIVITY = [
-      'Ahmad from Block F just claimed priority listing',
-      'Sara from Block A submitted her plot details',
-      'Usman from Block C locked a free valuation',
-      'Fatima from Block E claimed her priority slot',
-      'Hassan from Block B just registered his plot'
+      'Ahmad from Block F just requested a plot valuation',
+      'Sara from Block A requested her plot status update',
+      'Usman from Block C received a free valuation',
+      'Fatima from Block E requested her plot report',
+      'Hassan from Block B just registered for updates',
+      'Aisha from Block D requested her plot details'
     ];
+
+    let activityPool = ACTIVITY.slice(); // shows hardcoded lines instantly; live ones merge in once fetched
+
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    async function fetchLiveActivity() {
+      if (!LIVE_FEED_URL) return;
+      try {
+        const res = await fetch(LIVE_FEED_URL);
+        const rows = await res.json();
+        const liveLines = rows
+          .filter(r => r.name && r.block)
+          .map(r => `${r.name} from Block ${r.block} just requested a plot valuation`);
+        activityPool = shuffle(ACTIVITY.concat(liveLines));
+      } catch (err) {
+        console.warn('Live activity fetch failed, using hardcoded only:', err);
+      }
+    }
+
+    fetchLiveActivity();
+    setInterval(fetchLiveActivity, 5 * 60 * 1000); // refresh every 5 min
+
+    let actIdx = 0;
+    setInterval(() => {
+      if (!activityPool.length) return;
+      actIdx = (actIdx + 1) % activityPool.length;
+      document.getElementById('liveActivity').textContent = activityPool[actIdx];
+    }, 5000);
 
     /* ---- Urgency: countdown to midnight ---- */
     function msUntilMidnight() {
@@ -314,12 +359,6 @@
     /* ---- Social proof counter ---- */
     const baseClaims = 14 + (new Date().getDate() % 7);
     document.getElementById('claimedToday').textContent = baseClaims + parseInt(localStorage.getItem(SPOTS_KEY) || '0', 10);
-
-    let actIdx = 0;
-    setInterval(() => {
-      actIdx = (actIdx + 1) % ACTIVITY.length;
-      document.getElementById('liveActivity').textContent = ACTIVITY[actIdx];
-    }, 5000);
 
     /* ---- Validation & progress ---- */
     function validateAll() {

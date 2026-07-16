@@ -4,7 +4,7 @@
    SETUP (one-time, ~5 minutes)
    1. Create a Google Sheet with these headers in row 1:
         Timestamp | Plot No | Block | Full Name | WhatsApp | Source
-   2. Extensions → Apps Script → paste the script below → Save
+   2. Extensions → Apps Script → paste the Code.gs script → Save
    3. Deploy → New deployment → Web app
         - Execute as: Me
         - Who has access: Anyone
@@ -12,34 +12,14 @@
    4. Test by submitting the form on your-plot.html
    5. Download the sheet anytime as .xlsx: File → Download → Excel
 
-   APPS SCRIPT (Code.gs):
-   ------------------------------------------------------------
-   function doPost(e) {
-     try {
-       var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-       var data = JSON.parse(e.postData.contents);
-       sheet.appendRow([
-         new Date(),
-         data.plotNo || '',
-         data.block || '',
-         data.fullName || '',
-         data.whatsapp || '',
-         data.source || 'your-plot.html'
-       ]);
-       return ContentService
-         .createTextOutput(JSON.stringify({ ok: true }))
-         .setMimeType(ContentService.MimeType.JSON);
-     } catch (err) {
-       return ContentService
-         .createTextOutput(JSON.stringify({ ok: false, error: String(err) }))
-         .setMimeType(ContentService.MimeType.JSON);
-     }
-   }
+   Apps Script (Code.gs) lives separately — it now includes both
+   doPost (saves submissions) and doGet (returns recent submissions
+   as JSON, used by the social-proof rotation on your-plot.html).
    ============================================================ */
 
 const PLOT_CLAIMS_CONFIG = {
   // Paste your Google Apps Script Web App URL here after deployment.
-  SUBMIT_URL: 'https://script.google.com/macros/s/AKfycbxcrCDNjTkaNNINnjkSvfsypZgKrWYg-eE0dZn10wAPBWXePPALe0kfx82fIsF9D75M/exec'
+  SUBMIT_URL: 'https://script.google.com/macros/s/AKfycby8AvCwFRfrGLpgp6LfiQYEJIVNR8n84Iy9k5hAydj8bANgEZfk2fAtUCJdwSlTXyMF/exec'
 };
 
 function backupClaimLocally(payload) {
