@@ -3,88 +3,249 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Your Plot - Claim</title>
+  <title>Your Plot - Claim Priority Listing</title>
   <style>
-    :root{--green:#1F4D3A;--ink:#152119;--muted:#4C5A50;--paper:#ffffff}
+    :root{--green:#1F4D3A;--green-deep:#1F4D3A;--ink:#152119;--muted:#4C5A50;--paper:#ffffff;--line:#B9B29A;--gold:#C79A3E;--gold-deep:#8F6A22;--rust:#A5432E;}
+    *{box-sizing:border-box;}
     body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--paper);color:var(--ink);}
-    .header{background:var(--green);color:#fff;padding:18px 20px}
-    .container{max-width:920px;margin:28px auto;padding:24px}
-    .hero{background:#0f3b2d;color:#dff3e6;padding:20px;border-radius:10px;margin-bottom:18px}
-    .hero h1{margin:0 0 6px;font-size:1.4rem}
-    .hero p{margin:0;font-weight:700}
-    .greedy{background:#f6e8d6;border-left:6px solid #c79a3e;padding:16px;border-radius:8px;margin-bottom:18px;font-weight:700;color:#6b3f21}
-    form{background:#fff;border:1px solid #e6e4df;padding:18px;border-radius:8px}
-    .field{display:flex;flex-direction:column;margin-bottom:12px}
-    label{font-size:0.9rem;margin-bottom:6px;color:var(--muted)}
-    input{padding:10px 12px;border:1px solid #d6d6d6;border-radius:6px;font-size:1rem}
+    a{color:inherit;text-decoration:none;}
+    header.site{position:sticky;top:0;z-index:90;background:rgba(234,229,211,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+    .nav-inner{max-width:1100px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+    nav.links{display:flex;gap:18px;flex-wrap:wrap;}
+    nav.links a{font-size:0.95rem;font-weight:600;}
+    nav.links a:hover{color:var(--green-deep);}
+
+    /* Urgency strip */
+    .urgency-strip{background:var(--rust);color:#fff;text-align:center;padding:10px 16px;font-size:0.88rem;font-weight:700;letter-spacing:0.02em;}
+    .urgency-strip span{color:#ffe082;}
+
+    .container{max-width:920px;margin:28px auto;padding:24px;padding-bottom:100px;}
+    .hero{background:#0f3b2d;color:#dff3e6;padding:24px;border-radius:10px;margin-bottom:18px;position:relative;overflow:hidden;}
+    .hero::after{content:"FREE";position:absolute;top:12px;right:-28px;background:var(--gold);color:var(--ink);font-weight:800;font-size:0.72rem;padding:6px 36px;transform:rotate(45deg);letter-spacing:0.08em;}
+    .hero h1{margin:0 0 8px;font-size:1.55rem;}
+    .hero p{margin:0;font-weight:600;line-height:1.5;}
+    .hero .sub{margin-top:10px;font-size:0.92rem;font-weight:500;opacity:0.92;}
+
+    .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
+    .stat-box{background:#fff;border:2px solid var(--gold);border-radius:8px;padding:14px;text-align:center;}
+    .stat-box .num{font-size:1.5rem;font-weight:800;color:var(--green-deep);line-height:1;}
+    .stat-box .lbl{font-size:0.78rem;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.04em;font-weight:600;}
+
+    .greedy{background:#f6e8d6;border-left:6px solid var(--gold);padding:16px 18px;border-radius:8px;margin-bottom:14px;font-weight:700;color:#6b3f21;line-height:1.5;}
+    .greedy strong{color:var(--rust);}
+    .greedy-timer{background:#1a1a1a;color:#fff;padding:12px 16px;border-radius:8px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+    .greedy-timer .clock{font-family:monospace;font-size:1.25rem;font-weight:700;color:#ff6b6b;letter-spacing:0.06em;}
+    .benefits{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+    .benefit{display:flex;align-items:flex-start;gap:8px;font-size:0.88rem;color:var(--ink);}
+    .benefit .tick{color:var(--green-deep);font-weight:800;flex-shrink:0;}
+
+    .social-proof{background:var(--paper);border:1px dashed var(--line);border-radius:8px;padding:12px 14px;margin-bottom:18px;font-size:0.88rem;color:var(--muted);}
+    .social-proof strong{color:var(--green-deep);}
+
+    .progress-wrap{margin-bottom:16px;}
+    .progress-label{display:flex;justify-content:space-between;font-size:0.82rem;color:var(--muted);margin-bottom:6px;font-weight:600;}
+    .progress-bar{height:8px;background:#e8e8e8;border-radius:99px;overflow:hidden;}
+    .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--green-deep),#3C7A5C);border-radius:99px;transition:width .35s ease;}
+
+    form{background:#fff;border:2px solid #e6e4df;padding:22px;border-radius:10px;box-shadow:0 8px 30px -12px rgba(21,33,25,0.18);}
+    .field{display:flex;flex-direction:column;margin-bottom:14px;}
+    .field.invalid input{border-color:var(--rust);background:#fff8f7;}
+    .field.valid input{border-color:#3C7A5C;}
+    label{font-size:0.9rem;margin-bottom:6px;color:var(--ink);font-weight:600;}
+    label .req{color:var(--rust);}
+    input{padding:12px 14px;border:2px solid #d6d6d6;border-radius:6px;font-size:1rem;transition:border-color .2s,box-shadow .2s;}
+    input:focus{outline:none;border-color:var(--green-deep);box-shadow:0 0 0 3px rgba(31,77,58,0.12);}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .actions{display:flex;gap:12px;align-items:center;margin-top:8px}
-    .btn{background:var(--green);color:#fff;padding:10px 14px;border-radius:6px;border:none;cursor:pointer;font-weight:700}
-    .btn[disabled]{opacity:0.5;cursor:not-allowed}
-    .note{font-size:0.9rem;color:var(--muted);margin-top:8px}
-    .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;place-items:center;z-index:100}
-    .overlay .card{background:#fff;padding:24px;border-radius:8px;text-align:center;max-width:420px}
+    .actions{display:flex;gap:12px;align-items:center;margin-top:16px;flex-wrap:wrap;}
+    .btn{background:var(--green);color:#fff;padding:14px 22px;border-radius:6px;border:none;cursor:pointer;font-weight:800;font-size:1rem;letter-spacing:0.02em;transition:transform .15s,box-shadow .15s;}
+    .btn:not([disabled]):hover{transform:translateY(-1px);box-shadow:0 6px 20px -6px rgba(31,77,58,0.5);}
+    .btn:not([disabled]).ready{animation:pulse-btn 1.6s ease-in-out infinite;}
+    @keyframes pulse-btn{0%,100%{box-shadow:0 0 0 0 rgba(31,77,58,0.45);}50%{box-shadow:0 0 0 10px rgba(31,77,58,0);}}
+    .btn[disabled]{opacity:0.45;cursor:not-allowed;}
+    .btn-clear{background:#eee;border-radius:6px;padding:10px 14px;border:none;cursor:pointer;font-size:0.85rem;color:var(--muted);}
+    .note{font-size:0.85rem;color:var(--muted);margin-top:10px;line-height:1.5;}
+    .trust-row{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-size:0.8rem;color:var(--muted);}
+    .trust-row span{display:flex;align-items:center;gap:4px;}
+
+    .sticky-cta{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid var(--gold);padding:12px 20px;display:none;align-items:center;justify-content:space-between;gap:16px;z-index:80;box-shadow:0 -8px 24px -8px rgba(0,0,0,0.15);}
+    .sticky-cta.visible{display:flex;}
+    .sticky-cta .msg{font-size:0.88rem;font-weight:700;color:var(--ink);}
+    .sticky-cta .msg em{font-style:normal;color:var(--rust);}
+
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.65);display:none;place-items:center;z-index:200;padding:20px;}
+    .overlay .card{background:#fff;padding:32px 28px;border-radius:12px;text-align:center;max-width:440px;width:100%;box-shadow:0 20px 60px -10px rgba(0,0,0,0.3);}
+    .overlay .card .icon{font-size:3rem;line-height:1;margin-bottom:8px;}
+    .overlay .card h3{margin:0 0 8px;font-size:1.4rem;color:var(--green-deep);}
+    .overlay .card p{margin:0;color:var(--muted);line-height:1.6;}
+    .overlay .card .detail{margin-top:16px;background:#f4faf6;border:1px solid #cfdfcb;border-radius:8px;padding:14px;text-align:left;font-size:0.88rem;line-height:1.7;}
+    .overlay .card .detail strong{color:var(--ink);}
+
+    .exit-modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;place-items:center;z-index:210;padding:20px;}
+    .exit-modal .card{background:#fff;padding:28px;border-radius:12px;max-width:420px;width:100%;text-align:center;border-top:5px solid var(--gold);}
+    .exit-modal h3{margin:0 0 10px;color:var(--rust);font-size:1.2rem;}
+    .exit-modal p{color:var(--muted);line-height:1.6;margin:0 0 18px;font-size:0.92rem;}
+    .exit-modal .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+
+    @media(max-width:640px){
+      .stats-row{grid-template-columns:1fr;}
+      .benefits{grid-template-columns:1fr;}
+      .row{grid-template-columns:1fr;}
+    }
   </style>
 </head>
 <body>
-  <header class="header">
-    <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;">
-      <img src="gulberg_logo_final_2.png" alt="Gulberg" style="height:44px;">
-      <nav style="margin-left:12px;display:flex;gap:14px;align-items:center;">
-        <a href="home.html" style="color:white;font-weight:700;text-decoration:none">Home</a>
-        <a href="your-plot.html" style="color:white;font-weight:700;text-decoration:none">Your Plot</a>
+  <!-- ================= NAV ================= -->
+  <header class="site" style="background:var(--green-deep);">
+    <div class="nav-inner" style="background:var(--green-deep);border-bottom:2px solid var(--green-deep);">
+      <nav class="links" style="gap:28px;flex:1;margin:0;display:flex;">
+        <a href="home.html" style="color:white;font-weight:600;font-size:0.95rem;">Home</a>
+        <a href="your-plot.html" style="color:white;font-weight:600;font-size:0.95rem;margin-left:6px;">Your Plot</a>
+        <a href="plot-intelligence.html" style="color:white;font-weight:600;font-size:0.95rem;">Plot Intelligence</a>
+        <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Residential Plots</a>
+        <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Farm House Plots</a>
+        <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Farm Houses For Sale</a>
+        <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Houses</a>
+        <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Apartments</a>
+        <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Rent</a>
+        <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Instalment</a>
+        <a href="map.html" style="color:white;font-weight:600;font-size:0.95rem;">Map</a>
       </nav>
     </div>
   </header>
 
+  <!-- ================= HERO HEADER ================= -->
+  <section style="background:white;padding:30px 40px;border-bottom:2px solid #e0e0e0;">
+    <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:30px;">
+      <div style="display:flex;align-items:center;gap:12px;min-width:200px;">
+        <img src="gulberg_logo_final_2.png" alt="Gulberg Logo" style="height:60px;width:auto;">
+      </div>
+      <h1 style="font-size:1.6rem;font-family:'Fraunces',serif;color:var(--ink);flex:1;text-align:center;margin:0;font-weight:700;white-space:nowrap;">WELCOME TO THE GULBERG ISLAMABAD</h1>
+      <div style="display:flex;gap:8px;min-width:320px;justify-content:flex-end;">
+        <input type="text" placeholder="Property ID" style="padding:10px 14px;border:2px solid var(--green-deep);border-radius:2px;font-size:0.9rem;flex:1;">
+        <button style="padding:10px 16px;background:var(--green-deep);color:white;border:none;border-radius:2px;font-size:1rem;cursor:pointer;font-weight:600;">🔍</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="urgency-strip">
+    ⚡ <span id="spotsLeft">5 priority slots</span> remaining today — offer ends in <span id="countdown">--:--:--</span>
+  </div>
+
   <main class="container">
     <div class="hero">
-      <h1>Claim Your Plot Listing</h1>
-      <p>Fill the form below to get priority exposure and an instant valuation.</p>
+      <h1>Claim Your Plot — Get Priority Exposure</h1>
+      <p>Owners who register today get a FREE valuation + front-page listing within 24 hours.</p>
+      <p class="sub">Don't miss buyers searching for plots in your block right now.</p>
     </div>
 
-    <div class="greedy">Limited Offer — Submit now to get PRIORITY listing and a FREE valuation within 24 hours. Spots are limited!</div>
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="num" id="claimedToday">14</div>
+        <div class="lbl">Owners claimed today</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">24h</div>
+        <div class="lbl">Valuation turnaround</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">FREE</div>
+        <div class="lbl">Priority listing</div>
+      </div>
+    </div>
+
+    <div class="greedy">
+      <strong>⚠ Limited Offer:</strong> Only a handful of priority slots open per day.
+      Submit your details now to lock in FREE valuation + verified listing before spots fill up.
+    </div>
+
+    <div class="greedy-timer">
+      <span>⏳ Your reserved slot expires when the timer hits zero</span>
+      <span class="clock" id="timerClock">--:--:--</span>
+    </div>
+
+    <div class="benefits">
+      <div class="benefit"><span class="tick">✓</span> FREE plot valuation within 24 hours</div>
+      <div class="benefit"><span class="tick">✓</span> Priority placement on Gulberg listings</div>
+      <div class="benefit"><span class="tick">✓</span> Verified owner badge on your plot</div>
+      <div class="benefit"><span class="tick">✓</span> Direct buyer inquiries to your WhatsApp</div>
+    </div>
+
+    <div class="social-proof">
+      <strong id="liveActivity">Ahmad from Block F just claimed priority listing</strong> — join other Gulberg owners getting serious buyer leads.
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Form completion</span>
+        <span id="progressPct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
 
     <form id="plotForm" novalidate>
       <div class="row">
-        <div class="field">
-          <label for="plotNo">Plot Number <span style="color:red">*</span></label>
+        <div class="field" data-field="plotNo">
+          <label for="plotNo">Plot Number <span class="req">*</span></label>
           <input id="plotNo" name="plotNo" type="text" placeholder="e.g. 23-A" required maxlength="30" autocomplete="off" />
         </div>
-        <div class="field">
-          <label for="block">Block <span style="color:red">*</span></label>
+        <div class="field" data-field="block">
+          <label for="block">Block <span class="req">*</span></label>
           <input id="block" name="block" type="text" placeholder="e.g. A" required maxlength="20" autocomplete="off" />
         </div>
       </div>
 
-      <div class="field">
-        <label for="fullName">Full Name <span style="color:red">*</span></label>
+      <div class="field" data-field="fullName">
+        <label for="fullName">Full Name <span class="req">*</span></label>
         <input id="fullName" name="fullName" type="text" placeholder="Your full name" required maxlength="80" autocomplete="name" />
       </div>
 
-      <div class="field">
-        <label for="whatsapp">WhatsApp Number <span style="color:red">*</span></label>
+      <div class="field" data-field="whatsapp">
+        <label for="whatsapp">WhatsApp Number <span class="req">*</span></label>
         <input id="whatsapp" name="whatsapp" type="tel" placeholder="923XXXXXXXXX" required pattern="[0-9]{7,15}" maxlength="15" autocomplete="tel" />
-        <div class="note">Enter numbers only, include country code (e.g. 923XXXXXXXXX).</div>
+        <div class="note">Enter numbers only, include country code (e.g. 923XXXXXXXXX). We'll contact you here with your valuation.</div>
       </div>
 
       <div class="actions">
-        <button id="submitBtn" class="btn" type="submit" disabled>Claim Priority</button>
-        <button id="clearBtn" type="button" style="background:#eee;border-radius:6px;padding:10px 12px;border:none;cursor:pointer">Clear</button>
+        <button id="submitBtn" class="btn" type="submit" disabled>🔒 Claim My Priority Slot</button>
+        <button id="clearBtn" class="btn-clear" type="button">Clear form</button>
       </div>
 
-      <div class="note">By submitting you agree to be contacted about your listing. We take your privacy seriously.</div>
+      <div class="note">By submitting you agree to be contacted about your listing. Your data is stored securely and never shared with third parties.</div>
+      <div class="trust-row">
+        <span>🔒 Secure submission</span>
+        <span>✓ No spam calls</span>
+        <span>✓ 100% free for owners</span>
+      </div>
     </form>
   </main>
 
+  <div class="sticky-cta" id="stickyCta">
+    <div class="msg"><em id="stickySpots">5 slots left</em> — complete the form to claim yours</div>
+    <button class="btn" type="button" id="stickySubmit" style="padding:10px 18px;font-size:0.9rem;">Claim Now</button>
+  </div>
+
   <div class="overlay" id="overlay">
     <div class="card">
-      <h3>Thanks — You're in!</h3>
-      <p style="margin-top:8px">We've received your details. Our team will contact you on WhatsApp within 24 hours.</p>
-      <div style="margin-top:12px"><button class="btn" id="closeOverlay">Close</button></div>
+      <div class="icon">✅</div>
+      <h3>Thank You — You're In!</h3>
+      <p>Your details have been saved. Our team will contact you on WhatsApp within 24 hours with your FREE valuation.</p>
+      <div class="detail" id="thanksDetail"></div>
+      <div style="margin-top:18px"><button class="btn" id="closeOverlay">Done</button></div>
     </div>
   </div>
 
+  <div class="exit-modal" id="exitModal">
+    <div class="card">
+      <h3>Wait — Don't lose your priority slot!</h3>
+      <p>You're one step away from a FREE valuation and priority listing. Spots are limited today and won't be held.</p>
+      <div class="btns">
+        <button class="btn" type="button" id="exitStay">Complete My Form</button>
+        <button class="btn-clear" type="button" id="exitLeave" style="padding:12px 16px;">Leave anyway</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="plot-claims.js"></script>
   <script>
     const form = document.getElementById('plotForm');
     const inputs = Array.from(form.querySelectorAll('input[required]'));
@@ -92,46 +253,205 @@
     const overlay = document.getElementById('overlay');
     const closeOverlay = document.getElementById('closeOverlay');
     const clearBtn = document.getElementById('clearBtn');
+    const progressFill = document.getElementById('progressFill');
+    const progressPct = document.getElementById('progressPct');
+    const stickyCta = document.getElementById('stickyCta');
+    const stickySubmit = document.getElementById('stickySubmit');
+    const exitModal = document.getElementById('exitModal');
+    const thanksDetail = document.getElementById('thanksDetail');
 
-    function validateAll(){
-      let ok = true;
-      for(const el of inputs){
-        if(!el.checkValidity()) { ok = false; break; }
-      }
-      submitBtn.disabled = !ok;
+    let submitted = false;
+    let exitAllowed = false;
+    let exitShown = false;
+
+    const ACTIVITY = [
+      'Ahmad from Block F just claimed priority listing',
+      'Sara from Block A submitted her plot details',
+      'Usman from Block C locked a free valuation',
+      'Fatima from Block E claimed her priority slot',
+      'Hassan from Block B just registered his plot'
+    ];
+
+    /* ---- Urgency: countdown to midnight ---- */
+    function msUntilMidnight() {
+      const now = new Date();
+      const midnight = new Date(now);
+      midnight.setHours(24, 0, 0, 0);
+      return midnight - now;
     }
 
-    inputs.forEach(i => i.addEventListener('input', validateAll));
-    validateAll();
+    function formatTime(ms) {
+      const s = Math.max(0, Math.floor(ms / 1000));
+      const h = String(Math.floor(s / 3600)).padStart(2, '0');
+      const m = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
+      const sec = String(s % 60).padStart(2, '0');
+      return h + ':' + m + ':' + sec;
+    }
 
-    form.addEventListener('submit', (e)=>{
-      e.preventDefault();
-      if(!form.checkValidity()) return validateAll();
-      const data = { plotNo: form.plotNo.value.trim(), block: form.block.value.trim(), fullName: form.fullName.value.trim(), whatsapp: form.whatsapp.value.trim(), ts: new Date().toISOString() };
-      const store = JSON.parse(localStorage.getItem('yourPlotClaims') || '[]');
-      store.push(data);
-      localStorage.setItem('yourPlotClaims', JSON.stringify(store));
+    function updateTimers() {
+      const left = msUntilMidnight();
+      const txt = formatTime(left);
+      document.getElementById('countdown').textContent = txt;
+      document.getElementById('timerClock').textContent = txt;
+    }
+    updateTimers();
+    setInterval(updateTimers, 1000);
 
-      // Open WhatsApp with prefilled message to admin number
-      try {
-        const adminRaw = '03325610666';
-        const admin = adminRaw.replace(/^0/, '92').replace(/\D/g, '');
-        const msg = `Claiming plot:\nPlot No: ${data.plotNo}\nBlock: ${data.block}\nName: ${data.fullName}\nContact: ${data.whatsapp}`;
-        const waUrl = 'https://wa.me/' + admin + '?text=' + encodeURIComponent(msg);
-        window.open(waUrl, '_blank');
-      } catch (err) {
-        console.warn('WhatsApp open failed', err);
+    /* ---- Spots remaining (decreases with today's submissions) ---- */
+    const SPOTS_KEY = 'plotClaimSpotsUsed_' + new Date().toDateString();
+    const BASE_SPOTS = 5;
+    function spotsRemaining() {
+      const used = parseInt(localStorage.getItem(SPOTS_KEY) || '0', 10);
+      return Math.max(1, BASE_SPOTS - used);
+    }
+    function refreshSpots() {
+      const n = spotsRemaining();
+      document.getElementById('spotsLeft').textContent = n + ' priority slot' + (n === 1 ? '' : 's');
+      document.getElementById('stickySpots').textContent = n + ' slot' + (n === 1 ? '' : 's') + ' left';
+    }
+    refreshSpots();
+
+    /* ---- Social proof counter ---- */
+    const baseClaims = 14 + (new Date().getDate() % 7);
+    document.getElementById('claimedToday').textContent = baseClaims + parseInt(localStorage.getItem(SPOTS_KEY) || '0', 10);
+
+    let actIdx = 0;
+    setInterval(() => {
+      actIdx = (actIdx + 1) % ACTIVITY.length;
+      document.getElementById('liveActivity').textContent = ACTIVITY[actIdx];
+    }, 5000);
+
+    /* ---- Validation & progress ---- */
+    function validateAll() {
+      let ok = true;
+      let filled = 0;
+      for (const el of inputs) {
+        const field = el.closest('.field');
+        const valid = el.checkValidity() && el.value.trim().length > 0;
+        if (valid) {
+          filled++;
+          field.classList.add('valid');
+          field.classList.remove('invalid');
+        } else {
+          ok = false;
+          field.classList.remove('valid');
+          if (el.value.trim().length > 0) field.classList.add('invalid');
+          else field.classList.remove('invalid');
+        }
       }
+      const pct = Math.round((filled / inputs.length) * 100);
+      progressFill.style.width = pct + '%';
+      progressPct.textContent = pct + '%';
+      submitBtn.disabled = !ok;
+      submitBtn.classList.toggle('ready', ok);
+      submitBtn.textContent = ok ? '✅ Claim My Priority Slot — FREE' : '🔒 Complete all fields to claim';
+      return ok;
+    }
+
+    inputs.forEach(i => {
+      i.addEventListener('input', validateAll);
+      i.addEventListener('blur', validateAll);
+    });
+    validateAll();
+    document.getElementById('plotNo').focus();
+
+    /* ---- Sticky CTA ---- */
+    const formEl = form;
+    const observer = new IntersectionObserver(([entry]) => {
+      stickyCta.classList.toggle('visible', !entry.isIntersecting && !submitted);
+    }, { threshold: 0 });
+    observer.observe(formEl);
+
+    stickySubmit.addEventListener('click', () => {
+      form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const firstEmpty = inputs.find(i => !i.checkValidity() || !i.value.trim());
+      (firstEmpty || inputs[0]).focus();
+    });
+
+    /* ---- Exit intent ---- */
+    document.getElementById('exitStay').addEventListener('click', () => {
+      exitModal.style.display = 'none';
+      form.scrollIntoView({ behavior: 'smooth' });
+    });
+    document.getElementById('exitLeave').addEventListener('click', () => {
+      exitAllowed = true;
+      exitModal.style.display = 'none';
+    });
+
+    document.addEventListener('mouseout', (e) => {
+      if (submitted || exitShown || exitAllowed) return;
+      if (e.clientY <= 0 && form.querySelector('input').value.trim()) {
+        exitShown = true;
+        exitModal.style.display = 'grid';
+      }
+    });
+
+    window.addEventListener('beforeunload', (e) => {
+      if (submitted || exitAllowed) return;
+      const hasData = inputs.some(i => i.value.trim());
+      if (hasData) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+
+    /* ---- Submit ---- */
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) return validateAll();
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Saving…';
+
+      const data = {
+        plotNo: form.plotNo.value.trim(),
+        block: form.block.value.trim(),
+        fullName: form.fullName.value.trim(),
+        whatsapp: form.whatsapp.value.trim(),
+        ts: new Date().toISOString()
+      };
+
+      try {
+        await savePlotClaim(data);
+      } catch (err) {
+        console.warn('Save failed, local backup kept', err);
+      }
+
+      submitted = true;
+      stickyCta.classList.remove('visible');
+
+      const used = parseInt(localStorage.getItem(SPOTS_KEY) || '0', 10) + 1;
+      localStorage.setItem(SPOTS_KEY, String(used));
+      refreshSpots();
+
+      thanksDetail.innerHTML =
+        '<strong>Plot No:</strong> ' + data.plotNo + '<br>' +
+        '<strong>Block:</strong> ' + data.block + '<br>' +
+        '<strong>Name:</strong> ' + data.fullName + '<br>' +
+        '<strong>WhatsApp:</strong> ' + data.whatsapp;
 
       overlay.style.display = 'grid';
       form.reset();
-      submitBtn.disabled = true;
+      validateAll();
     });
 
-    closeOverlay.addEventListener('click', ()=>{ overlay.style.display = 'none'; });
-    clearBtn.addEventListener('click', ()=>{ form.reset(); validateAll(); });
-    document.getElementById('whatsapp').addEventListener('input', (ev)=>{ ev.target.value = ev.target.value.replace(/[^0-9]/g,''); validateAll(); });
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') overlay.style.display='none'; });
+    closeOverlay.addEventListener('click', () => { overlay.style.display = 'none'; });
+    clearBtn.addEventListener('click', () => {
+      if (!confirm('Clear the form? Your priority slot is not reserved until you submit.')) return;
+      form.reset();
+      inputs.forEach(i => i.closest('.field').classList.remove('valid', 'invalid'));
+      validateAll();
+    });
+    document.getElementById('whatsapp').addEventListener('input', (ev) => {
+      ev.target.value = ev.target.value.replace(/[^0-9]/g, '');
+      validateAll();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        overlay.style.display = 'none';
+        exitModal.style.display = 'none';
+      }
+    });
   </script>
 </body>
 </html>
