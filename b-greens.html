@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B Greens — Gulberg Islamabad | 5 Marla Luxury Plots</title>
+<link rel="icon" type="image/jpeg" href="logo.jpg">
+<meta name="description" content="B Greens by Gulberg Islamabad — 5 Marla balloted residential plots just 1.5km from Islamabad Expressway. Luxury living in the heart of green.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,480;0,9..144,600;1,9..144,480&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#152119;--ink-soft:#233229;--paper:#FFFFFF;--paper-2:#F9F9F9;--paper-3:#F0F0F0;
+  --green-deep:#1F4D3A;--green-mid:#3C7A5C;--green-pale:#CFDFCB;
+  --gold:#C79A3E;--gold-deep:#8F6A22;--rust:#A5432E;--white:#FBFAF5;
+  --line:#B9B29A;--shadow:0 18px 40px -20px rgba(21,33,25,0.35);--radius:2px;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+h1,h2,h3,h4{font-family:'Fraunces',serif;font-weight:480;margin:0;color:var(--ink);letter-spacing:-0.01em;}
+.container{max-width:1100px;margin:0 auto;padding:0 24px;}
+
+/* ---- Urgency marquee (reused pattern) ---- */
+.offer-marquee{display:block;background:linear-gradient(90deg,var(--rust),#c65b3d,var(--rust));background-size:200% 100%;color:#fff;overflow:hidden;position:relative;text-decoration:none;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.15);animation:offer-bg-shift 5s ease-in-out infinite,offer-glow 2.2s ease-in-out infinite;}
+.offer-marquee-track{display:flex;width:max-content;white-space:nowrap;animation:offer-scroll 14s linear infinite;padding:10px 0;}
+.offer-marquee-item{display:inline-flex;align-items:center;gap:8px;font-size:0.88rem;font-weight:700;letter-spacing:0.02em;padding:0 40px;}
+.offer-marquee-item .hl{color:#FFE082;}
+.offer-marquee-item .bolt{display:inline-block;animation:offer-bolt 1s ease-in-out infinite;}
+@keyframes offer-scroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+@keyframes offer-bg-shift{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+@keyframes offer-glow{0%,100%{box-shadow:0 0 0 rgba(197,90,61,0);}50%{box-shadow:0 0 16px rgba(197,90,61,0.75) inset,0 2px 14px rgba(197,90,61,0.55);}}
+@keyframes offer-bolt{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.3);opacity:0.7;}}
+@media(max-width:768px){.offer-marquee-item{font-size:0.78rem;padding:0 24px;}}
+
+/* ---- Hero ---- */
+.bg-hero{background:var(--green-deep);color:var(--white);padding:56px 0 48px;text-align:center;position:relative;overflow:hidden;}
+.bg-hero .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.bg-hero h1{font-size:clamp(2rem,4.4vw,3.1rem);color:var(--white);line-height:1.1;}
+.bg-hero h1 span{color:var(--gold);}
+.bg-hero p.tagline{margin-top:14px;font-size:1.05rem;color:#D9E6DC;font-style:italic;}
+.bg-hero p.lede{margin-top:18px;font-size:1.05rem;color:#CFE0D2;max-width:640px;margin-left:auto;margin-right:auto;}
+
+/* ---- Facts row ---- */
+.bg-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.bg-fact{padding:26px 20px;text-align:center;border-right:1px solid var(--line);}
+.bg-fact:last-child{border-right:none;}
+.bg-fact .num{font-family:'Fraunces',serif;font-size:1.6rem;color:var(--green-deep);font-weight:600;}
+.bg-fact .lbl{font-family:'IBM Plex Mono',monospace;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:#7A7460;margin-top:6px;}
+
+/* ---- Payment plan ---- */
+.plan-section{padding:64px 0;}
+.plan-section h2{text-align:center;font-size:clamp(1.7rem,3vw,2.3rem);color:var(--green-deep);}
+.plan-section .sub{text-align:center;color:var(--ink-soft);margin-top:10px;max-width:560px;margin-left:auto;margin-right:auto;}
+.plan-table-wrap{margin-top:36px;overflow-x:auto;border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);}
+table.plan-table{width:100%;border-collapse:collapse;min-width:640px;}
+table.plan-table th{background:var(--green-deep);color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;padding:16px 14px;text-align:left;}
+table.plan-table td{padding:18px 14px;border-top:1px solid var(--line);font-size:.98rem;background:var(--white);}
+table.plan-table td.total{font-weight:700;color:var(--green-deep);}
+.plan-note{margin-top:16px;font-size:.85rem;color:#7A7460;text-align:center;}
+
+/* ---- Terms ---- */
+.terms-section{background:var(--paper-2);padding:48px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.terms-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+.terms-col h3{font-size:1.2rem;color:var(--green-deep);margin-bottom:16px;}
+.terms-col ul{list-style:none;padding:0;margin:0;display:grid;gap:12px;}
+.terms-col li{display:flex;gap:10px;font-size:.92rem;color:var(--ink-soft);}
+.terms-col li::before{content:"✓";color:var(--green-deep);font-weight:700;flex-shrink:0;}
+@media(max-width:720px){.terms-grid{grid-template-columns:1fr;}}
+
+/* ---- Contact / greedy CTA ---- */
+.cta-band{background:var(--ink);color:var(--white);padding:56px 0;text-align:center;}
+.cta-band h2{color:var(--white);font-size:clamp(1.6rem,3vw,2.1rem);}
+.cta-band p{color:#C9CFC6;margin-top:12px;max-width:520px;margin-left:auto;margin-right:auto;}
+.cta-form{max-width:420px;margin:28px auto 0;background:var(--paper-2);border-radius:10px;padding:26px;text-align:left;color:var(--ink);}
+.cta-form label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:#7A7460;margin-bottom:6px;font-family:'IBM Plex Mono',monospace;}
+.cta-form input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:6px;font-size:.95rem;margin-bottom:14px;font-family:'Inter',sans-serif;}
+.cta-form button{width:100%;padding:14px;background:var(--green-deep);color:#fff;border:none;border-radius:6px;font-weight:700;font-size:1rem;cursor:pointer;transition:background .2s ease;}
+.cta-form button:hover{background:#163d2d;}
+.cta-form .status{margin-top:10px;font-size:.85rem;text-align:center;}
+.cta-urgency{display:inline-block;margin-top:22px;background:#FBF1E4;border:1px solid var(--gold);color:var(--rust);font-weight:700;font-size:.9rem;border-radius:8px;padding:10px 16px;}
+
+/* ---- Sticky bottom CTA ---- */
+.sticky-cta{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid var(--gold);padding:12px 20px;display:none;align-items:center;justify-content:space-between;gap:16px;z-index:80;box-shadow:0 -8px 24px -8px rgba(0,0,0,0.15);}
+.sticky-cta.visible{display:flex;}
+.sticky-cta .msg{font-size:.88rem;font-weight:700;color:var(--ink);}
+.sticky-cta .msg em{font-style:normal;color:var(--rust);}
+.sticky-cta button{background:var(--green-deep);color:#fff;border:none;padding:10px 18px;border-radius:6px;font-weight:700;font-size:.9rem;cursor:pointer;}
+
+/* ---- Exit intent modal ---- */
+.exit-modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;place-items:center;z-index:210;padding:20px;}
+.exit-modal .card{background:#fff;padding:28px;border-radius:12px;max-width:420px;width:100%;text-align:center;border-top:5px solid var(--gold);}
+.exit-modal h3{margin:0 0 10px;color:var(--rust);font-size:1.2rem;}
+.exit-modal p{color:var(--ink-soft);line-height:1.6;margin:0 0 18px;font-size:.92rem;}
+.exit-modal .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.exit-modal .btn{padding:12px 18px;border-radius:6px;font-weight:700;font-size:.9rem;cursor:pointer;border:none;}
+.exit-modal .btn-primary{background:var(--green-deep);color:#fff;}
+.exit-modal .btn-clear{background:#eee;color:var(--ink-soft);}
+
+/* ---- Popup offer (reused pattern) ---- */
+.offer-popup-overlay{position:fixed;inset:0;background:rgba(15,25,19,0.6);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s ease;padding:20px;}
+.offer-popup-overlay.show{opacity:1;visibility:visible;}
+.offer-popup-card{position:relative;background:var(--white);width:100%;max-width:420px;border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.35);border-top:6px solid var(--gold);transform:scale(0.9) translateY(10px);transition:transform .35s ease;text-align:center;}
+.offer-popup-overlay.show .offer-popup-card{transform:scale(1) translateY(0);}
+.offer-popup-close{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;background:rgba(21,33,25,0.08);border:none;color:var(--ink);font-size:0.95rem;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;}
+.offer-popup-close:hover{background:rgba(21,33,25,0.18);}
+.offer-popup-body{padding:34px 28px 26px;}
+.offer-popup-ribbon{position:absolute;top:14px;left:-34px;background:var(--gold);color:var(--ink);font-weight:800;font-size:0.68rem;letter-spacing:0.08em;padding:5px 40px;transform:rotate(-45deg);}
+.offer-popup-title{font-family:'Fraunces',serif;font-size:1.24rem;color:var(--green-deep);margin:0 0 10px;font-weight:700;line-height:1.3;}
+.offer-popup-text{color:var(--ink-soft);font-size:0.9rem;line-height:1.55;margin:0 0 16px;}
+.offer-popup-urgency{background:#FBF1E4;border:1px solid var(--gold);color:var(--rust);font-weight:700;font-size:0.85rem;border-radius:8px;padding:9px 12px;margin-bottom:18px;}
+.offer-popup-btn{display:inline-block;background:var(--green-deep);color:#fff;font-weight:700;font-size:0.95rem;padding:13px 28px;border-radius:6px;border:none;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV (same as home.html) ================= -->
+<header class="site" style="background:var(--green-deep);position:sticky;top:0;z-index:100;">
+  <div class="nav-inner" style="background:var(--green-deep);border-bottom:2px solid var(--green-deep);max-width:1180px;margin:0 auto;padding:16px 32px;">
+    <nav class="links" style="gap:28px;flex:1;margin:0;display:flex;align-items:center;">
+      <a href="home.html" style="color:white;font-weight:600;font-size:0.95rem;">Home</a>
+      <a href="your-plot.html" style="color:white;font-weight:600;font-size:0.95rem;margin-left:6px;">Your Plot</a>
+      <a href="plot-intelligence.html" style="color:white;font-weight:600;font-size:0.95rem;">Plot Intelligence</a>
+      <a href="b-greens.html" style="color:var(--gold);font-weight:700;font-size:0.95rem;border-bottom:2px solid var(--gold);">B Greens</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Farm House Plots</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Farm Houses For Sale</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Houses</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Apartments</a>
+      <a href="#" style="color:white;font-weight:600;font-size:0.95rem;">Instalment</a>
+      <a href="map.html" style="color:white;font-weight:600;font-size:0.95rem;">Map</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= URGENCY MARQUEE ================= -->
+<a href="#bgContact" class="offer-marquee" aria-label="Reserve your B Greens 5 Marla plot now">
+  <div class="offer-marquee-track">
+    <span class="offer-marquee-item"><span class="bolt">⚡</span> <span class="hl">B GREENS</span> — 5 Marla Luxury Plots, Just 1.5km from Islamabad Expressway — Book Your Dream Plot Now! <span class="bolt">⚡</span></span>
+    <span class="offer-marquee-item"><span class="bolt">⚡</span> <span class="hl">B GREENS</span> — 5 Marla Luxury Plots, Just 1.5km from Islamabad Expressway — Book Your Dream Plot Now! <span class="bolt">⚡</span></span>
+  </div>
+</a>
+
+<!-- ================= HERO ================= -->
+<section class="bg-hero">
+  <div class="container">
+    <div class="eyebrow">Gulberg Islamabad Presents</div>
+    <h1>B Greens — <span>Luxury Living</span> in the Heart of Green</h1>
+    <p class="tagline">A limited release of 5 Marla balloted residential plots</p>
+    <p class="lede">Just 1.5 km from the Islamabad Expressway — close enough for an easy commute, far enough to enjoy quiet, green surroundings. Plots are balloted with an allocated plot number, so your booking is a real, traceable asset from day one.</p>
+  </div>
+</section>
+
+<!-- ================= FACTS ================= -->
+<div class="bg-facts">
+  <div class="bg-fact"><div class="num">5 Marla</div><div class="lbl">Plot size</div></div>
+  <div class="bg-fact"><div class="num">1.5 km</div><div class="lbl">From Islamabad Expressway</div></div>
+  <div class="bg-fact"><div class="num">12 months</div><div class="lbl">To possession</div></div>
+  <div class="bg-fact"><div class="num">Balloted</div><div class="lbl">Allocated plot number</div></div>
+</div>
+
+<!-- ================= PAYMENT PLAN ================= -->
+<section class="plan-section">
+  <div class="container">
+    <h2>Payment Plan</h2>
+    <p class="sub">A simple, staged plan — booking, confirmation, three quarterly installments, then possession.</p>
+    <div class="plan-table-wrap">
+      <table class="plan-table">
+        <thead>
+          <tr>
+            <th>Plot Size</th>
+            <th>Booking</th>
+            <th>Confirmation<br><span style="text-transform:none;font-weight:400;">(within 30 days)</span></th>
+            <th>3 Quarterly Installments<br><span style="text-transform:none;font-weight:400;">(1,266,667 × 3)</span></th>
+            <th>Possession</th>
+            <th>Total Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>05 Marla</strong></td>
+            <td>Rs. 3,500,000</td>
+            <td>Rs. 2,750,000</td>
+            <td>Rs. 3,800,000</td>
+            <td>Rs. 950,000</td>
+            <td class="total">Rs. 1,10,00,000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="plan-note">All payments shall be made in favour of IBECHS. Premiums and extra charges, if any, are payable on possession.</p>
+  </div>
+</section>
+
+<!-- ================= TERMS ================= -->
+<section class="terms-section">
+  <div class="container terms-grid">
+    <div class="terms-col">
+      <h3>Terms &amp; Conditions</h3>
+      <ul>
+        <li>All premium and extra charges will be payable on possession.</li>
+        <li>Possession will be given in 12 months.</li>
+        <li>Actual areas shall be adjusted at the time of possession, and dimensions are proportional to the price at which the plot is sold.</li>
+      </ul>
+    </div>
+    <div class="terms-col">
+      <h3>What You Get</h3>
+      <ul>
+        <li>Balloted plot with an allocated plot number.</li>
+        <li>Just 1.5 km from Islamabad Expressway.</li>
+        <li>Staged payment plan — no lump-sum burden.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT / GREEDY CTA ================= -->
+<section class="cta-band" id="bgContact">
+  <div class="container">
+    <h2>Reserve Your 5 Marla Plot Today</h2>
+    <p>Booking phase slots are limited and allocated on a first-come basis. Leave your details and our team will contact you on WhatsApp to lock in your plot number.</p>
+    <div class="cta-urgency">⚡ Only <span id="ctaSpots">6 plots</span> left — closing in <span id="ctaCountdown">--:--:--</span></div>
+
+    <form class="cta-form" id="bgForm">
+      <label for="bgName">Full Name</label>
+      <input id="bgName" type="text" placeholder="Your full name" required maxlength="80" autocomplete="name">
+      <label for="bgWhatsapp">WhatsApp Number</label>
+      <input id="bgWhatsapp" type="tel" placeholder="923XXXXXXXXX" required pattern="[0-9]{7,15}" maxlength="15" autocomplete="tel">
+      <button type="submit" id="bgSubmitBtn">🔒 Reserve My Plot — Get Callback</button>
+      <div class="status" id="bgStatus"></div>
+    </form>
+  </div>
+</section>
+
+<!-- ================= STICKY CTA ================= -->
+<div class="sticky-cta" id="stickyCta">
+  <div class="msg"><em id="stickySpots">6 plots left</em> — reserve your 5 Marla plot before the phase closes</div>
+  <button type="button" id="stickyBtn">Reserve Now</button>
+</div>
+
+<!-- ================= EXIT INTENT MODAL ================= -->
+<div class="exit-modal" id="exitModal">
+  <div class="card">
+    <h3>Wait — your plot number isn't locked yet!</h3>
+    <p>B Greens booking slots are limited this phase. Leave your WhatsApp number now so our team can hold a plot for you.</p>
+    <div class="btns">
+      <button class="btn btn-primary" type="button" id="exitStay">Reserve My Plot</button>
+      <button class="btn btn-clear" type="button" id="exitLeave">Leave anyway</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= POPUP OFFER (on load) ================= -->
+<div class="offer-popup-overlay" id="offerPopupOverlay">
+  <div class="offer-popup-card">
+    <button class="offer-popup-close" id="offerPopupClose" aria-label="Close offer">✕</button>
+    <div class="offer-popup-body">
+      <div class="offer-popup-ribbon">NEW</div>
+      <img src="gulberg_logo_final_2.png" alt="Gulberg Islamabad" style="height:40px;width:auto;margin:0 auto 14px;">
+      <h3 class="offer-popup-title">B Greens: 5 Marla Plots Just Launched</h3>
+      <p class="offer-popup-text">Only 1.5km from Islamabad Expressway. Limited plots available this booking phase — reserve yours before slots close.</p>
+      <div class="offer-popup-urgency">📍 Book Your Dream Plot Now</div>
+      <button class="offer-popup-btn" id="popupCta" type="button">Reserve My Plot →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= FOOTER (same as home.html) ================= -->
+<footer style="background:var(--green-deep);color:white;padding:60px 40px 40px;">
+  <div style="max-width:1200px;margin:0 auto;text-align:center;padding-top:10px;border-top:1px solid rgba(255,255,255,0.2);">
+    <p style="margin:0;color:white;font-size:0.95rem;">Copyright 2026 Arkan Marketing. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- ================= WHATSAPP BUTTON ================= -->
+<a href="https://wa.me/923325610666" target="_blank" rel="noopener noreferrer" style="position:fixed;bottom:40px;right:40px;width:70px;height:70px;background:linear-gradient(135deg, #25D366 0%, #128C7E 100%);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(37, 211, 102, 0.5);z-index:999;text-decoration:none;">
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C6.48 2 2 6.48 2 12C2 13.54 2.4 15 3.1 16.29L2 22L8 19.62C9.28 20.48 10.82 21 12 21C17.52 21 22 16.52 22 11C22 5.48 17.52 2 12 2M12 19.5C10.67 19.5 9.38 19.05 8.35 18.25L8.07 18.07L5.56 18.73L6.25 16.35L6.04 16.05C5.15 15 4.65 13.65 4.65 12.15C4.65 7.85 8.07 4.5 12 4.5C15.93 4.5 19.35 7.85 19.35 12C19.35 16.15 15.93 19.5 12 19.5Z" fill="white"/>
+  </svg>
+</a>
+
+<script>
+/* ============================================================
+   COUNTDOWN — shared "closes at midnight" urgency clock
+   ============================================================ */
+function msUntilMidnight(){
+  var now = new Date();
+  var midnight = new Date(now);
+  midnight.setHours(24,0,0,0);
+  return midnight - now;
+}
+function formatTime(ms){
+  var s = Math.max(0, Math.floor(ms/1000));
+  var h = String(Math.floor(s/3600)).padStart(2,'0');
+  var m = String(Math.floor((s%3600)/60)).padStart(2,'0');
+  var sec = String(s%60).padStart(2,'0');
+  return h+':'+m+':'+sec;
+}
+function updateAllCountdowns(){
+  var txt = formatTime(msUntilMidnight());
+  ['ctaCountdown'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.textContent = txt;
+  });
+}
+updateAllCountdowns();
+setInterval(updateAllCountdowns, 1000);
+
+/* ============================================================
+   SPOTS REMAINING — decreases with today's submissions
+   ============================================================ */
+var SPOTS_KEY = 'bGreensSpotsUsed_' + new Date().toDateString();
+var BASE_SPOTS = 6;
+function spotsRemaining(){
+  var used = parseInt(localStorage.getItem(SPOTS_KEY) || '0', 10);
+  return Math.max(1, BASE_SPOTS - used);
+}
+function refreshSpots(){
+  var n = spotsRemaining();
+  var txt1 = n + ' plot' + (n === 1 ? '' : 's');
+  ['ctaSpots'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.textContent = txt1;
+  });
+  var stickyEl = document.getElementById('stickySpots');
+  if (stickyEl) stickyEl.textContent = txt1 + ' left';
+}
+refreshSpots();
+
+/* ============================================================
+   POPUP (shows shortly after load)
+   ============================================================ */
+(function(){
+  var overlay = document.getElementById('offerPopupOverlay');
+  var closeBtn = document.getElementById('offerPopupClose');
+  var popupCta = document.getElementById('popupCta');
+  if(!overlay) return;
+  setTimeout(function(){ overlay.classList.add('show'); }, 1400);
+  closeBtn.addEventListener('click', function(e){
+    e.preventDefault(); e.stopPropagation();
+    overlay.classList.remove('show');
+  });
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) overlay.classList.remove('show'); });
+  popupCta.addEventListener('click', function(){
+    overlay.classList.remove('show');
+    document.getElementById('bgContact').scrollIntoView({behavior:'smooth'});
+    document.getElementById('bgName').focus();
+  });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') overlay.classList.remove('show'); });
+})();
+
+/* ============================================================
+   STICKY CTA — shows once the contact section scrolls off screen
+   ============================================================ */
+(function(){
+  var stickyCta = document.getElementById('stickyCta');
+  var contactSection = document.getElementById('bgContact');
+  var stickyBtn = document.getElementById('stickyBtn');
+  var submitted = false;
+
+  var observer = new IntersectionObserver(function(entries){
+    var entry = entries[0];
+    stickyCta.classList.toggle('visible', !entry.isIntersecting && !submitted);
+  }, { threshold: 0 });
+  observer.observe(contactSection);
+
+  stickyBtn.addEventListener('click', function(){
+    contactSection.scrollIntoView({behavior:'smooth', block:'center'});
+    document.getElementById('bgName').focus();
+  });
+
+  window.__bgMarkSubmitted = function(){
+    submitted = true;
+    stickyCta.classList.remove('visible');
+  };
+})();
+
+/* ============================================================
+   EXIT INTENT MODAL
+   ============================================================ */
+(function(){
+  var exitModal = document.getElementById('exitModal');
+  var exitAllowed = false;
+  var exitShown = false;
+
+  document.getElementById('exitStay').addEventListener('click', function(){
+    exitModal.style.display = 'none';
+    document.getElementById('bgContact').scrollIntoView({behavior:'smooth'});
+  });
+  document.getElementById('exitLeave').addEventListener('click', function(){
+    exitAllowed = true;
+    exitModal.style.display = 'none';
+  });
+
+  document.addEventListener('mouseout', function(e){
+    if (exitShown || exitAllowed || window.__bgSubmitted) return;
+    if (e.clientY <= 0){
+      exitShown = true;
+      exitModal.style.display = 'grid';
+    }
+  });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') exitModal.style.display = 'none'; });
+})();
+
+/* ============================================================
+   FORM SUBMIT — posts to the same Apps Script backend used by
+   your-plot.html, tagged with source 'b-greens.html' so it shows
+   up in the same Google Sheet.
+   ============================================================ */
+(function(){
+  var SUBMIT_URL = 'https://script.google.com/macros/s/AKfycby8AvCwFRfrGLpgp6LfiQYEJIVNR8n84Iy9k5hAydj8bANgEZfk2fAtUCJdwSlTXyMF/exec';
+  var form = document.getElementById('bgForm');
+  var statusEl = document.getElementById('bgStatus');
+  var submitBtn = document.getElementById('bgSubmitBtn');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('bgName').value.trim();
+    var whatsapp = document.getElementById('bgWhatsapp').value.trim();
+    if (!name || !whatsapp) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Saving…';
+
+    var payload = {
+      plotNo: '5 Marla',
+      block: 'B Greens',
+      fullName: name,
+      whatsapp: whatsapp,
+      source: 'b-greens.html'
+    };
+
+    fetch(SUBMIT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    }).then(function(res){ return res.text(); })
+      .then(function(){
+        statusEl.textContent = '✅ Thanks! Our team will contact you on WhatsApp within 24 hours.';
+        statusEl.style.color = 'var(--green-deep)';
+        submitBtn.textContent = '✅ Reserved — We\'ll Call You';
+        window.__bgSubmitted = true;
+        if (window.__bgMarkSubmitted) window.__bgMarkSubmitted();
+
+        var used = parseInt(localStorage.getItem(SPOTS_KEY) || '0', 10) + 1;
+        localStorage.setItem(SPOTS_KEY, String(used));
+        refreshSpots();
+      })
+      .catch(function(err){
+        console.warn('B Greens form submit failed:', err);
+        statusEl.textContent = 'Something went wrong — please try again or WhatsApp us directly.';
+        statusEl.style.color = 'var(--rust)';
+        submitBtn.disabled = false;
+        submitBtn.textContent = '🔒 Reserve My Plot — Get Callback';
+      });
+  });
+})();
+</script>
+
+</body>
+</html>
